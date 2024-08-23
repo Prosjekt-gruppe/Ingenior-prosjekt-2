@@ -11,7 +11,7 @@
 
 ## Ide 2
 
-### Problemstilling 2
+### Problemstilling
 
 Hvordan kan vi hjelpe blinde/svaksynte få en bedre oversikt om omgivelsene? Mer spesifikt; hvordan kan vi hjelpe dem unngå diverse uventede hindringer på en intuitiv og bekvemmelig måte. Hvordan gjør vi at løsningen bidrar til brukerens generelle orienteringsevne.
 
