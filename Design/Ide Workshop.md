@@ -11,5 +11,11 @@
 
 ## Ide 2
 
+### Problemstilling 2
+
+Hvordan kan vi hjelpe blinde/svaksynte få en bedre oversikt om omgivelsene? Mer spesifikt; hvordan kan vi hjelpe dem unngå diverse uventede hindringer på en intuitiv og bekvemmelig måte. Hvordan gjør vi at løsningen bidrar til brukerens generelle orienteringsevne.
+
+### Løsning
+
 - Sko med et sensor array, hvor man kan kjenne avstand til vegger, folk og hindringer ved vibrasjonsstyrke. Dette skal skje ved bruk av avstandssensorere som reagerer på avstander som er mer enn armlengden til brukeren.
 - Skoen skal også være utstyrt med en nfc leser som gir brukeren informasjon om plasseringen du oppholder deg på.
