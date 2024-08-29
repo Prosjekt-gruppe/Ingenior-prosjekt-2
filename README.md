@@ -11,3 +11,4 @@ Vi har fått i oppgave med å gi blinde og synshemmede hjelp med å oppfatte omv
 # Linker
 |Hva|Link|
 |-|-|
+|Refleksjonsnotat|https://www.overleaf.com/8184732613qqhjnbhqkdpr#14f5d7|
