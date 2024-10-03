@@ -1,7 +1,10 @@
 #include <Arduino.h>
 
-// Ultra-sonic sensor
-#define TRIG_ECHO_PIN 27
+// Time to flight sensor
+#define TTF_1 15
+#define TTF_2 14
+#define TTF_3 13
+
 
 // PWM
 const int ledChannel = 0;
