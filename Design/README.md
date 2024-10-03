@@ -6,12 +6,12 @@
 
 # Deler
 ## Komponenter
-|Komponent|Bruk|Antall|
-|:---------:|:-----:|:-----:|
-|Motor|Vibrasjon||
-|Batteri|Power||
-|Ultrasonic sensor|Avstands måling||
-|ESP32|MCU||
+|Komponent|Navn|Bruk|Antall|
+|:---------:|:---:|:-----:|:-----:|
+|Motor||Vibrasjon||
+|Batteri||Power||
+|Time to flight|VL53L1X|Avstands måling||
+|ESP32|ESP32-S3|MCU||
 
 ## Deler
 |Del|Bruk|Antall|
