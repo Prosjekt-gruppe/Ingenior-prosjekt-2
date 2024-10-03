@@ -1,5 +1,7 @@
-# Design
-![image](https://github.com/user-attachments/assets/ecbbd770-c23f-4ee8-99c6-4070761cd23e)
+# Arkitektur
+
+![image](https://github.com/user-attachments/assets/c294dbef-eb23-49ce-938a-6c0d3ad9677d)
+
 
 
 # Deler
