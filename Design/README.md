@@ -1,5 +1,6 @@
 # Design
-![Prosjekt oversikt](https://github.com/user-attachments/assets/28d0fefe-d3f9-446c-ae17-ffb1fb75254f)
+![image](https://github.com/user-attachments/assets/ecbbd770-c23f-4ee8-99c6-4070761cd23e)
+
 
 # Deler
 ## Komponenter
