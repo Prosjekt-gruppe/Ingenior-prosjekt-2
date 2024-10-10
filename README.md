@@ -16,3 +16,12 @@ Vi har fått i oppgave med å gi blinde og synshemmede hjelp med å oppfatte omv
 |Hva|Link|
 |-|-|
 |Refleksjonsnotat|https://www.overleaf.com/8184732613qqhjnbhqkdpr#14f5d7|
+
+
+# Ansvarsområder
+|Hvem|Hva|
+|-|-|
+|Ottar Rolfsrud|3D design,|
+|Olav André Telneset|Skyløsning|
+|He You Ma|           |
+|Yamn Sultan Salim|Sko programmering|
