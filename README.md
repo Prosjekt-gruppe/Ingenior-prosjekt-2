@@ -32,5 +32,5 @@ Vi har fått i oppgave med å gi blinde og synshemmede hjelp med å oppfatte omv
 |-|-|
 |Ottar Rolfsrud|3D design,|
 |Olav André Telneset|Skyløsning|
-|He You Ma|           |
+|He You Ma|NFC avlesning|
 |Yamn Sultan Salim|Sko programmering|
