@@ -2,32 +2,37 @@
 #include <SPI.h>
 #include <MFRC522.h>
 
-#define RST_PIN         4          // Configurable, see typical pin layout above
-#define SS_PIN          5         // Configurable, see typical pin layout above
+// Define your SPI and MFRC522 pins
+#define RST_PIN         4    // RST pin connected to GPIO4
+#define SS_PIN          5    // SS (SDA) pin connected to GPIO5
+#define MOSI_PIN        23   // MOSI pin connected to GPIO23
+#define MISO_PIN        19   // MISO pin connected to GPIO19
+#define SCK_PIN         18   // SCK pin connected to GPIO18
 
 MFRC522 mfrc522(SS_PIN, RST_PIN);  // Create MFRC522 instance
 
 void setup() {
-	Serial.begin(115200);		// Initialize serial communications with the PC
-	while (!Serial);		// Do nothing if no serial port is opened (added for Arduinos based on ATMEGA32U4)
-	SPI.begin(SS_PIN);			// Init SPI bus
-	mfrc522.PCD_Init(SS_PIN, RST_PIN);		// Init MFRC522
-	delay(4);				// Optional delay. Some board do need more time after init to be ready, see Readme
-	mfrc522.PCD_DumpVersionToSerial();	// Show details of PCD - MFRC522 Card Reader details
-	Serial.println(F("Scan PICC to see UID, SAK, type, and data blocks..."));
+    Serial.begin(115200);    // Initialize serial communications with the PC
+    while (!Serial);         // Wait for the serial port to open
+    // Initialize SPI bus with specified pins
+    SPI.begin(SCK_PIN, MISO_PIN, MOSI_PIN, SS_PIN);
+    // Initialize MFRC522
+    mfrc522.PCD_Init();
+    delay(5);                // Optional delay
+    // Show details of PCD - MFRC522 Card Reader details
+    mfrc522.PCD_DumpVersionToSerial();
+    Serial.println(F("Scan PICC to see UID, SAK, type, and data blocks..."));
 }
 
 void loop() {
-	// Reset the loop if no new card present on the sensor/reader. This saves the entire process when idle.
-	if ( ! mfrc522.PICC_IsNewCardPresent()) {
-		return;
-	}
-
-	// Select one of the cards
-	if ( ! mfrc522.PICC_ReadCardSerial()) {
-		return;
-	}
-
-	// Dump debug info about the card; PICC_HaltA() is automatically called
-	mfrc522.PICC_DumpToSerial(&(mfrc522.uid));
+    // Reset the loop if no new card present on the sensor/reader.
+    if ( ! mfrc522.PICC_IsNewCardPresent()) {
+        return;
+    }
+    // Select one of the cards
+    if ( ! mfrc522.PICC_ReadCardSerial()) {
+        return;
+    }
+    // Dump debug info about the card; PICC_HaltA() is automatically called
+    mfrc522.PICC_DumpToSerial(&(mfrc522.uid));
 }
