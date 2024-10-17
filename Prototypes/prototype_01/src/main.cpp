@@ -18,6 +18,7 @@ void loop() {
   long strength = normalizeDistance();
   analogWrite(ledPin, strength);
   Serial.println(strength);
+  Serial.println("cm");
   delay(500);
 }
 long normalizeDistance() {
