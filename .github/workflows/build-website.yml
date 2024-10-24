@@ -1,0 +1,6 @@
+name: depoy site
+
+on:
+  push:
+    paths:
+      - web/**
