@@ -1,9 +1,9 @@
-name: depoy site
+name: build site
 
 on:
   push:
     paths:
-      - Prototypes/web/**
+      - 'Prototypes/web/**'
 
 jobs:
   deploy: 
@@ -12,8 +12,6 @@ jobs:
     steps:
       - name: get repo web
         uses: actions/checkout@v4
-        with:
-          path: 'Prototypes/web'
       
       - name: setup ssh
         run: |
@@ -26,11 +24,14 @@ jobs:
 
       - name: copy files
         run: |
-          rsync -avz -e "ssh -i ~/.ssh/id_rsa" ./ gruppe1@midjo.me:/home/gruppe1/repo/
+          rsync -avz --delete -e "ssh -i ~/.ssh/id_rsa" Prototypes/web/ gruppe1@midjo.me:/home/gruppe1/repo/web/
+
+      - name: make executable
+        run: ssh -i ~/.ssh/id_rsa gruppe1@midjo.me 'chmod +x /home/gruppe1/repo/web/build.sh'
+
 
       - name: run build script
-        run: |
-          ssh -i ~/.ssh/id_rsa gruppe1@midjo.me 'bash /home/gruppe1/repo/build.sh'
+        run: ssh -i ~/.ssh/id_rsa gruppe1@midjo.me 'bash /home/gruppe1/repo/web/build.sh'
 
 
 
