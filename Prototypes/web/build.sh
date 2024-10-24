@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo cp /home/gruppe1/web/index.html /var/nginx/html/index.html
+sudo cp /home/gruppe1/repo/web/index.html /var/nginx/html/index.html
 
 sudo systemctl restart nginx
 
