@@ -3,4 +3,36 @@ name: depoy site
 on:
   push:
     paths:
-      - web/**
+      - Prototypes/web/**
+
+jobs:
+  deploy: 
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: get repo web
+        uses: actions/checkout@v3
+        with:
+          path: 'Prototypes/web'
+      
+      - name: setup ssh
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H midjo.me >> ~/.ssh/known_hosts
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: copy files
+        run: |
+          rsync -avz -e "ssh -i ~/.ssh/id_rsa" ./ gruppe1@midjo.me:/home/gruppe1/repo/
+
+      - name: run build script
+        run: |
+          ssh -i ~/.ssh/id_rsa gruppe1@midjo.me 'bash /home/gruppe1/repo/build.sh'
+
+
+
+
+
