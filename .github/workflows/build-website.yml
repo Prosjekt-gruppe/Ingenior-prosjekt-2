@@ -18,19 +18,19 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H midjo.me >> ~/.ssh/known_hosts
+          ssh-keyscan -H 178.128.141.39 >> ~/.ssh/known_hosts
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: copy files
         run: |
-          rsync -avz --delete -e "ssh -i ~/.ssh/id_rsa" Prototypes/web/ gruppe1@midjo.me:/home/gruppe1/repo/web/
+          rsync -avz --delete -e "ssh -i ~/.ssh/id_rsa" Prototypes/web/ gruppe1@178.128.141.39:/home/gruppe1/repo/web/
 
       - name: make executable
-        run: ssh -i ~/.ssh/id_rsa gruppe1@midjo.me 'chmod +x /home/gruppe1/repo/web/build.sh'
+        run: ssh -i ~/.ssh/id_rsa gruppe1@178.128.141.39 'chmod +x /home/gruppe1/repo/web/build.sh'
 
       - name: run build script
-        run: ssh -i ~/.ssh/id_rsa gruppe1@midjo.me 'bash /home/gruppe1/repo/web/build.sh'
+        run: ssh -i ~/.ssh/id_rsa gruppe1@178.128.141.39 'bash /home/gruppe1/repo/web/build.sh'
 
 
 
