@@ -1,0 +1,13 @@
+# TODO:
+- [x] setup server
+- [x] setup DNS
+- [x] get domain name
+- [x] setup firewall
+- [x] secure site with SSL
+- [x] setup general flask layout
+- [ ] configure nginx as reverse proxy
+- [ ] setup mqtt
+- [ ] setup API for devices
+- [ ] setup db
+- [ ] integrate mazemap
+- [ ] make site nicer
