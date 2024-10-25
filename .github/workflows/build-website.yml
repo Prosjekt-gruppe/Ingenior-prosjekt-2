@@ -29,7 +29,6 @@ jobs:
       - name: make executable
         run: ssh -i ~/.ssh/id_rsa gruppe1@midjo.me 'chmod +x /home/gruppe1/repo/web/build.sh'
 
-
       - name: run build script
         run: ssh -i ~/.ssh/id_rsa gruppe1@midjo.me 'bash /home/gruppe1/repo/web/build.sh'
 
