@@ -12,7 +12,7 @@ MFRC522 mfrc522(SS_PIN, RST_PIN);   // Create MFRC522 instance
 
 //*****************************************************************************************//
 void setup() {
-  Serial.begin(9600);                                           // Initialize serial communications with the PC
+  Serial.begin(115200);                                           // Initialize serial communications with the PC
   SPI.begin();                                                  // Init SPI bus
   mfrc522.PCD_Init();                                              // Init MFRC522 card
   Serial.println(F("Read personal data on a MIFARE PICC:"));    //shows in serial that it is ready to read
