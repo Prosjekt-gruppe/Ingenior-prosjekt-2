@@ -13,7 +13,7 @@ Vi har fått i oppgave med å gi blinde og synshemmede hjelp med å oppfatte omv
 |-|-|
 |Prototype 2|10.Okt-18.Nov|
 |Dokumentering|18.Nov - 1.Des|
-|Innlevering av prosjekt|2.Desember|
+|Innlevering av prosjekt|Kl 12:00 6.Desember|
 
 
 # ESP32-S3 Pinout
@@ -24,7 +24,7 @@ Vi har fått i oppgave med å gi blinde og synshemmede hjelp med å oppfatte omv
 # Ansvarsområder
 |Hvem|Hva|
 |-|-|
-|Ottar Rolfsrud|3D design,|
+|Ottar Rolfsrud|3D design|
 |Olav André Telneset|Skyløsning|
 |He You Ma|NFC avlesning|
 |Yamn Sultan Salim|Sko programmering|
