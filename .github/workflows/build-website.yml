@@ -24,7 +24,7 @@ jobs:
 
       - name: copy files
         run: |
-          sudo rsync -avz --delete -e "ssh -i ~/.ssh/id_rsa" Prototypes/web/ gruppe1@${{ vars.SERVER_IP }}:/srv
+          rsync -avz --delete -e "ssh -i ~/.ssh/id_rsa" Prototypes/web/ gruppe1@${{ vars.SERVER_IP }}:/srv
 
       - name: make executable
         run: ssh -i ~/.ssh/id_rsa gruppe1@${{ vars.SERVER_IP }} 'chmod +x /srv/build.sh'
