@@ -6,7 +6,7 @@ sudo rsync -av /srv/nginx/default /etc/nginx/sites-enabled/default
 sudo rsync -av /srv/gunicorn/gunicorn.service /etc/systemd/system/gunicorn.service
 
 prj_path="/srv"
-venv="${prj_path}/venv/"
+venv="${prj_path}/venv"
 requirements="${prj_path}/requirements.txt"
 
 if [ ! -d "$venv" ]; then
@@ -23,7 +23,7 @@ if [ ! -d "$venv" ]; then
     fi
 fi
 
-# sudo systemctl restart gunicorn
+sudo systemctl restart gunicorn
 sudo systemctl restart nginx
 echo "completed build"
 
