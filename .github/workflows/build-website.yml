@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'Prototypes/web/**'
+      - '.github/workflows/**'
 
 jobs:
   deploy: 
