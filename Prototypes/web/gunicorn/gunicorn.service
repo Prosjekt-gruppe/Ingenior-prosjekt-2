@@ -1,0 +1,17 @@
+[Unit]
+Description=Gunicorn instance to serve application
+After=network.target
+
+[Service]
+User=gruppe1
+Group=www-data
+WorkingDirectory=/srv/
+Environment="PATH=/srv/venv/"
+ExecStart=/srv/venv/bin/gunicorn -w 4 --bind 127.0.0.1:8000 production:app
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+TimeoutStopSec=5
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

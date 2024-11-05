@@ -1,6 +1,6 @@
 #!/bin/bash
 
-venv=".venv/"
+venv="venv/"
 requirements="requirements.txt"
 
 
