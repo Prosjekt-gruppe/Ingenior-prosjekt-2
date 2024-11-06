@@ -1,0 +1,12 @@
+[Unit]
+Description=Python MQTT Client
+After=network.target
+
+[Service]
+ExecStart=/srv/venv/bin/python /srv/paho/mqttservice.py
+Restart=always
+User=gruppe1
+WorkingDirectory=/srv/paho
+
+[Install]
+WantedBy=multi-user.target

@@ -3,7 +3,8 @@
 # move new files if modified
 sudo rsync -av /srv/app/static/index.html /var/www/html/index.html
 sudo rsync -av /srv/nginx/default /etc/nginx/sites-enabled/default
-sudo rsync -av /srv/gunicorn/gunicorn.service /etc/systemd/system/gunicorn.service
+sudo rsync -av /srv/services/gunicorn.service /etc/systemd/system/gunicorn.service
+sudo rsync -av /srv/services/pythonmqttclient.service /etc/systemd/system/pythonmqttclient.service
 sudo rsync -av --delete /srv/mosquitto/ /etc/mosquitto/conf.d/
 
 prj_path="/srv"
@@ -27,7 +28,7 @@ fi
 
 sudo systemctl daemon-reload
 
-
+# sudo systemctl restart pymqtt
 sudo systemctl restart mosquitto
 sudo systemctl restart gunicorn
 sudo systemctl restart nginx
