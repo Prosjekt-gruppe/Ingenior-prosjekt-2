@@ -10,4 +10,5 @@ bp = Blueprint('front', __name__, url_prefix='/front')
 
 @bp.route('/', methods=['GET'])
 def front():
-    return render_template('front/fpage.html', mqttdata=getdata)
+    mqttdata = getdata()
+    return render_template('front/fpage.html', mqttdata=mqttdata)
