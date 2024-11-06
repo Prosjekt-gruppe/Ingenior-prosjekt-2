@@ -21,7 +21,7 @@ def on_subscribe(client, userdata, flags, rc):
         logger.info("Connected to broker")
         client.subscribe('data', qos=1)
     else:
-        logger.error(f"Failed due to: {rc}")
+        logger.info(f"Failed due to: {rc}")
 
 
 def on_message(client, userdata, msg):
