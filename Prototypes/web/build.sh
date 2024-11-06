@@ -16,13 +16,14 @@ if [ ! -d "$venv" ]; then
         exit 1
     else
         echo "found requirements.txt setting up venv"
-        python -m venv venv
+        python -m venv $venv
         echo "installing requirements.txt"
         source $venv/bin/activate
         pip install -r requirements.txt
     fi
 fi
 
+sudo systemctl daemon-reload
 sudo systemctl restart gunicorn
 sudo systemctl restart nginx
 echo "completed build"
