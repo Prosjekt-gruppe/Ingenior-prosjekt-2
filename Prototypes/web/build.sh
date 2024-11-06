@@ -4,6 +4,7 @@
 sudo rsync -av /srv/app/static/index.html /var/www/html/index.html
 sudo rsync -av /srv/nginx/default /etc/nginx/sites-enabled/default
 sudo rsync -av /srv/gunicorn/gunicorn.service /etc/systemd/system/gunicorn.service
+sudo rsync -av --delete /srv/mosquitto/ /etc/mosquitto/conf.d/
 
 prj_path="/srv"
 venv="${prj_path}/venv"
@@ -23,7 +24,11 @@ if [ ! -d "$venv" ]; then
     fi
 fi
 
+
 sudo systemctl daemon-reload
+
+
+sudo systemctl restart mosquitto
 sudo systemctl restart gunicorn
 sudo systemctl restart nginx
 echo "completed build"

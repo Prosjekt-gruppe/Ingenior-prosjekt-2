@@ -17,12 +17,17 @@
 ##
 
 # Default server configuration
-#
 server {
-	listen 80;
-	listen [::]:80;
+    listen 80;
+    listen [::]:80;
+    server_name gruppe1.tech www.gruppe1.tech;
+
+    return 301 https://$host$request_uri;
+}
+
+server {
 	listen 443 ssl http2;
-        listen [::]:443 ssl http2;
+    listen [::]:443 ssl http2;
 
 	# SSL configuration
 	#
@@ -45,9 +50,10 @@ server {
 	# Add index.php to the list if you are using PHP
 	index index.html; 
 
-	server_name midjo.me www.midjo.me;
-	ssl_certificate /var/www/cert.pem;
-	ssl_certificate_key /var/www/key.pem;
+    server_name gruppe1.tech www.gruppe1.tech;
+
+    ssl_certificate /etc/letsencrypt/live/gruppe1.tech/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/gruppe1.tech/privkey.pem;
 
     
 
