@@ -39,6 +39,6 @@ client = paho.Client()
 client.on_connect = on_subscribe
 client.on_message = on_message
 client.username_pw_set(username, password)
-client.connect("mqtt.gruppe1.tech", 9001)
+client.connect("mqtt.gruppe1.tech", 9002)
 client.subscribe('data', qos=1)
 client.loop_forever()
