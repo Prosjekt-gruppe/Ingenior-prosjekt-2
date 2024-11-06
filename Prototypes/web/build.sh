@@ -4,7 +4,7 @@
 sudo rsync -av /srv/app/static/index.html /var/www/html/index.html
 sudo rsync -av /srv/nginx/default /etc/nginx/sites-enabled/default
 sudo rsync -av /srv/services/gunicorn.service /etc/systemd/system/gunicorn.service
-sudo rsync -av /srv/services/pythonmqttclient.service /etc/systemd/system/pythonmqttclient.service
+sudo rsync -av /srv/services/pymqtt.service /etc/systemd/system/pymqtt.service
 sudo rsync -av --delete /srv/mosquitto/ /etc/mosquitto/conf.d/
 
 prj_path="/srv"
