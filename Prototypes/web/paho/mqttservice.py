@@ -35,7 +35,7 @@ def on_message(client, userdata, msg):
     except requests.exceptions.RequestException as e:
         logger.error(e)
 
-client = paho.Client()
+client = paho.Client(transport="websockets")
 client.on_connect = on_subscribe
 client.on_message = on_message
 client.username_pw_set(username, password)
