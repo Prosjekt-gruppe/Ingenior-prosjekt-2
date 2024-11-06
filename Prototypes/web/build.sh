@@ -16,10 +16,10 @@ if [ ! -d "$venv" ]; then
         exit 1
     else
         echo "found requirements.txt setting up venv"
-        python -m venv $venv
+        python3 -m venv $venv
         echo "installing requirements.txt"
         source $venv/bin/activate
-        pip install -r $requirements
+        pip3 install -r $requirements
     fi
 fi
 
