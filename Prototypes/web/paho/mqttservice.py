@@ -6,7 +6,7 @@ import logging
 
 load_dotenv()
 
-log_dir = "/var/log/mqttclient"
+log_dir = "/var/log/pymqtt"
 os.makedirs(log_dir, exist_ok=True)
 logging.basicConfig(level=logging.INFO, filename=f"{log_dir}/mqtt.log",filemode="w")
 logger = logging.getLogger(__name__)
