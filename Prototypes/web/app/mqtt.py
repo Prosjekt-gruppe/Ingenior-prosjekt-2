@@ -10,10 +10,11 @@ def getmqtt():
     data = request.get_json()
     topic = data.get('topic')
     message = data.get('message')
+    device = data.get('device_id')
     
     logger.info(f"Received POST on /mqtt, topic: {topic}, message: {message}")
     
-    mqttdata.append({'topic': topic, 'message': message})
+    mqttdata.append({'topic': topic, 'message': message, 'device': device})
     return jsonify({"status": "success"}), 200
 
 def getdata():
