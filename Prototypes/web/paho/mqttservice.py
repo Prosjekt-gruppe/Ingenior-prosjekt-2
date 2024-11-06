@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 import os
 import logging
 
-load_dotenv()
+load_dotenv('../.env')
 
 log_dir = "/var/log/pymqtt"
 os.makedirs(log_dir, exist_ok=True)
