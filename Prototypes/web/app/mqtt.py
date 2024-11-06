@@ -5,7 +5,7 @@ bp = Blueprint('mqtt', __name__, url_prefix='/mqtt')
 
 mqttdata = []
 
-@bp.route('/mqtt', methods=['POST'])
+@bp.route('/', methods=['POST'])
 def getmqtt():
     data = request.get_json()
     topic = data.get('topic')
