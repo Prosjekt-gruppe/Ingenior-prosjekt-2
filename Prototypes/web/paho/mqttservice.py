@@ -26,9 +26,11 @@ def on_subscribe(client, userdata, flags, rc):
 
 def on_message(client, userdata, msg):
     logger.info(msg.topic+" "+str(msg.qos)+" "+str(msg.payload)) 
+    logger.info(f"userdata: {userdata}")
     payload = {
         'topic': msg.topic,
         'message': msg.payload.decode()
+        #'username': userdata.get('username'
     }
     try:
         response = requests.post("http://127.0.0.1:8000/mqtt", json=payload)
