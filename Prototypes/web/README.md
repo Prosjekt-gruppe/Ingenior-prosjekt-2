@@ -5,8 +5,11 @@
 - [x] setup firewall
 - [x] secure site with SSL
 - [x] setup general flask layout
-- [ ] configure nginx as reverse proxy
-- [ ] setup mqtt
+- [x] configure nginx as reverse proxy
+- [x] setup service for gunicorn
+- [x] setup basic mqtt over websocket
+- [x] protect mqtt implementation with username
+- [ ] protect mqtt messages with ssl
 - [ ] setup API for devices
 - [ ] setup db
 - [ ] integrate mazemap
