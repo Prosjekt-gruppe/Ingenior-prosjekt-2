@@ -28,7 +28,7 @@ fi
 
 sudo systemctl daemon-reload
 
-# sudo systemctl restart pymqtt
+sudo systemctl restart pymqtt
 sudo systemctl restart mosquitto
 sudo systemctl restart gunicorn
 sudo systemctl restart nginx
