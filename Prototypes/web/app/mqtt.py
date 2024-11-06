@@ -7,10 +7,12 @@ mqttdata = []
 
 @bp.route('/', methods=['POST'])
 def getmqtt():
+    logger.info("Got post request")
+
     data = request.get_json()
     topic = data.get('topic')
+    device = data.get('device')
     message = data.get('message')
-    device = data.get('device_id')
     
     logger.info(f"Received POST on /mqtt, topic: {topic}, message: {message}")
     

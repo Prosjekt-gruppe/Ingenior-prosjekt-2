@@ -28,10 +28,10 @@ def on_connect(client, userdata, flags, rc):
 
 
 def on_message(client, userdata, msg):
-    logger.info(msg.topic+" "+str(msg.qos)+" "+str(msg.payload)) 
-    logger.info(f"userdata: {userdata}")
+    logger.info(msg.topic+" "+str(msg.qos)+" "+str(msg.payload))
 
     device_id = msg.topic.split('/')[1]
+    logger.info(f"found device {device_id}")
 
     if device_id not in device_ids:
         logger.info(f"unkown device {device_id} setting to unkown")
@@ -39,10 +39,10 @@ def on_message(client, userdata, msg):
 
     payload = {
         'topic': msg.topic,
-        'device_id': device_id,
+        'device': device_id,
         'message': msg.payload.decode()
     }
-    
+
     try:
         response = requests.post("http://127.0.0.1:8000/mqtt", json=payload)
         logger.info(f"POST request to /mqtt complete with {response.status_code}")
