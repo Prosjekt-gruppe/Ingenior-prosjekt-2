@@ -19,7 +19,7 @@ if [ ! -d "$venv" ]; then
         python -m venv $venv
         echo "installing requirements.txt"
         source $venv/bin/activate
-        pip install -r requirements.txt
+        pip install -r $requirements
     fi
 fi
 
