@@ -31,7 +31,8 @@ def on_message(client, userdata, msg):
         'message': msg.payload.decode()
     }
     try:
-        requests.post("http://127.0.0.1:8000/mqtt", json=payload)
+        response = requests.post("http://127.0.0.1:8000/mqtt", json=payload)
+        logger.info(f"POST request to /mqtt complete with {response.status_code}")
     except requests.exceptions.RequestException as e:
         logger.error(e)
 
