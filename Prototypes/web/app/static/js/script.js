@@ -1,4 +1,7 @@
-const socket = io.socket();
+var socket = io();
+socket.on('connect', function() {
+    socket.emit('my event', {data: 'I\'m connected!'});
+});
 
 socket.on('mqttsocket', function(data) {
     console.log("Updated info: ", data);
