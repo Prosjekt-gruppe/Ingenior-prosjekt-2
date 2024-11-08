@@ -1,9 +1,15 @@
+bidict==0.23.1
 blinker==1.8.2
 certifi==2024.8.30
 charset-normalizer==3.4.0
 click==8.1.7
+dnspython==2.7.0
+eventlet==0.37.0
 Flask==3.0.3
+Flask-SocketIO==5.4.1
+greenlet==3.1.1
 gunicorn==23.0.0
+h11==0.14.0
 idna==3.10
 itsdangerous==2.2.0
 Jinja2==3.1.4
@@ -12,6 +18,10 @@ numpy==2.1.2
 packaging==24.1
 paho-mqtt==2.1.0
 python-dotenv==1.0.1
+python-engineio==4.10.1
+python-socketio==5.11.4
 requests==2.32.3
+simple-websocket==1.1.0
 urllib3==2.2.3
 Werkzeug==3.0.5
+wsproto==1.2.0

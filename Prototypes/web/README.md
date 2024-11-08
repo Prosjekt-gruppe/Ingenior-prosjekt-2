@@ -9,6 +9,7 @@
 - [x] setup service for gunicorn
 - [x] setup basic mqtt over websocket
 - [x] protect mqtt implementation with username
+- [ ] websocket support
 - [ ] protect mqtt messages with ssl
 - [ ] setup API for devices
 - [ ] setup db

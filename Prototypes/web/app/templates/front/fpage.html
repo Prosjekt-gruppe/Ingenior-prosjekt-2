@@ -7,9 +7,7 @@
 
 {% block content %}
   <h2>Received from MQTT</h2>
-  <ul>
-      {% for data in mqttdata %}
-          <li><strong>{{ data.topic }}:</strong> {{ data.message }} from {{ data.device }}</li> 
-      {% endfor %}
+  <ul id="mqtt-data">
+    
   </ul>
 {% endblock %}
