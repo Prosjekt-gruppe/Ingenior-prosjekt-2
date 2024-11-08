@@ -7,7 +7,7 @@ User=gruppe1
 Group=www-data
 WorkingDirectory=/srv/
 Environment="PATH=/srv/venv/"
-ExecStart=/srv/venv/bin/gunicorn -w 4 -k eventlet --bind 127.0.0.1:8000 production:app
+ExecStart=/srv/venv/bin/gunicorn --worker-class eventlet --bind 127.0.0.1:8000 production:app
 ExecReload=/bin/kill -s HUP $MAINPID
 KillMode=mixed
 TimeoutStopSec=5
