@@ -1,5 +1,24 @@
 #include <Adafruit_VL53L0X.h>
 #include <Wire.h>
+#include "mqtt_client.h"
+
+#define XSTR(x) #x
+#define STR(x) XSTR(x)
+
+
+esp_mqtt_client_config_t mqtt_cfg;
+esp_mqtt_client_handle_t client;
+
+const char* WIFI_PASSWD = STR(WIFI_PASSWD);
+const char* WIFI_SSID = STR(WIFI_SSID);
+
+const char* MQTT_HOSTNAME = "mqtt.gruppe1.tech";
+
+//const char* MQTT_HOST = STR(MQTT_HOST);
+const uint32_t PORT_WITHOUT_ENC = (uint32_t)STR(MQTT_PORT);
+
+const char* MQTT_USERNAME = STR(MQTT_USERNAME);
+const char* MQTT_PASSWD = STR(MQTT_PASSWD);
 
 
 /*-------------------------------*/

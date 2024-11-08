@@ -5,6 +5,8 @@ bp = Blueprint('mqtt', __name__, url_prefix='/mqtt')
 
 mqttdata = []
 
+
+
 @bp.route('/', methods=['POST'])
 def getmqtt():
     logger.info("Got post request")
