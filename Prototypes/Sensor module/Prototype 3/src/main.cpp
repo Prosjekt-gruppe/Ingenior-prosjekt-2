@@ -2,9 +2,13 @@
 #include <Wire.h>
 #include "mqtt_client.h"
 
+
+
 #define XSTR(x) #x
 #define STR(x) XSTR(x)
 
+#include <WebSocketsClient.h>  // include before MQTTPubSubClient.h
+#include <MQTTPubSubClient.h>
 
 esp_mqtt_client_config_t mqtt_cfg;
 esp_mqtt_client_handle_t client;

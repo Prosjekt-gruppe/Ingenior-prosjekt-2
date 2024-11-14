@@ -4,6 +4,15 @@
   <h1>{% block title %}front page{% endblock %}</h1>
 {% endblock %}
 
+{% block inputdata %}
+<h2>Input data</h2>
+<form method="post">
+  <label for="strength">Input Strength</label>
+  <input name="strength" id="strength" required>
+  <input type="submit" value="Apply">
+</form>
+{% endblock %}
+
 
 {% block content %}
   <h2>Received from MQTT</h2>

@@ -1,5 +1,6 @@
 import paho.mqtt.client as paho
 import requests
+import socketio
 from dotenv import load_dotenv
 import os
 import logging
@@ -18,6 +19,21 @@ logger.info(f"got username {username}")
 
 # TODO: implement database with known ids?
 device_ids = ['1','2','3']
+
+sio = socketio.Client()
+
+@sio.event
+def connect():
+    logger("SocketIO from mqtt-client connected")
+
+@sio.event
+def disconnect():
+    logger("SocketIO from mqtt-client disconnected")
+
+@sio.on("strength")
+def handle_strength(data):
+    logger("Received data {data}")
+
 
 def on_connect(client, userdata, flags, rc):
     if rc == 0:
