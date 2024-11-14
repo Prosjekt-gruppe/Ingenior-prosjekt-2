@@ -3,6 +3,7 @@
 #include <MFRC522.h>
 
 // Define your SPI and MFRC522 pins
+//Disse må nok endres før koden passer perfekt
 #define RST_PIN         4    // RST pin connected to GPIO4
 #define SS_PIN          5    // SS (SDA) pin connected to GPIO5
 #define MOSI_PIN        23   // MOSI pin connected to GPIO23
@@ -33,6 +34,6 @@ void loop() {
     if ( ! mfrc522.PICC_ReadCardSerial()) {
         return;
     }
-    // Dump debug info about the card; PICC_HaltA() is automatically called
+    // Only dumps UID
     mfrc522.PICC_DumpToSerial(&(mfrc522.uid));
 }
