@@ -22,6 +22,7 @@ device_ids = ['1','2','3']
 
 sio = socketio.Client()
 
+
 @sio.event
 def connect():
     logger.info("SocketIO from mqtt-client connected")
@@ -34,6 +35,7 @@ def disconnect():
 def handle_strength(data):
     logger.info("Received data {data}")
 
+sio.connect("http://127.0.0.1:8000")
 
 def on_connect(client, userdata, flags, rc):
     if rc == 0:
