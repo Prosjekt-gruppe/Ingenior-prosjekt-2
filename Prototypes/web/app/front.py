@@ -15,9 +15,9 @@ bp = Blueprint('front', __name__, url_prefix='/front')
 def front():
     if request.method == 'POST':
         data = request.get_data()
-        strength_value = data.get('strength')
-        logger.info(f"received post request with {strength_value}")
-        socketio.emit("strength", strength_value)
+        #strength_value = data.get('strength')
+        logger.info(f"received post request with {data}")
+        socketio.emit("strength", data)
         return jsonify({"status": "success", "message": "Value for strength received by front post"}), 200
 
 
