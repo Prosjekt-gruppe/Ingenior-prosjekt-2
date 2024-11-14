@@ -26,7 +26,7 @@ function handlestrengthbutton() {
         return;
     }
 
-    fetch('/front', {
+    fetch('/front/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({strength: collectedvalue})
