@@ -1,7 +1,8 @@
 #include <Arduino.h>
 #include <Wire.h>
 #include <WiFi.h>         // For Wi-Fi connectivity
-#include <PubSubClient.h> // For MQTT connectivity
+#include <WebSocketsClient.h>  // include before MQTTPubSubClient.h
+#include <MQTTPubSubClient.h>
 
 #define XSTR(x) #x
 #define STR(x) XSTR(x)
