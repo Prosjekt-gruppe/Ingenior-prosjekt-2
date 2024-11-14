@@ -1,3 +1,6 @@
+//This is the current code to be used, the rest are just there for info about the card.
+
+
 #include <Arduino.h>
 #include <SPI.h>
 #include <MFRC522.h>
@@ -10,7 +13,7 @@
 
 MFRC522 mfrc522(SS_PIN, RST_PIN);   // Create MFRC522 instance
 
-//*****************************************************************************************//
+
 void setup() {
   Serial.begin(115200);                                           // Initialize serial communications with the PC
   SPI.begin();                                                  // Init SPI bus
@@ -18,7 +21,7 @@ void setup() {
   Serial.println(F("Read UID: "));    //shows in serial that it is ready to read
 }
 
-//*****************************************************************************************//
+
 void loop() {
 
   // Reset the loop if no new card present on the sensor/reader. This saves the entire process when idle.
@@ -59,4 +62,4 @@ void loop() {
   mfrc522.PICC_HaltA();
   mfrc522.PCD_StopCrypto1();
 }
-//*****************************************************************************************//
+
