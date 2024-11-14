@@ -32,7 +32,7 @@ def disconnect():
 
 @sio.on("strength")
 def handle_strength(data):
-    logger("Received data {data}")
+    logger.info("Received data {data}")
 
 
 def on_connect(client, userdata, flags, rc):
