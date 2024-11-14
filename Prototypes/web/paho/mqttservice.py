@@ -33,7 +33,7 @@ def disconnect():
 
 @sio.on("strength")
 def handle_strength(data):
-    logger.info("Received data {data}")
+    logger.info(f"Received data {data}")
 
 sio.connect("http://127.0.0.1:8000")
 
