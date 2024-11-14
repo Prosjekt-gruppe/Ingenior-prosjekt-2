@@ -7,8 +7,8 @@
 #define STR(x) XSTR(x)
 
 // Wi-Fi credentials
-const char* WIFI_SSID = STR(WIFI_SSID);
-const char* WIFI_PASSWD = STR(WIFI_PASSWD);
+const char* WIFI_SSID = "NTNU-IOT";
+const char* WIFI_PASSWD = "";
 
 // MQTT server settings
 const char* MQTT_HOSTNAME = "mqtt.gruppe1.tech";
