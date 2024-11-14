@@ -24,11 +24,11 @@ sio = socketio.Client()
 
 @sio.event
 def connect():
-    logger("SocketIO from mqtt-client connected")
+    logger.info("SocketIO from mqtt-client connected")
 
 @sio.event
 def disconnect():
-    logger("SocketIO from mqtt-client disconnected")
+    logger.info("SocketIO from mqtt-client disconnected")
 
 @sio.on("strength")
 def handle_strength(data):

@@ -15,7 +15,7 @@ bp = Blueprint('front', __name__, url_prefix='/front')
 def front():
     if request.method == 'POST':
         strength_value = request.form['strength']
-        logger("received post request with {strength_value}")
+        logger.info("received post request with {strength_value}")
         socketio.emit("strength", strength_value)
 
 
