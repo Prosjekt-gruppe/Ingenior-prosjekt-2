@@ -1,17 +1,20 @@
 # TODO:
-- [x] setup server
-- [x] setup DNS
-- [x] get domain name
-- [x] setup firewall
-- [x] secure site with SSL
-- [x] setup general flask layout
-- [x] configure nginx as reverse proxy
-- [x] setup service for gunicorn
-- [x] setup basic mqtt over websocket
-- [x] protect mqtt implementation with username
-- [ ] websocket support
-- [ ] protect mqtt messages with ssl
-- [ ] setup API for devices
-- [ ] setup db
-- [ ] integrate mazemap
-- [ ] make site nicer
+- [x] Setup server
+- [x] Setup DNS
+- [x] Get domain name
+- [x] Setup firewall
+- [x] Secure site with SSL
+- [x] Setup general flask layout
+- [x] Configure nginx as reverse proxy
+- [x] Setup service for gunicorn
+- [x] Setup basic mqtt over websocket
+- [x] Protect mqtt implementation with username
+- [x] Websocket support
+- [x] MQTT-device receiving input-values
+- [x] Favicon
+- [ ] Protect mqtt messages with ssl
+- [ ] Setup API for devices
+- [ ] Setup db
+- [ ] Integrate mazemap
+- [ ] Cookies
+- [ ] Make site nicer

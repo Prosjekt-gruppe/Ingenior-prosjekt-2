@@ -1,4 +1,9 @@
 <!doctype html>
+<head>
+  <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
+</head>
+
+
 <title>{% block title %}{% endblock %} - App</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <section class="content">
