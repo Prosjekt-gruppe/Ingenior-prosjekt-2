@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">´
+  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
   <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
   
   <title>{% block title %}{% endblock %} - App</title>
@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-  
+
   <section class="content">
     <header>
       {% block header %}{% endblock %}
