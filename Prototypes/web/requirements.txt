@@ -23,5 +23,6 @@ python-socketio==5.11.4
 requests==2.32.3
 simple-websocket==1.1.0
 urllib3==2.2.3
+websocket-client==1.8.0
 Werkzeug==3.0.5
 wsproto==1.2.0
