@@ -50,7 +50,7 @@ def handle_strength(data):
         exc = traceback.print_exc()
         logger.info(f"!Sednging failed! Traceback: {exc}")
 
-sio.connect("http://127.0.0.1:8000")
+sio.connect("http://127.0.0.1:8000", transports=["websocket"])
 
 def on_connect(client, userdata, flags, rc):
     if rc == 0:
