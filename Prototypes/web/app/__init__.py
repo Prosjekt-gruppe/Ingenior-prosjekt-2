@@ -2,7 +2,7 @@ import os
 from flask import Flask, send_from_directory
 from flask_socketio import SocketIO
 
-socketio = SocketIO()
+socketio = SocketIO(cors_allowed_origins="*")
 
 def create_app():
     app = Flask(__name__)

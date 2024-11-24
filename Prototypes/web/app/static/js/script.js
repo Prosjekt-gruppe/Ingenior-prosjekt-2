@@ -1,6 +1,9 @@
-var socket = io();
+var socket = io("https://gruppe1.tech", {
+    path: "/socket.io/",
+    transports: ["websocket"],
+});
 socket.on('connect', function() {
-    socket.emit('my event', {data: 'I\'m connected!'});
+    socket.emit('my event', {data: 'socketio js connected using websockets'});
 });
 
 socket.on('mqttsocket', function(data) {

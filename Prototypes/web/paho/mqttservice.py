@@ -1,15 +1,18 @@
 import paho.mqtt.client as paho
+import paho.mqtt.publish as publish
 import requests
 import socketio
 from dotenv import load_dotenv
 import os
 import logging
+import traceback
 
 load_dotenv('../.env')
 
 log_dir = "/var/log/pymqtt"
 os.makedirs(log_dir, exist_ok=True)
 logging.basicConfig(level=logging.INFO, filename=f"{log_dir}/mqtt.log",filemode="w")
+#logging.basicConfig(level=logging.DEBUG, filename=f"{log_dir}/debug.log",filemode="w")
 logger = logging.getLogger(__name__)
 
 username = os.getenv("MQTT_ADMIN_USERNAME")
@@ -31,9 +34,25 @@ def connect():
 def disconnect():
     logger.info("SocketIO from mqtt-client disconnected")
 
+@sio.event
+def connect_error(data):
+    logger.info("Failed to connect to Flask Socket.IO server")
+
+@socketio.on("test_event")
+def handle_test_event(data):
+    logger.info(f"Test event received with data: {data}")
+
 @sio.on("strength")
 def handle_strength(data):
-    logger.info(f"Received data {data}")
+    logger.info("handle_strength triggered.")
+    #publish.single("devices/2/data", f"{data}", hostname="mqtt.eclipseprojects.io")
+    dev = "devices/2/data"
+    try:
+        logger.info(f"sending to {dev} with data: {data}")
+        client.publish(dev, f"{data}")
+    except:
+        exc = traceback.print_exc()
+        logger.info(f"!Sednging failed! Traceback: {exc}")
 
 sio.connect("http://127.0.0.1:8000")
 
@@ -67,10 +86,11 @@ def on_message(client, userdata, msg):
     except requests.exceptions.RequestException as e:
         logger.info(e)
 
+
+
 client = paho.Client(transport="websockets")
 client.on_connect = on_connect
 client.on_message = on_message
 client.username_pw_set(username, password)
 client.connect("mqtt.gruppe1.tech", 9002)
-client.subscribe('data', qos=1)
 client.loop_forever()
