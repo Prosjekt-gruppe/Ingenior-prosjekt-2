@@ -38,10 +38,6 @@ def disconnect():
 def connect_error(data):
     logger.info("Failed to connect to Flask Socket.IO server")
 
-@socketio.on("test_event")
-def handle_test_event(data):
-    logger.info(f"Test event received with data: {data}")
-
 @sio.on("strength")
 def handle_strength(data):
     logger.info("handle_strength triggered.")

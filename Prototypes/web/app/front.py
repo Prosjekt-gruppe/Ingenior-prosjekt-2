@@ -18,8 +18,8 @@ def front():
         #strength_value = data.get('strength')
         logger.info(f"received post request with {data}")
         socketio.emit("strength", data)
+        
+        
         return jsonify({"status": "success", "message": "Value for strength received by front post"}), 200
-
-
-
+    
     return render_template('front/fpage.html')
