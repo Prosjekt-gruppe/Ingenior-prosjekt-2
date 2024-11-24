@@ -14,7 +14,7 @@ bp = Blueprint('front', __name__, url_prefix='/front')
 @bp.route('/', methods=('GET', 'POST'))
 def front():
     if request.method == 'POST':
-        data = request.get_data()
+        data = request.get_json()
         #strength_value = data.get('strength')
         logger.info(f"received post request with {data}")
         socketio.emit("strength", data)
