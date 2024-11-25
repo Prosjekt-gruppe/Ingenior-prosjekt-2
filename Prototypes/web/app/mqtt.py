@@ -35,7 +35,7 @@ def getmqtt():
     return jsonify({"status": "success"}), 200
 
 @bp.route('/location', methods=['POST'])
-def getmqtt():
+def handle_locations():
     logger.info("Got post request")
 
     data = request.get_json()
