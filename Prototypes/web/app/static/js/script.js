@@ -17,13 +17,14 @@ socket.on('mqttsocket', function(data) {
 
 socket.on('getlocation', function(data) {
     const poi = data.poiID;
+    const deviceID = data.device
 
     if (poi) {
         console.log(`Found poi ${poi}`);    
         MazeMap.callPOI(poi).then(poiInfo => {
             if (poiInfo) {
                 console.log("Received:", poiInfo);
-                handlepoi(poiInfo);
+                handlepoi(poiInfo, deviceID);
             } else {
                 console.error("Mazemap could not find a valid POI");
             }
@@ -62,7 +63,7 @@ function handlestrengthbutton() {
     .catch(error => console.log('Errors:', error));
 }
 
-function handlepoi(poi) {
+function handlepoi(poi, deviceID) {
     const poiList = document.getElementById("poi-data");
 
     const poiItem = document.createElement("li");
@@ -77,10 +78,14 @@ function handlepoi(poi) {
     `;
     poiList.appendChild(poiItem);
 
+
     fetch('/mqtt/returndata', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(poi)
+        body: JSON.stringify({
+            ...poi,
+            deviceID: deviceID
+        })
     })
     .then(response => response.json())
     .then(data => console.log("Server response:", data))

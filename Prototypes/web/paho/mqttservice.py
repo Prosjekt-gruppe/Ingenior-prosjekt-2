@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 import os
 import logging
 import traceback
+import json
 
 load_dotenv('../.env')
 
@@ -51,6 +52,27 @@ def handle_strength(data):
         exc = traceback.print_exc()
         logger.info(f"!Sednging failed! Traceback: {exc}")
 
+@sio.on("returnlocation")
+def return_location(data):
+    logger.info(f"received {data}")
+
+    # could drop this
+    deviceID = data.get("deviceID")
+
+    if not deviceID:
+        logger.info("Device ID not existing")
+        return
+    
+    data.pop("deviceID", None)
+
+    try:
+        payload = json.dumps(data)
+        client.publish(f"devices/{deviceID}/location", payload=payload)
+        logger.info(f"return_location send on socket with payload {payload}")
+    except:
+        logger.info("return_location failed")
+
+
 # connect socket
 sio.connect("http://127.0.0.1:8000", transports=["websocket"])
 
@@ -69,7 +91,8 @@ def message_handler(client, msg, deviceID):
 
 def location_handler(client, msg, deviceID):
     payload = {
-        'nfctagID': msg.payload.decode()
+        'nfctagID': msg.payload.decode(),
+        'devID': deviceID
     }
     
     try:
@@ -78,9 +101,10 @@ def location_handler(client, msg, deviceID):
     except requests.exceptions.RequestException as e:
         logger.info(e)
 
+# topic routing table
 topics = {
     "message": message_handler,
-    "locations": location_handler
+    "location": location_handler
 }
 
 

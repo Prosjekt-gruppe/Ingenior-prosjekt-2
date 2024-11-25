@@ -13,7 +13,6 @@ def create_app():
 
     from . import front, mqtt
     logger.info("Imported fron and mqtt successfully")
-    
 
     app.register_blueprint(front.bp)
     logger.info("Registered front successfully")

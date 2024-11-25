@@ -6,7 +6,7 @@ bp = Blueprint('mqtt', __name__, url_prefix='/mqtt')
 
 db = TinyDB('db/nfctags.json')
 
-#mqttdata = []
+
 
 def find_poi(nfctagID):
     res = db.search(Query().nfctagID == nfctagID)
@@ -27,9 +27,7 @@ def getmqtt():
     message = data.get('message')
     
     logger.info(f"Received POST on /mqtt, topic: {topic}, message: {message}")
-    
-#   mqttdata.append({'topic': topic, 'message': message, 'device': device})
-    
+        
     socketio.emit("mqttsocket", {'topic': topic, 'message': message, 'device': device})
 
     return jsonify({"status": "success"}), 200
@@ -39,32 +37,35 @@ def handle_locations():
     logger.info("Got post request")
 
     data = request.get_json()
-    topic = data.get('topic')
-    device = data.get('device')
+    #topic = data.get('topic')
+    device = data.get('devID')
     nfctagID = data.get('nfctagID')
     
-    logger.info(f"Received POST on /mqtt/location, topic: {topic} from device: {device}, with nfctagID: {nfctagID}")
+    logger.info(f"Received POST on /mqtt/location, from device: {device}, with nfctagID: {nfctagID}")
     
     poiID = find_poi(nfctagID)
+    
     logger.info(f"found poiID: {poiID}, from nfctag: {nfctagID}")
 
     if poiID:
-        socketio.emit("getlocation", {'poiID': poiID})
+        socketio.emit("getlocation", {'poiID': poiID, 'device':device})
         return jsonify({"status": "success"}), 200
     else:
         return jsonify({"status": "error in sending poi"}), 404
 
+# return location data to device
 @bp.route('/returndata', methods=['POST'])
 def handle_returndata():
     data = request.get_json()
     
     logger.info(f"Received POI data: {data}")
-    
-    return jsonify({"status": "success", "message": "POI data received and taken care of"}), 200
 
-#def getdata():
-#    logger.info(f"returning mqttdata: {mqttdata}")
-#    return mqttdata
+    try:
+        socketio.emit("returnlocation", data)
+        return jsonify({"status": "success", "message": "POI data received and taken care of"}), 200
+    except Exception as e:
+        logger.error(f"handle_returndata failed sending to returnlocation: {e}")
+        return jsonify({"error": "Error in returning location data"}), 500
 
 @socketio.on('connect')
 def log_socket_connect():
