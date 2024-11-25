@@ -20,7 +20,7 @@ socket.on('getlocation', function(data) {
 
     if (poi) {
         console.log(`Found poi ${poi}`);    
-        MazeMap.callPOI(data.poiID).then(poiInfo => {
+        MazeMap.callPOI(poi).then(poiInfo => {
             if (poiInfo) {
                 console.log(`Bygning: ${poiInfo}`);
             } else {

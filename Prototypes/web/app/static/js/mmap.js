@@ -6,7 +6,8 @@ export class MazeMap {
     
     static async callPOI(poiID) {        
         try {
-            const poi = Mazemap.Data.getPoi(303578);
+            const poi = Mazemap.Data.getPoi(poiID);
+            console.log(`got poi ${poi}`)
             return {
                 poiID: poi.geometry.poiID,
                 names: poi.geometry.names,
@@ -14,7 +15,7 @@ export class MazeMap {
                 buildingName: poi.geometry.buildingName
             };
         } catch(error) {
-            console.error("No POI found");
+            console.error(`No POI found, error: ${error}`);
             return null;
         }
     }
