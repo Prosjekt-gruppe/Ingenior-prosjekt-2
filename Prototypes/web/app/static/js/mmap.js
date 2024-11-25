@@ -6,8 +6,8 @@ export class MazeMap {
     
     static async callPOI(poiID) {        
         try {
-            const poi = Mazemap.Data.getPoi(poiID);
-            console.log(`got poi ${poi}`)
+            const poi = await Mazemap.Data.getPoi(poiID);
+            console.log("got poi:", poi)
             return {
                 poiID: poi.geometry.poiID,
                 names: poi.geometry.names,
