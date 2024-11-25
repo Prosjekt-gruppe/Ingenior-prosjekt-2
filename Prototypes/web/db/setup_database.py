@@ -1,11 +1,12 @@
 from tinydb import TinyDB
 import os
 
-db = "nfctags.json"
+base_dir = os.path.dirname(os.path.abspath(__file__))
+dbpath = os.path.join(base_dir, "nfctags.json")
 
-if not os.path.exists(db):
-    os.makedirs(os.path.dirname(db), exist_ok=True)
-    db = TinyDB(db)
+if not os.path.exists(dbpath):
+    os.makedirs(os.path.dirname(dbpath), exist_ok=True)
+    db = TinyDB(dbpath)
     db.insert({"nfctagID": "nfctag1", "poiID": 303578})
     db.insert({"nfctagID": "nfctag2", "poiID": 36148})
 else:
