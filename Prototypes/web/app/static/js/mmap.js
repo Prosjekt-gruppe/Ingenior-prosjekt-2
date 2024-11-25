@@ -9,7 +9,7 @@ export class MazeMap {
             const poi = await Mazemap.Data.getPoi(poiID);
             console.log("got poi:", poi)
             return {
-                poiID: poi.properties.poiID,
+                poiId: poi.properties.poiId,
                 names: poi.properties.names,
                 floorName: poi.properties.floorName,
                 buildingName: poi.properties.buildingName
