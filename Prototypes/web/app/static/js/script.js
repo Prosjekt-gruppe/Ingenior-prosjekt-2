@@ -77,7 +77,7 @@ function handlepoi(poi) {
     `;
     poiList.appendChild(poiItem);
 
-    fetch('/mqtt/location/', {
+    fetch('/mqtt/returndata', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(poi)
