@@ -66,10 +66,12 @@ function handlepoi(poi) {
     const poiList = document.getElementById("poi-data");
 
     const poiItem = document.createElement("li");
+    const names = poi.names && Array.isArray(poi.names) ? poi.names.join(", ") : "Unknown Name";
+
     
     poiItem.innerHTML = `
         <strong>POI ID:</strong> ${poi.poiId}<br>
-        <strong>Names:</strong> ${poi.names.join(", ")}<br>
+        <strong>Names:</strong> ${names}<br>
         <strong>Floor:</strong> ${poi.floorName}<br>
         <strong>Building:</strong> ${poi.buildingName}
     `;
