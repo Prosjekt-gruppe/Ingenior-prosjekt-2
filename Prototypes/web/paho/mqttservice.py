@@ -21,7 +21,7 @@ password = os.getenv("MQTT_ADMIN_PASSWORD")
 logger.info(f"got username {username}")
 
 # TODO: implement database with known ids?
-device_ids = ['1','2','3']
+deviceIDs = ['1','2','3']
 
 sio = socketio.Client()
 
@@ -50,39 +50,69 @@ def handle_strength(data):
         exc = traceback.print_exc()
         logger.info(f"!Sednging failed! Traceback: {exc}")
 
+# connect socket
 sio.connect("http://127.0.0.1:8000", transports=["websocket"])
 
+# connect mosquitto
 def on_connect(client, userdata, flags, rc):
     if rc == 0:
         logger.info("Connected to broker")
-        client.subscribe('devices/+/data', qos=1)
+        client.subscribe('devices/+/#', qos=1)
     else:
         logger.info(f"Failed due to: {rc}")
 
 
 def on_message(client, userdata, msg):
-    logger.info(msg.topic+" "+str(msg.qos)+" "+str(msg.payload))
+    logger.info(f"topic: {msg.topic} qos: {str(msg.qos)} payload: {str(msg.payload)}")
+    parts = msg.topic.split('/')
 
-    device_id = msg.topic.split('/')[1]
-    logger.info(f"found device {device_id}")
+    deviceID = parts[1]
+    logger.info(f"found device {deviceID}")
 
-    if device_id not in device_ids:
-        logger.info(f"unkown device {device_id} setting to unkown")
-        device_id = 'unkown'
+    if deviceID not in deviceIDs:
+        logger.info(f"unkown device {deviceID} setting to unkown")
+        deviceID = 'unkown'
 
+    if parts[2] in topics:
+        handler = topics.get(parts[2])
+        
+        #call handler from topic
+        handler(client, msg, deviceID)
+    else:    
+        logger.info("{part} not in topic")
+
+
+
+def message_handler(client, msg, deviceID):
     payload = {
         'topic': msg.topic,
-        'device': device_id,
+        'device': deviceID,
         'message': msg.payload.decode()
     }
-
+    
     try:
         response = requests.post("http://127.0.0.1:8000/mqtt", json=payload)
         logger.info(f"POST request to /mqtt complete with {response.status_code}")
     except requests.exceptions.RequestException as e:
         logger.info(e)
 
+def location_handler(client, msg, deviceID):
+    payload = {
+        'nfctagID': msg.payload.decode()
+    }
+    
+    try:
+        response = requests.post("http://127.0.0.1:8000/mqtt/location", json=payload)
+        logger.info(f"POST request to /mqtt/location complete with {response.status_code}")
+    except requests.exceptions.RequestException as e:
+        logger.info(e)
 
+
+
+topics = {
+    "message": message_handler,
+    "locations": location_handler
+}
 
 client = paho.Client(transport="websockets")
 client.on_connect = on_connect

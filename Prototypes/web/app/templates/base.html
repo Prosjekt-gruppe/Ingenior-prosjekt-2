@@ -7,6 +7,10 @@
   
   <title>{% block title %}{% endblock %} - App</title>
 
+
+  <link rel="stylesheet" href="https://api.mazemap.com/js/v2.2.1/mazemap.min.css">
+  <script type='text/javascript' src='https://api.mazemap.com/js/v2.2.1/mazemap.min.js'></script>
+
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
@@ -20,8 +24,10 @@
     {% block content %}{% endblock %}
   </section>
   
+  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
-  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  
+  <script type="module" src="{{ url_for('static', filename='js/script.js') }}"></script>
 
 </body>
 </html>
