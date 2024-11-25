@@ -23,7 +23,7 @@ socket.on('getlocation', function(data) {
         MazeMap.callPOI(poi).then(poiInfo => {
             if (poiInfo) {
                 console.log("Received:", poiInfo);
-                handlepoi(poi);
+                handlepoi(poiInfo);
             } else {
                 console.error("Mazemap could not find a valid POI");
             }
