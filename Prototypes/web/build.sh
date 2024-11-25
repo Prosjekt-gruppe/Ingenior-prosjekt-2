@@ -25,6 +25,9 @@ if [ ! -d "$venv" ]; then
     fi
 fi
 
+echo "create db"
+source $venv/bin/activate
+python3 /srv/db/setup_database.py
 
 sudo systemctl daemon-reload
 
