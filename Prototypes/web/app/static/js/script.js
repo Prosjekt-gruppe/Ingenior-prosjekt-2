@@ -19,8 +19,8 @@ socket.on('getlocation', function(data) {
     const poi = data.poiID;
 
     if (poi) {
-        console.error("No valid poi found");    
-        MazeMap.getPoiInfo(data.poiID).then(poiInfo => {
+        console.log(`Found poi ${poi}`);    
+        MazeMap.callPOI(data.poiID).then(poiInfo => {
             if (poiInfo) {
                 console.log(`Bygning: ${poiInfo}`);
             } else {
