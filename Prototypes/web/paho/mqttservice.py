@@ -26,6 +26,7 @@ deviceIDs = ['1','2','3']
 sio = socketio.Client()
 
 
+
 @sio.event
 def connect():
     logger.info("SocketIO from mqtt-client connected")
@@ -52,6 +53,36 @@ def handle_strength(data):
 
 # connect socket
 sio.connect("http://127.0.0.1:8000", transports=["websocket"])
+
+def message_handler(client, msg, deviceID):
+    payload = {
+        'topic': msg.topic,
+        'device': deviceID,
+        'message': msg.payload.decode()
+    }
+    
+    try:
+        response = requests.post("http://127.0.0.1:8000/mqtt", json=payload)
+        logger.info(f"POST request to /mqtt complete with {response.status_code}")
+    except requests.exceptions.RequestException as e:
+        logger.info(e)
+
+def location_handler(client, msg, deviceID):
+    payload = {
+        'nfctagID': msg.payload.decode()
+    }
+    
+    try:
+        response = requests.post("http://127.0.0.1:8000/mqtt/location", json=payload)
+        logger.info(f"POST request to /mqtt/location complete with {response.status_code}")
+    except requests.exceptions.RequestException as e:
+        logger.info(e)
+
+topics = {
+    "message": message_handler,
+    "locations": location_handler
+}
+
 
 # connect mosquitto
 def on_connect(client, userdata, flags, rc):
@@ -81,38 +112,6 @@ def on_message(client, userdata, msg):
     else:    
         logger.info("{part} not in topic")
 
-
-
-def message_handler(client, msg, deviceID):
-    payload = {
-        'topic': msg.topic,
-        'device': deviceID,
-        'message': msg.payload.decode()
-    }
-    
-    try:
-        response = requests.post("http://127.0.0.1:8000/mqtt", json=payload)
-        logger.info(f"POST request to /mqtt complete with {response.status_code}")
-    except requests.exceptions.RequestException as e:
-        logger.info(e)
-
-def location_handler(client, msg, deviceID):
-    payload = {
-        'nfctagID': msg.payload.decode()
-    }
-    
-    try:
-        response = requests.post("http://127.0.0.1:8000/mqtt/location", json=payload)
-        logger.info(f"POST request to /mqtt/location complete with {response.status_code}")
-    except requests.exceptions.RequestException as e:
-        logger.info(e)
-
-
-
-topics = {
-    "message": message_handler,
-    "locations": location_handler
-}
 
 client = paho.Client(transport="websockets")
 client.on_connect = on_connect
