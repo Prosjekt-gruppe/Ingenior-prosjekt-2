@@ -61,3 +61,27 @@ function handlestrengthbutton() {
     .catch(error => console.log('Errors:', error));
 }
 
+function handlepoi(poi) {
+    const poiList = document.getElementById("poi-data");
+
+    const poiItem = document.createElement("li");
+    
+    poiItem.innerHTML = `
+        <strong>POI ID:</strong> ${poi.poiID}<br>
+        <strong>Names:</strong> ${poi.names.join(", ")}<br>
+        <strong>Floor:</strong> ${poi.floorName}<br>
+        <strong>Building:</strong> ${poi.buildingName}
+    `;
+    poiList.appendChild(poiItem);
+
+    fetch('/mqtt/location/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(poi)
+    })
+    .then(response => response.json())
+    .then(data => console.log("Server response:", data))
+    .catch(error => console.log('Errors:', error));
+
+}
+

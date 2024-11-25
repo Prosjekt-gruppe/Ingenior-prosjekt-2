@@ -54,6 +54,13 @@ def handle_locations():
     else:
         return jsonify({"status": "error in sending poi"}), 404
 
+@bp.route('/returndata', methods=['POST'])
+def handle_returndata():
+    data = request.get_json()
+    
+    logger.info(f"Received POI data: {data}")
+    
+    return jsonify({"status": "success", "message": "POI data received and taken care of"}), 200
 
 #def getdata():
 #    logger.info(f"returning mqttdata: {mqttdata}")
