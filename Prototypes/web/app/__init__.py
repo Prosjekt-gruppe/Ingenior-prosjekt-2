@@ -6,16 +6,8 @@ from dotenv import load_dotenv
 import os
 
 envpath = os.path.abspath('/srv/.env')
-secretkey = None
-
-if os.path.exists(envpath):
-    logger.info("Found .env-file")
-    load_dotenv('../.env')
-    secretkey = os.getenv("FLASK_SECRET_KEY")
-else:
-    logger.info(f"could not find env-file got {envpath}")
-
 socketio = SocketIO(cors_allowed_origins="*")
+
 
 def create_app():
     logger.info("Creating app...")
@@ -23,11 +15,13 @@ def create_app():
     app = Flask(__name__)
     logger.info("Started app successfully")
 
-    if secretkey:
-        app.secret_key = secretkey
-        logger.info(f"Secret loaded")
+    if os.path.exists(envpath):
+        logger.info("Found .env-file")
+        load_dotenv('../.env')
+        app.secret_key = os.getenv("FLASK_SECRET_KEY")
+        logger.info(f"Loaded secret key: {app.secretkey[:5]}")
     else:
-        logger.info("no key")
+        logger.info(f"could not find env-file got {envpath}")
 
 
     from . import landing, front, mqtt
