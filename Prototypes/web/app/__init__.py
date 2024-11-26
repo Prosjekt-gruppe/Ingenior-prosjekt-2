@@ -9,14 +9,18 @@ load_dotenv('../.env')
 
 socketio = SocketIO(cors_allowed_origins="*")
 
+secretkey = os.getenv("FLASK_SECRET_KEY")
+
+logger.info(f"Secret loaded as: {secretkey[:5]}")
+
 def create_app():
     logger.info("Creating app...")
     
     app = Flask(__name__)
     logger.info("Started app successfully")
 
-    app.secret_key = os.getenv("FLASK_SECRET_KEY")
-    logger.info(f"Secret loaded as: {app.secret_key[:5]}")
+    app.secret_key = secretkey
+    logger.info(f"Secret loaded")
 
     from . import landing, front, mqtt
     logger.info("Imported fron and mqtt successfully")
