@@ -1,5 +1,7 @@
 import functools
 from utils.logging import logger
+
+from flask_limiter.util import get_remote_address
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for, jsonify, make_response
 )
