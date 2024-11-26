@@ -11,8 +11,9 @@ def create_app():
     app = Flask(__name__)
     logger.info("Started app successfully")
 
-    from . import front, mqtt
+    from . import landing, front, mqtt
     logger.info("Imported fron and mqtt successfully")
+    app.register_blueprint(landing.bp)
 
     app.register_blueprint(front.bp)
     logger.info("Registered front successfully")

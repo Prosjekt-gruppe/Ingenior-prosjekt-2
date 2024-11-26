@@ -27,11 +27,15 @@ jobs:
         env:
           MQTT_ADMIN_USERNAME: ${{ secrets.MQTT_ADMIN_USERNAME }}
           MQTT_ADMIN_PASSWORD: ${{ secrets.MQTT_ADMIN_PASSWORD }}
+          FLASK_SECRET_KEY: ${{ secrets.FLASK_SECRET_KEY }}
         run: |
           rsync -avz --delete -e "ssh -i ~/.ssh/id_rsa" Prototypes/web/ gruppe1@${{ vars.SERVER_IP }}:/srv
-          ssh -i ~/.ssh/id_rsa gruppe1@${{ vars.SERVER_IP }} 'echo "MQTT_ADMIN_USERNAME=${{ secrets.MQTT_ADMIN_USERNAME }}" > /srv/.env'
-          ssh -i ~/.ssh/id_rsa gruppe1@${{ vars.SERVER_IP }} 'echo "MQTT_ADMIN_PASSWORD=${{ secrets.MQTT_ADMIN_PASSWORD }}" >> /srv/.env'
-
+          ssh -i ~/.ssh/id_rsa gruppe1@${{ vars.SERVER_IP }} 'cat <<EOF > /srv/.env
+          MQTT_ADMIN_USERNAME=${{ secrets.MQTT_ADMIN_USERNAME }}
+          MQTT_ADMIN_PASSWORD=${{ secrets.MQTT_ADMIN_PASSWORD }}
+          FLASK_SECRET_KEY=${{ secrets.FLASK_SECRET_KEY }}
+          EOF'
+          
       - name: make executable
         run: ssh -i ~/.ssh/id_rsa gruppe1@${{ vars.SERVER_IP }} 'chmod +x /srv/build.sh'
 
