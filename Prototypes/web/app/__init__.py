@@ -19,7 +19,7 @@ def create_app():
         logger.info("Found .env-file")
         load_dotenv('../.env')
         app.secret_key = os.getenv("FLASK_SECRET_KEY")
-        logger.info(f"Loaded secret key: {app.secretkey[:5]}")
+        logger.info(f"Loaded secret key: {app.secret_key[:5]}")
     else:
         logger.info(f"could not find env-file got {envpath}")
 
