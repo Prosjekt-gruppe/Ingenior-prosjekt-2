@@ -17,7 +17,7 @@ def create_app():
 
     if os.path.exists(envpath):
         logger.info("Found .env-file")
-        load_dotenv('../.env')
+        load_dotenv(envpath)
         app.secret_key = os.getenv("FLASK_SECRET_KEY")
         logger.info(f"Loaded secret key: {app.secret_key[:5]}")
     else:
