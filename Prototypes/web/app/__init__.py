@@ -5,11 +5,19 @@ from utils.logging import logger
 from dotenv import load_dotenv
 import os
 
-load_dotenv('../.env')
+envpath = os.path.abspath('../.env')
+secretkey = None
+
+if os.path.exists(envpath):
+    logger.info("Found .env-file")
+    load_dotenv('../.env')
+    secretkey = os.getenv("FLASK_SECRET_KEY")
+else:
+    logger.info("could not find env-file got {envpath}")
+
 
 socketio = SocketIO(cors_allowed_origins="*")
 
-secretkey = os.getenv("FLASK_SECRET_KEY")
 
 logger.info(f"Secret loaded as: {secretkey[:5]}")
 
@@ -19,8 +27,12 @@ def create_app():
     app = Flask(__name__)
     logger.info("Started app successfully")
 
-    app.secret_key = secretkey
-    logger.info(f"Secret loaded")
+    if secretkey:
+        app.secret_key = secretkey
+        logger.info(f"Secret loaded")
+    else:
+        logger.info("no key")
+
 
     from . import landing, front, mqtt
     logger.info("Imported fron and mqtt successfully")
