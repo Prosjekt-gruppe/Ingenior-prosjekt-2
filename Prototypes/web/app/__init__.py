@@ -5,7 +5,7 @@ from utils.logging import logger
 from dotenv import load_dotenv
 import os
 
-envpath = os.path.abspath('../.env')
+envpath = os.path.abspath('/srv/.env')
 secretkey = None
 
 if os.path.exists(envpath):
@@ -13,13 +13,9 @@ if os.path.exists(envpath):
     load_dotenv('../.env')
     secretkey = os.getenv("FLASK_SECRET_KEY")
 else:
-    logger.info("could not find env-file got {envpath}")
-
+    logger.info(f"could not find env-file got {envpath}")
 
 socketio = SocketIO(cors_allowed_origins="*")
-
-
-logger.info(f"Secret loaded as: {secretkey[:5]}")
 
 def create_app():
     logger.info("Creating app...")
