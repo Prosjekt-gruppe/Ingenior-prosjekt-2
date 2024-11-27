@@ -7,7 +7,7 @@ var socket = io("https://gruppe1.tech", {
 
 socket.on('connect', function() {
     console.log("Connected")
-    socket.emit("ready_for_messages");
+    socket.emit("ready_for_message");
 });
 
 socket.on('cookie_update', function (data) {
