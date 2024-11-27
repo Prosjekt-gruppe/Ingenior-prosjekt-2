@@ -141,39 +141,30 @@ function handlepoi(poi, deviceID) {
 
 document.getElementById("deviceselectbutton").addEventListener("click", function () {
     const devicewrapper = document.getElementById("devicewrapper");
-    if (devicewrapper.style.display === "none") {
-        devicewrapper.style.display = "block";
-    } else {
-        devicewrapper.style.display = "none";
-    }
-});
-
-document.getElementById("deviceselectbutton").addEventListener("click", function () {
-    const deviceWrapper = document.getElementById("devicewrapper");
-    deviceWrapper.style.display = deviceWrapper.style.display === "none" ? "block" : "none";
+    devicewrapper.style.display = devicewrapper.style.display === "none" ? "block" : "none";
   });
   
 document.getElementById("savedevicebutton").addEventListener("click", function () {
-    const deviceIdInput = document.getElementById("deviceidinput").value.trim();
+    const deviceidinput = document.getElementById("deviceidinput").value.trim();
 
-    if (deviceIdInput === "") {
+    if (deviceidinput === "") {
         console.error("select id")
         return;
     }
 
-    document.getElementById("chosenDevice").textContent = `Chosen device: ${deviceIdInput}`;
+    document.getElementById("chosendevice").textContent = `Chosen device: ${deviceidinput}`;
 
-    localStorage.setItem("chosenDevice", deviceIdInput);
+    localStorage.setItem("chosendevice", deviceidinput);
 
     document.getElementById("devicewrapper").style.display = "none";
-    console.log(`device id set: ${deviceIdInput}`);
+    console.log(`device id set: ${deviceidinput}`);
 });
 
 
 window.onload = function () {
-    const savedDeviceId = localStorage.getItem("chosenDevice");
+    const savedDeviceId = localStorage.getItem("chosendevice");
     if (savedDeviceId) {
-        document.getElementById("chosenDevice").textContent = `Chosen device: ${savedDeviceId}`;
+        document.getElementById("chosendevice").textContent = `Chosen device: ${savedDeviceId}`;
         document.getElementById("deviceidinput").value = savedDeviceId;
     }
 };
