@@ -39,10 +39,10 @@ socket.onAny((event, data) => {
     console.log(`Received event: ${event}`, data);
 });
 
-socket.on('colorchange', (data) => {
+socket.on('colorchange', function(data) {
+    console.log(`changed header color to ${data.color}`);
     const header = document.getElementById('header');
     header.style.backgroundColor = data.color;
-    console.log(`changed header color to ${data.color}`);
 });
 
 
