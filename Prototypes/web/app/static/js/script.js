@@ -141,14 +141,14 @@ function handlepoi(poi, deviceID) {
 
 document.getElementById("deviceselectbutton").addEventListener("click", function () {
     const devicewrapper = document.getElementById("devicewrapper");
-    devicewrapper.style.display = devicewrapper.style.display === "none" ? "block" : "none";
-  });
-  
+    devicewrapper.classList.toggle("visible");
+});
+
 document.getElementById("savedevicebutton").addEventListener("click", function () {
     const deviceidinput = document.getElementById("deviceidinput").value.trim();
 
     if (deviceidinput === "") {
-        console.error("select id")
+        console.error("select valid id");
         return;
     }
 
@@ -156,10 +156,9 @@ document.getElementById("savedevicebutton").addEventListener("click", function (
 
     localStorage.setItem("chosendevice", deviceidinput);
 
-    document.getElementById("devicewrapper").style.display = "none";
+    document.getElementById("devicewrapper").classList.remove("visible");
     console.log(`device id set: ${deviceidinput}`);
 });
-
 
 window.onload = function () {
     const savedDeviceId = localStorage.getItem("chosendevice");
@@ -168,4 +167,3 @@ window.onload = function () {
         document.getElementById("deviceidinput").value = savedDeviceId;
     }
 };
-
