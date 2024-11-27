@@ -139,3 +139,12 @@ function handlepoi(poi, deviceID) {
 
 }
 
+document.getElementById("deviceselectbutton").addEventListener("click", function () {
+    const devicewrapper = document.getElementById("devicewrapper");
+    if (devicewrapper.style.display === "none") {
+        devicewrapper.style.display = "block";
+    } else {
+        devicewrapper.style.display = "none";
+    }
+});
+
