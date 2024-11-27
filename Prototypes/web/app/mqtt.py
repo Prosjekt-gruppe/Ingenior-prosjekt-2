@@ -66,8 +66,3 @@ def handle_returndata():
     except Exception as e:
         logger.error(f"handle_returndata failed sending to returnlocation: {e}")
         return jsonify({"error": "Error in returning location data"}), 500
-
-@socketio.on('connect')
-def log_socket_connect():
-    logger.info("Socket connected")
-

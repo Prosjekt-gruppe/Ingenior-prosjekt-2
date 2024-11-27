@@ -40,14 +40,9 @@ def redirect_front():
     
     user_data = json.loads(cookie)
     
-    socketio.emit("colorchange", {"color": user_data["color"]})    
-    
-    logger.info(f"Sent user_data to socket: {user_data}")
-
+    try:
+        socketio.emit("colorchange", {"color": "#3F888F"})
+    except Exception as e:
+        logger.error(f"failed to emit socket {e}")
+        
     return redirect(url_for('front.front'))
-
-
-@socketio.on('connect')
-def log_socket_connect():
-    logger.info("Landing socket connected")
-

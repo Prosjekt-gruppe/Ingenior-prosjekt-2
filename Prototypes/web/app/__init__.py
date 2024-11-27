@@ -28,6 +28,9 @@ def create_app():
     limiter.init_app(app)
     logger.info("limiter set")
 
+    socketio.init_app(app)
+    logger.info("Started SocketIO successfully")
+
     from . import landing, front, mqtt
     logger.info("Imported fron and mqtt successfully")
     app.register_blueprint(landing.bp)
@@ -37,8 +40,7 @@ def create_app():
     
     app.register_blueprint(mqtt.bp)
     logger.info("Regustered mqtt successfully")
-    
-    socketio.init_app(app)
-    logger.info("Started SocketIO successfully")
+
+    import app.sockets    
 
     return app
