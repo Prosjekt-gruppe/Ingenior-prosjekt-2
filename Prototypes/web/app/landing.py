@@ -30,9 +30,9 @@ def redirect_front():
     
     if not cookie:
         new_uuid = str(uuid.uuid4())
-        r,g,b = random.randint(50, 180), random.randint(50, 180), random.randint(50, 180)
+        r, g, b = random.randint(50, 180), random.randint(50, 180), random.randint(50, 180)
 
-        user_data = {"uuid":new_uuid, "color": f"#{r:02x}{g:02x}{b:02x}"}
+        user_data = {"uuid": new_uuid, "color": f"#{r:02x}{g:02x}{b:02x}"}
 
         response = make_response(redirect(url_for('front.front')))
         response.set_cookie('user_data', json.dumps(user_data), max_age=3600)
@@ -41,6 +41,6 @@ def redirect_front():
     user_data = json.loads(cookie)
     socketio.emit("colorchange", {"color": user_data['color']})
     
-    logger.info(f"sent user_data to socket {user_data}")
+    logger.info(f"Sent user_data to socket: {user_data}")
 
     return redirect(url_for('front.front'))

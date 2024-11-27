@@ -35,6 +35,17 @@ socket.on('getlocation', function(data) {
 });
 
 
+socket.onAny((event, data) => {
+    console.log(`Received event: ${event}`, data);
+});
+
+socket.on('colorchange', (data) => {
+    const header = document.getElementById('header');
+    header.style.backgroundColor = data.color;
+    console.log(`changed header color to ${data.color}`);
+});
+
+
 function showInfo(data) {
     const mqttList = document.getElementById("mqtt-data");
 
@@ -93,10 +104,3 @@ function handlepoi(poi, deviceID) {
 
 }
 
-// fun
-
-socket.on('colorchange', (data) => {
-    const header = document.getElementById('header');
-    header.style.backgroundColor = data.color;
-    console.log(`changed header color to ${data.color}`);
-});
