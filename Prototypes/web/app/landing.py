@@ -28,7 +28,7 @@ bp = Blueprint('landing', __name__)
 def redirect_front():
     cookie = request.cookies.get("user_data")
     
-    if not user_data:
+    if not cookie:
         new_uuid = uuid.uuid4
         r,g,b = r.randint(50, 180), r.randint(50, 180), r.randint(50, 180)
 
