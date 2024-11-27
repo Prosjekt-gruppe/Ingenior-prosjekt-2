@@ -107,6 +107,8 @@ function handlestrengthbutton() {
     .catch(error => console.log('Errors:', error));
 }
 
+window.handlestrengthbutton = handlestrengthbutton;
+
 function handlepoi(poi, deviceID) {
     const poiList = document.getElementById("poi-data");
 
