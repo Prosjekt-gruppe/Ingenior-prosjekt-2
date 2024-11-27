@@ -2,7 +2,7 @@ from utils.logging import logger
 import uuid
 from tinydb import TinyDB, Query
 import functools
-import random as r
+import random
 import json
 
 
@@ -30,7 +30,7 @@ def redirect_front():
     
     if not cookie:
         new_uuid = uuid.uuid4
-        r,g,b = r.randint(50, 180), r.randint(50, 180), r.randint(50, 180)
+        r,g,b = random.randint(50, 180), random.randint(50, 180), random.randint(50, 180)
 
         user_data = {"uuid":new_uuid, "color": f"#{r:02x}{g:02x}{b:02x}"}
 
