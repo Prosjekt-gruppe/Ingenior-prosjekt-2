@@ -37,6 +37,9 @@ socket.on('getlocation', function(data) {
     }
 });
 
+socket.on('another_event', function(data) {
+    console.log("another test from landing.py", data);
+});
 
 socket.onAny((event, data) => {
     console.log(`Received event: ${event}`, data);

@@ -40,8 +40,20 @@ def redirect_front():
     user_data = json.loads(cookie)
     
     try:
+        logger.info("sending from landing page socket")
         socketio.emit("colorchange", {"color": "#3F888F"})
     except Exception as e:
         logger.error(f"failed to emit socket {e}")
 
     return redirect(url_for('front.front'))
+
+
+@bp.route('/another_test', methods=['GET'])
+def another_test():
+    try:
+        socketio.emit("another_event", {"data": "from landing.py"})
+        logger.info("another event landing.py")
+        return jsonify({"status": "success"}), 200
+    except Exception as e:
+        logger.error(f"failed landing.py: {e}")
+        return jsonify({"status": "error", "error": str(e)}), 500
