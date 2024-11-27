@@ -12,8 +12,7 @@ from flask import (
 )
 
 # local imports
-from app import socketio
-from . import limiter
+from app import socketio, limiter
 
 # db
 db = TinyDB('uuids.json')
@@ -44,5 +43,5 @@ def redirect_front():
         socketio.emit("colorchange", {"color": "#3F888F"})
     except Exception as e:
         logger.error(f"failed to emit socket {e}")
-        
+
     return redirect(url_for('front.front'))
