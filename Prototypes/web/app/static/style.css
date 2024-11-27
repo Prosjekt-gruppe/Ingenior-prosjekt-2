@@ -101,6 +101,10 @@ input#strength {
     margin: 0;
 }
 
+#applystrength {
+    margin-top: 10px;
+}
+
 .inputdata:last-child { margin-bottom: 0; }
 /*.content form { margin: 1em 0; display: flex; flex-direction: column; }*/
 .inputdata label { font-weight: bold; margin-bottom: 0.5em; }
