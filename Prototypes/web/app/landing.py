@@ -28,6 +28,28 @@ def redirect_front():
     return redirect(url_for('front.front'))
 
 
+@bp.route("/set_cookie")
+def set_cookie():
+    cookie = request.cookies.get("user_data")
+    if not cookie:
+        new_uuid = str(uuid.uuid4())
+        r, g, b = random.randint(50, 180), random.randint(50, 180), random.randint(50, 180)
+        user_data = {"uuid": new_uuid, "color": f"#{r:02x}{g:02x}{b:02x}"}
+
+        response = make_response(jsonify({"status": "new cookie set"}))
+        response.set_cookie(
+            'user_data',
+            json.dumps(user_data),
+            max_age=3600,
+            path='/',
+            samesite='Lax',
+            secure=True
+        )
+        return response
+    return jsonify({"status": "cookie already exists"}), 200
+
+
+
 @bp.route('/another_test', methods=['GET'])
 def another_test():
     try:

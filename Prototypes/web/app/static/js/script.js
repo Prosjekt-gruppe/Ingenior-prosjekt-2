@@ -1,67 +1,83 @@
 import { MazeMap } from './mmap.js';
 
-var socket = io("https://gruppe1.tech", {
-    path: "/socket.io/",
-    transports: ["websocket"],
-});
+fetch('/set_cookie')
+    .then(response => {
+        if (response.ok) {
+            console.log("cookie set");
+            startWebSocket();
+        } else {
+            console.error("failed cookie");
+        }
+    })
+    .catch(error => console.error("Error setting cookie:", error));
 
-socket.on('connect', function() {
-    console.log("Connected")
-    socket.emit("ready_for_message");
-});
+function startWebSocket() {
+    const socket = io("https://gruppe1.tech", {
+        path: "/socket.io/",
+        transports: ["websocket"],
+    });
 
-socket.on('cookie_update', function (data) {
-    console.log("new cookie generated for:", data.user_data);
-});
+    socket.on('connect', function() {
+        console.log("Connected");
+        socket.emit("ready_for_message");
+    });
 
-socket.on('cookie_valid', function (data) {
-    console.log("cookie already exists", data.user_data);
-});
+    socket.on('cookie_update', function (data) {
+        console.log("New cookie generated for:", data.user_data);
+    });
 
-socket.on('mqttsocket', function(data) {
-    console.log("Updated info: ", data);
-    showInfo(data);
-});
+    socket.on('cookie_valid', function (data) {
+        console.log("Cookie already exists:", data.user_data);
+    });
 
-socket.on('test_event', function(data) {
-    console.log("Test event received:", data);
-});
+    socket.on('mqttsocket', function(data) {
+        console.log("Updated info: ", data);
+        showInfo(data);
+    });
 
-socket.on('colorchange', function(data) {
-    if (data) {
-        document.documentElement.style.setProperty('--common-color', data.color);
-        console.log(`changed header color to ${data.color}`);
-    } else {
-        console.error("problem with colorchange")
-    }
-});
+    socket.on('test_event', function(data) {
+        console.log("Test event received:", data);
+    });
 
-socket.on('getlocation', function(data) {
-    const poi = data.poiID;
-    const deviceID = data.device
+    socket.on('colorchange', function(data) {
+        if (data) {
+            document.documentElement.style.setProperty('--common-color', data.color);
+            console.log(`Changed header color to ${data.color}`);
+        } else {
+            console.error("Problem with colorchange");
+        }
+    });
 
-    if (poi) {
-        console.log(`Found poi ${poi}`);    
-        MazeMap.callPOI(poi).then(poiInfo => {
-            if (poiInfo) {
-                console.log("Received:", poiInfo);
-                handlepoi(poiInfo, deviceID);
-            } else {
-                console.error("Mazemap could not find a valid POI");
-            }
-        }).catch(error => { console.log("mazemaperror: ", error) });
-    } else {
-        console.error("Wrong POI");
-    }
-});
+    socket.on('getlocation', function(data) {
+        const poi = data.poiID;
+        const deviceID = data.device;
 
-socket.on('another_event', function(data) {
-    console.log("another test from landing.py", data);
-});
+        if (poi) {
+            console.log(`Found POI ${poi}`);
+            MazeMap.callPOI(poi).then(poiInfo => {
+                if (poiInfo) {
+                    console.log("Received:", poiInfo);
+                    handlepoi(poiInfo, deviceID);
+                } else {
+                    console.error("MazeMap could not find a valid POI");
+                }
+            }).catch(error => {
+                console.error("MazeMap error:", error);
+            });
+        } else {
+            console.error("Wrong POI");
+        }
+    });
 
-socket.onAny((event, data) => {
-    console.log(`Received event: ${event}`, data);
-});
+    socket.on('another_event', function(data) {
+        console.log("Another test from landing.py", data);
+    });
+
+    socket.onAny((event, data) => {
+        console.log(`Received event: ${event}`, data);
+    });
+}
+    
 
 function showInfo(data) {
     const mqttList = document.getElementById("mqtt-data");
