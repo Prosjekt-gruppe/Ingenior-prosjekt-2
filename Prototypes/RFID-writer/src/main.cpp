@@ -6,8 +6,11 @@
 #define XSTR(x) #x
 #define STR(x) XSTR(x)
 
-const char* MQTT_HOSTNAME = "mqtt.gruppe1.tech";
+const char* MQTT_HOSTNAME = STR(MQTT_HOST);
 const char* MQTT_TOPIC = "test/hello"; // Define the topic to publish to
+const char* MQTT_PORT1 = STR(MQTT_PORT);
+const char* MQTT_PASSWORD = STR(MQTT_PASSWD);
+const char* MQTT_USER = STR(MQTT_USERNAME);
 
 
 const char* ssid = "NTNU-IOT";
@@ -28,11 +31,11 @@ connect_to_wifi:
 connect_to_host:
     Serial.println("connecting to host...");
     client.disconnect();
-    client.begin("mqtt.gruppe1.tech", 9002, "/", "mqtt");  // "mqtt" is required
+    client.begin(MQTT_HOSTNAME, MQTT_PORT1, "/", "mqtt");  // "mqtt" is required
     client.setReconnectInterval(2000);
 
     Serial.print("connecting to mqtt broker...");
-    while (!mqtt.connect("esp32-client", "midjo", "MidjosLambs")) {
+    while (!mqtt.connect("esp32-client", MQTT_USER, MQTT_PASSWORD)) {
         Serial.print(".");
         delay(1000);
         if (WiFi.status() != WL_CONNECTED) {
