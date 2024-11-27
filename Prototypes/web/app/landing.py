@@ -35,10 +35,12 @@ def redirect_front():
         user_data = {"uuid":new_uuid, "color": f"#{r:02x}{g:02x}{b:02x}"}
 
         response = make_response(redirect(url_for('front.front')))
-        response.set_cookie('uuid', json.dumps(user_data), max_age=3600)
+        response.set_cookie('user_data', json.dumps(user_data), max_age=3600)
         return response
     
-    user_data = json.load(cookie)
+    user_data = json.loads(cookie)
     socketio.emit("colorchange", {"color": user_data['color']})
+    
+    logger.info(f"sent user_data to socket {user_data}")
 
     return redirect(url_for('front.front'))
