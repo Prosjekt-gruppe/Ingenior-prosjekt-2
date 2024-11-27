@@ -56,7 +56,7 @@ input#strength {
     color: white;
     border: none;
     border-radius: 2px;
-    padding: 10px 20px;
+    padding: 3px 20px;
     font-size: 16px;
     transition: background-color 0.3s ease;
 }
