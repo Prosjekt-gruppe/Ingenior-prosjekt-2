@@ -24,7 +24,7 @@ Vi har fått i oppgave med å gi blinde og synshemmede hjelp med å oppfatte omv
 # Ansvarsområder
 |Hvem|Hva|
 |-|-|
-|Ottar Rolfsrud|3D design|
+|Ottar Rolfsrud|3D design/HW dokumentasjon|
 |Olav André Telneset|Skyløsning|
 |He You Ma|NFC avlesning|
 |Yamn Sultan Salim|Sko programmering|
