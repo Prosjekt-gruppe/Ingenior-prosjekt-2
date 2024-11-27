@@ -41,7 +41,7 @@ h1, h2 {
     padding: 3px;        
     font-size: 16px;     
     text-align: center;
-    width: 300px;
+    width: auto;
     border: 1px solid #ccc; 
     border-radius: 2px;
 }
@@ -56,9 +56,11 @@ input#strength {
     color: white;
     border: none;
     border-radius: 2px;
-    padding: 3px 20px;
+    padding: 10px 20px;
     font-size: 16px;
+    width: auto;
     transition: background-color 0.3s ease;
+    text-align: center;
 }
 
 .inputcontainer button:hover {
@@ -87,15 +89,17 @@ input#strength {
     overflow: hidden;
     transition: visibility 0.3s, height 0.3s ease;
 }
-
 #devicewrapper.visible {
     visibility: visible;
     height: auto;
     display: flex;
+    flex-direction: row;
     gap: 10px;
+    align-items: center;
     justify-content: center;
+    padding: 5px;
+    margin: 0;
 }
-
 
 .inputdata:last-child { margin-bottom: 0; }
 /*.content form { margin: 1em 0; display: flex; flex-direction: column; }*/
