@@ -30,7 +30,11 @@ socket.on('test_event', function(data) {
 socket.on('colorchange', function(data) {
     console.log(`changed header color to ${data.color}`);
     const header = document.getElementById('header');
-    header.style.backgroundColor = data.color;
+    if (header) {
+        header.style.backgroundColor = data.color;
+    } else {
+        console.error("header not found");
+    }
 });
 
 socket.on('getlocation', function(data) {
@@ -59,9 +63,6 @@ socket.on('another_event', function(data) {
 socket.onAny((event, data) => {
     console.log(`Received event: ${event}`, data);
 });
-
-
-
 
 function showInfo(data) {
     const mqttList = document.getElementById("mqtt-data");
