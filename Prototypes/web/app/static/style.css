@@ -13,6 +13,7 @@ body {
 
 header {
     background-color: #4CAF50;
+    transition: background-color 0.5s ease-in-out;
     color: white;
     padding: 10px 0;
     text-align: center;

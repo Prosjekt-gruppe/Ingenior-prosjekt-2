@@ -27,7 +27,6 @@ deviceIDs = ['1','2','3']
 sio = socketio.Client()
 
 
-
 @sio.event
 def connect():
     logger.info("SocketIO from mqtt-client connected")

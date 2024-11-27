@@ -93,3 +93,10 @@ function handlepoi(poi, deviceID) {
 
 }
 
+// fun
+
+socket.on('colorchange', (data) => {
+    const header = document.getElementById('header');
+    header.style.backgroundColor = data.color;
+    console.log(`changed header color to ${data.color}`);
+});
