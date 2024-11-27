@@ -36,8 +36,18 @@ h1, h2 {
     margin-top: 10px;
 }
 
+.inputcontainer input {
+    margin-bottom: 10px;
+    padding: 10px;        
+    font-size: 16px;     
+    text-align: center;
+    width: 300px;
+    border: 1px solid #ccc; 
+    border-radius: 2px;
+}
+
 input#strength {
-    width: 200px;
+    width: 300px;
 }
 
 .inputcontainer button {
@@ -45,7 +55,9 @@ input#strength {
     background-color: var(--common-color);
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 2px;
+    padding: 10px 20px;
+    font-size: 16px;
     transition: background-color 0.3s ease;
 }
 
