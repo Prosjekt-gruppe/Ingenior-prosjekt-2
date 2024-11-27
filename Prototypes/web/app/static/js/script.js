@@ -28,12 +28,11 @@ socket.on('test_event', function(data) {
 });
 
 socket.on('colorchange', function(data) {
-    console.log(`changed header color to ${data.color}`);
-    const header = document.getElementById('header');
-    if (header) {
-        header.style.backgroundColor = data.color;
+    if (data) {
+        document.documentElement.style.setProperty('--common-color', data.color);
+        console.log(`changed header color to ${data.color}`);
     } else {
-        console.error("header not found");
+        console.error("problem with colorchange")
     }
 });
 
