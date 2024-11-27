@@ -41,6 +41,7 @@ def create_app():
     app.register_blueprint(mqtt.bp)
     logger.info("Regustered mqtt successfully")
 
-    import app.sockets    
+    from . import sockets
+    logger.info("Socket import success")
 
     return app
