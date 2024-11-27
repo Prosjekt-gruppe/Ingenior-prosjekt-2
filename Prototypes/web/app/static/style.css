@@ -73,6 +73,13 @@ input#strength {
     width: 450px;
 }
 
+#devicecontainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
 #devicewrapper {
     visibility: hidden;
     height: 0;
@@ -84,6 +91,9 @@ input#strength {
 #devicewrapper.visible {
     visibility: visible;
     height: auto;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
 }
 
 
