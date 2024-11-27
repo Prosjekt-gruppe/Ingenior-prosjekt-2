@@ -39,7 +39,8 @@ def redirect_front():
         return response
     
     user_data = json.loads(cookie)
-    socketio.emit("colorchange", {"color": user_data['color']})
+    
+    socketio.emit("colorchange", {"color": user_data["color"]}, broadcast=True)    
     
     logger.info(f"Sent user_data to socket: {user_data}")
 
