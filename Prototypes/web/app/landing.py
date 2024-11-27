@@ -25,26 +25,6 @@ bp = Blueprint('landing', __name__)
 @bp.route('/')
 @limiter.limit("5 per minute")
 def redirect_front():
-    cookie = request.cookies.get("user_data")
-    
-    if not cookie:
-        new_uuid = str(uuid.uuid4())
-        r, g, b = random.randint(50, 180), random.randint(50, 180), random.randint(50, 180)
-
-        user_data = {"uuid": new_uuid, "color": f"#{r:02x}{g:02x}{b:02x}"}
-
-        response = make_response(redirect(url_for('front.front')))
-        response.set_cookie('user_data', json.dumps(user_data), max_age=3600)
-        return response
-    
-    user_data = json.loads(cookie)
-    
-    try:
-        logger.info("sending from landing page socket")
-        socketio.emit("colorchange", {"color": "#3F888F"})
-    except Exception as e:
-        logger.error(f"failed to emit socket {e}")
-
     return redirect(url_for('front.front'))
 
 

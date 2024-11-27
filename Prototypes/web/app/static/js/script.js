@@ -6,7 +6,16 @@ var socket = io("https://gruppe1.tech", {
 });
 
 socket.on('connect', function() {
-    socket.emit('my event', {data: 'socketio js connected using websockets'});
+    console.log("Connected")
+    socket.emit("ready_for_messages");
+});
+
+socket.on('cookie_update', function (data) {
+    console.log("new cookie generated for:", data.user_data);
+});
+
+socket.on('cookie_valid', function (data) {
+    console.log("cookie already exists", data.user_data);
 });
 
 socket.on('mqttsocket', function(data) {
@@ -16,6 +25,12 @@ socket.on('mqttsocket', function(data) {
 
 socket.on('test_event', function(data) {
     console.log("Test event received:", data);
+});
+
+socket.on('colorchange', function(data) {
+    console.log(`changed header color to ${data.color}`);
+    const header = document.getElementById('header');
+    header.style.backgroundColor = data.color;
 });
 
 socket.on('getlocation', function(data) {
@@ -45,11 +60,7 @@ socket.onAny((event, data) => {
     console.log(`Received event: ${event}`, data);
 });
 
-socket.on('colorchange', function(data) {
-    console.log(`changed header color to ${data.color}`);
-    const header = document.getElementById('header');
-    header.style.backgroundColor = data.color;
-});
+
 
 
 function showInfo(data) {
