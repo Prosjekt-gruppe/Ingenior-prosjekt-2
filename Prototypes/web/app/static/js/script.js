@@ -148,3 +148,33 @@ document.getElementById("deviceselectbutton").addEventListener("click", function
     }
 });
 
+document.getElementById("deviceselectbutton").addEventListener("click", function () {
+    const deviceWrapper = document.getElementById("devicewrapper");
+    deviceWrapper.style.display = deviceWrapper.style.display === "none" ? "block" : "none";
+  });
+  
+document.getElementById("savedevicebutton").addEventListener("click", function () {
+    const deviceIdInput = document.getElementById("deviceidinput").value.trim();
+
+    if (deviceIdInput === "") {
+        console.error("select id")
+        return;
+    }
+
+    document.getElementById("chosenDevice").textContent = `Chosen device: ${deviceIdInput}`;
+
+    localStorage.setItem("chosenDevice", deviceIdInput);
+
+    document.getElementById("devicewrapper").style.display = "none";
+    console.log(`device id set: ${deviceIdInput}`);
+});
+
+
+window.onload = function () {
+    const savedDeviceId = localStorage.getItem("chosenDevice");
+    if (savedDeviceId) {
+        document.getElementById("chosenDevice").textContent = `Chosen device: ${savedDeviceId}`;
+        document.getElementById("deviceidinput").value = savedDeviceId;
+    }
+};
+

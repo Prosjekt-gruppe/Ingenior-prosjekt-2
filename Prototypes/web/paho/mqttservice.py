@@ -42,7 +42,7 @@ def connect_error(data):
 @sio.on("strength")
 def handle_strength(data):
     logger.info("handle_strength triggered.")
-    #publish.single("devices/2/data", f"{data}", hostname="mqtt.eclipseprojects.io")
+
     dev = "devices/2/data"
     try:
         logger.info(f"sending to {dev} with data: {data}")

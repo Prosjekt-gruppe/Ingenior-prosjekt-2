@@ -7,18 +7,19 @@
 {% block inputdata %}
 
 <div class="inputcontainer">
-  <h2>Input data</h2>
-  <input type="text" id="strength" placeholder="Input Strength Value">
-  <button onclick="handlestrengthbutton()">Apply</button>
-
+  <h2 id="chosendevice">Chosen device: None</h2>
   <div id="devicecontainer">
     <button id="deviceselectbutton">Set</button>
     <div id="devicewrapper" style="display: none;">
       <input type="text" id="deviceidinput" placeholder="Enter device id">
       <button id="savedevicebutton">Save</button>
     </div>
-
   </div>
+
+  <h2>Input data</h2>
+  <input type="text" id="strength" placeholder="Input Strength Value">
+  <button onclick="handlestrengthbutton()">Apply</button>
+
 
 </div>
 
