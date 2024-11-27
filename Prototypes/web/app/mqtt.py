@@ -16,6 +16,16 @@ def find_poi(nfctagID):
         return res[0]["poiID"]
     else:
         return None
+    
+@bp.route('/test', methods=['GET'])
+def test_socketio():
+    try:
+        socketio.emit("test_event", {"data": "test from mqttpy"})
+        logger.info("test_event from mqtt.py")
+        return jsonify({"status": "success"}), 200
+    except Exception as e:
+        logger.error(f"failed socket test mqtt.py: {e}")
+        return jsonify({"status": "error"}), 500
 
 @bp.route('/', methods=['POST'])
 def getmqtt():

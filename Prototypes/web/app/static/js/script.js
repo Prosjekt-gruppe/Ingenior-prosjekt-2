@@ -14,6 +14,9 @@ socket.on('mqttsocket', function(data) {
     showInfo(data);
 });
 
+socket.on('test_event', function(data) {
+    console.log("Test event received:", data);
+});
 
 socket.on('getlocation', function(data) {
     const poi = data.poiID;
