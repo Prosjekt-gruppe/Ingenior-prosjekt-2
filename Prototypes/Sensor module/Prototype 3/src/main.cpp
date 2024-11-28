@@ -1,132 +1,103 @@
-#include <Adafruit_VL53L0X.h>
-#include <Wire.h>
-#include "mqtt_client.h"
-
-
-
-#define XSTR(x) #x
-#define STR(x) XSTR(x)
-
+#include <Arduino.h>
+#include <WiFi.h>
+#include <SPI.h>
 #include <WebSocketsClient.h>  // include before MQTTPubSubClient.h
 #include <MQTTPubSubClient.h>
 
-esp_mqtt_client_config_t mqtt_cfg;
-esp_mqtt_client_handle_t client;
 
-const char* WIFI_PASSWD = STR(WIFI_PASSWD);
-const char* WIFI_SSID = STR(WIFI_SSID);
+// Macro definitions for string conversion
+#define XSTR(x) #x
+#define STR(x) XSTR(x)
 
-const char* MQTT_HOSTNAME = "mqtt.gruppe1.tech";
+// MQTT Configuration
+const char* MQTT_PASSWORD = STR(MQTT_PASSWD);
+const char* MQTT_USER = STR(MQTT_USERNAME);
 
-//const char* MQTT_HOST = STR(MQTT_HOST);
-const uint32_t PORT_WITHOUT_ENC = (uint32_t)STR(MQTT_PORT);
+// Wi-Fi Configuration
+const char* ssid = "NTNU-IOT";
+const char* pass = "";
 
-const char* MQTT_USERNAME = STR(MQTT_USERNAME);
-const char* MQTT_PASSWD = STR(MQTT_PASSWD);
-
-
-/*-------------------------------*/
-/*--------Distance Sensor--------*/
-/*-------------------------------*/
-
-Adafruit_VL53L0X lox = Adafruit_VL53L0X();
-const int loxSDA = 8;   //GPIO for SDA
-const int loxSCL = 9;   //GPIO for SCL
+WebSocketsClient client;
+MQTTPubSubClient mqtt;
 
 
-// Initialization of distance sensor
-void loxSetup(){
-    if (!lox.begin()) {
-        Serial.println("Klarte ikke å starte VL53L0X!");
-        while (1); // Stopper hvis sensoren ikke kan initialiseres
-        }
-        Serial.println("Sensor initialisert og klar.");
-}
-
-
-
-/*-------------------------------*/
-/*--------Vibration Motor--------*/
-/*-------------------------------*/
-
-const int motorPin = 1; // GPIO for Vibration motor 
-const int pwmChannel = 0;   // PWM channel
-const int pwmFrequency = 1000;  // PWM frequency
-const int pwmResolution = 8;    // PWM resolution (8 bits = 0-255 duty cycle)
-
-// Setup for PWM
-void pwmSetup(){
-    ledcAttachPin(motorPin, pwmChannel);
-    ledcSetup(pwmChannel, pwmFrequency, pwmResolution);
-}
-
-// Function to set vibration intensity based on distance
-void setIntensity(int distance){
-    int intensity = map(distance, 300, 0, 0, 255);
-    intensity = constrain(intensity,0,255);
-
-    ledcWrite(pwmChannel, intensity);
-
-    Serial.print("Distance (mm): ");
-    Serial.print(distance);
-    Serial.print("  Vibration Intensity: ");
-    Serial.println(intensity); 
-}
-
-
-
-/*----------------------------*/
-/*-----------ALARM------------*/
-/*----------------------------*/
-
-// Function to activate alarm if distance is below threshold
-void alarm() {
-  VL53L0X_RangingMeasurementData_t measure;
-
-  // Measurement function
-  lox.rangingTest(&measure, false);
-
-  // Check if the measurement is valid
-  if (measure.RangeStatus != 4) { // 4 indicates an invalid measurement
-    int distance = measure.RangeMilliMeter;
-
-    // Trigger vibration motor if distance is below 300 mm
-    if (distance < 300) {
-      setIntensity(distance);
-    } else {
-      ledcWrite(pwmChannel,0); // Turn off the vibration motor
+// Function to handle Wi-Fi and MQTT connections
+void connect() {
+connect_to_wifi:
+    Serial.print("connecting to wifi...");
+    while (WiFi.status() != WL_CONNECTED) {
+        Serial.print(".");
+        delay(1000);
     }
-  } else {
-    Serial.println("Out of reach");
-    ledcWrite(pwmChannel,0); // Ensure motor is off if measurement is out of range
-  }
+    Serial.println(" connected!");
+
+connect_to_host:
+    Serial.println("connecting to host...");
+    client.disconnect();
+    client.begin("mqtt.gruppe1.tech", 9002, "/", "mqtt");  // "mqtt" is required
+    client.setReconnectInterval(2000);
+
+    Serial.print("connecting to mqtt broker...");
+    while (!mqtt.connect("esp32-client", MQTT_USER, MQTT_PASSWORD)) {
+        Serial.print(".");
+        delay(1000);
+        if (WiFi.status() != WL_CONNECTED) {
+            Serial.println("WiFi disconnected");
+            goto connect_to_wifi;
+        }
+        if (!client.isConnected()) {
+            Serial.println("WebSocketsClient disconnected");
+            goto connect_to_host;
+        }
+    }
+    Serial.println(" connected!");
 }
-
-
-
-/*--------------------*/
-/*--------TEST--------*/
-/*--------------------*/
-
-//////////Empty/////////
-
-
 
 void setup() {
-  Serial.begin(115200);
-  pinMode(motorPin, OUTPUT); // Pinout for Vibration motor
+    // Initialize serial communication
+    Serial.begin(115200);
+    Serial.println("ESP booted up");
+    // Begin Wi-Fi connection
+    WiFi.begin(ssid, pass);
 
-  // Start I2C on specific GPIO pins
-  Wire.begin(loxSDA, loxSCL);
+    // Initialize MQTT client
+    mqtt.begin(client);
 
-  // Setup for PWM 
-  pwmSetup();
+    // Connect to Wi-Fi, host, and MQTT broker
+    connect();
 
-  // Setup for distance sensor
-  loxSetup();
+    // Subscribe to MQTT topics (commented out)
+    // mqtt.subscribe([](const String& topic, const String& payload, const size_t size) {
+    //     Serial.println("mqtt received: " + topic + " - " + payload);
+    // });
+
+/*
+    mqtt.subscribe("devices/2/data", [](const String& payload, const size_t size) {
+         Serial.print("devices/2/data");
+         Serial.println(payload);
+    });
+
+*/
 }
 
 void loop() {
-    alarm();
-    delay(50); // Wait to feel the effect  
+    // Update MQTT client regularly
+    mqtt.update();
+
+    // Reconnect if MQTT client is disconnected
+    if (!mqtt.isConnected()) {
+        connect();
+    }
+
+    // Subscribe a message to MQTT broker at regular intervals
+    static uint32_t prevPublishTime = 0;
+    if (millis() - prevPublishTime >= 1000) {
+        prevPublishTime = millis();
+         mqtt.subscribe("devices/2/data", [](const String& payload, const size_t size) {
+         Serial.print("devices/2/data");
+         Serial.println(payload);
+    });
+    }
+    
+
 }
