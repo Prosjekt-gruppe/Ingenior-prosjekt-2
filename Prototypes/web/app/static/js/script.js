@@ -122,8 +122,8 @@ function handlepoi(poi, deviceID) {
         <strong>Floor:</strong> ${poi.floorName}<br>
         <strong>Building:</strong> ${poi.buildingName}
     `;
-    poiList.appendChild(poiItem);
 
+    poiList.appendChild(poiItem);
 
     fetch('/mqtt/returndata', {
         method: 'POST',
