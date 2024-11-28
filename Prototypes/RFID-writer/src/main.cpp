@@ -11,7 +11,7 @@
 
 // MQTT Configuration
 const char* MQTT_HOSTNAME = "mqtt.gruppe1.tech";
-const char* MQTT_TOPIC = "devices/1/message"; // Define the topic to publish to
+const char* MQTT_TOPIC = "devices/1/location"; // Define the topic to publish to
 const int MQTT_PORT1 = 9002;
 const char* MQTT_PASSWORD = STR(MQTT_PASSWD);
 const char* MQTT_USER = STR(MQTT_USERNAME);
@@ -106,11 +106,11 @@ void loop() {
     //}
 
     // Publish a message to MQTT broker at regular intervals
-    static uint32_t prevPublishTime = 0;
-    if (millis() - prevPublishTime >= 1000) {
-        prevPublishTime = millis();
-        mqtt.publish(MQTT_TOPIC, "NFC tag is connected");
-    }
+    //static uint32_t prevPublishTime = 0;
+    //if (millis() - prevPublishTime >= 1000) {
+    //    prevPublishTime = millis();
+    //    mqtt.publish(MQTT_TOPIC, "NFC tag is connected");
+    //}
 
     // Non-blocking delay for card reading
     static uint32_t lastCardReadTime = 0;
