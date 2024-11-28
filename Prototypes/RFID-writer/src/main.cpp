@@ -10,9 +10,9 @@
 #define STR(x) XSTR(x)
 
 // MQTT Configuration
-const char* MQTT_HOSTNAME = STR(MQTT_HOST);
-const char* MQTT_TOPIC = "test/hello"; // Define the topic to publish to
-const char* MQTT_PORT1 = STR(MQTT_PORT);
+const char* MQTT_HOSTNAME = "mqtt.gruppe1.tech";
+const char* MQTT_TOPIC = "devices/1/message"; // Define the topic to publish to
+const int MQTT_PORT1 = 9002;
 const char* MQTT_PASSWORD = STR(MQTT_PASSWD);
 const char* MQTT_USER = STR(MQTT_USERNAME);
 
@@ -25,11 +25,11 @@ MQTTPubSubClient mqtt;
 
 // Pin Definitions for MFRC522 (RFID Reader)
 // Set up the pins
-#define RST_PIN         39    // RST pin connected to GPIO39
-#define SS_PIN          14    // SS (SDA) pin connected to GPIO14
-#define MOSI_PIN        16    // MOSI pin connected to GPIO16
-#define MISO_PIN        2     // MISO pin connected to GPIO2
-#define SCK_PIN         1     // SCK pin connected to GPIO1
+#define RST_PIN         13    // RST pin connected to GPIO39
+#define SS_PIN          9    // SS (SDA) pin connected to GPIO14
+#define MOSI_PIN        11    // MOSI pin connected to GPIO16
+#define MISO_PIN        12     // MISO pin connected to GPIO2
+#define SCK_PIN         10     // SCK pin connected to GPIO1
 
 // Create MFRC522 instance
 MFRC522 mfrc522(SS_PIN, RST_PIN);
@@ -101,15 +101,15 @@ void loop() {
     mqtt.update();
 
     // Reconnect if MQTT client is disconnected
-    if (!mqtt.isConnected()) {
-        connect();
-    }
+    //if (!mqtt.isConnected()) {
+    //    connect();
+    //}
 
     // Publish a message to MQTT broker at regular intervals
     static uint32_t prevPublishTime = 0;
     if (millis() - prevPublishTime >= 1000) {
         prevPublishTime = millis();
-        mqtt.publish("devices/2/data", "world");
+        mqtt.publish(MQTT_TOPIC, "NFC tag is connected");
     }
 
     // Non-blocking delay for card reading
@@ -120,6 +120,7 @@ void loop() {
     if (millis() - lastCardReadTime >= cardReadInterval) {
         // Check for new RFID card presence
         if (mfrc522.PICC_IsNewCardPresent() && mfrc522.PICC_ReadCardSerial()) {
+            Serial.println(F("\n**Start Reading**"));
             // Update the last card read time
             lastCardReadTime = millis();
 
@@ -152,7 +153,7 @@ void loop() {
 
             // Now you can use uidString as needed
             // For example, publish it via MQTT
-            mqtt.publish("devices/2/data", uidString);
+            mqtt.publish(MQTT_TOPIC, uidString);
 
             Serial.println(F("\n**End Reading**\n"));
 

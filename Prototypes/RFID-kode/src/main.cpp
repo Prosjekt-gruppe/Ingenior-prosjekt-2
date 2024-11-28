@@ -4,11 +4,11 @@
 
 // Define your SPI and MFRC522 pins
 //Disse må nok endres før koden passer perfekt
-#define RST_PIN         4    // RST pin connected to GPIO4
-#define SS_PIN          5    // SS (SDA) pin connected to GPIO5
-#define MOSI_PIN        23   // MOSI pin connected to GPIO23
-#define MISO_PIN        19   // MISO pin connected to GPIO19
-#define SCK_PIN         18   // SCK pin connected to GPIO18
+#define RST_PIN         13    // RST pin connected to GPIO39
+#define SS_PIN          9    // SS (SDA) pin connected to GPIO14
+#define MOSI_PIN        11    // MOSI pin connected to GPIO16
+#define MISO_PIN        12     // MISO pin connected to GPIO2
+#define SCK_PIN         10     // SCK pin connected to GPIO1
 
 MFRC522 mfrc522(SS_PIN, RST_PIN);  // Create MFRC522 instance
 

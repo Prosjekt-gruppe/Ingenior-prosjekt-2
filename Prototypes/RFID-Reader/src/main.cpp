@@ -52,7 +52,7 @@ connect_to_host:
     client.setReconnectInterval(2000);
 
     Serial.print("connecting to mqtt broker...");
-    while (!mqtt.connect("esp32-client", "midjo", "MidjosLambs")) {
+    while (!mqtt.connect("esp32-client", "heyou", "MidjosLambs")) {
         Serial.print(".");
         delay(1000);
         if (WiFi.status() != WL_CONNECTED) {
