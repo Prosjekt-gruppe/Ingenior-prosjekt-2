@@ -83,8 +83,6 @@ void setup() {
 
 
 void loop() {
-
-  //Update the mqtt
   mqtt.update();
 
 //WORK IN PROGRESS HERE!!!
