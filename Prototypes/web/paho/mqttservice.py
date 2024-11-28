@@ -93,6 +93,8 @@ def location_handler(client, msg, deviceID):
         'nfctagID': msg.payload.decode(),
         'devID': deviceID
     }
+
+    logger.info(f"received payload: {payload}")
     
     try:
         response = requests.post("http://127.0.0.1:8000/mqtt/location", json=payload)
