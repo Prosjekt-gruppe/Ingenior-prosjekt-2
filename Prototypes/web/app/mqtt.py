@@ -9,7 +9,7 @@ db = TinyDB('db/nfctags.json')
 
 
 def find_poi(nfctagID):
-    res = db.search(Query().nfctagID == nfctagID)
+    res = db.search(Query().nfctagID == str(nfctagID))
     logger.info(f"From find_poi: got {res}")
     
     if res:
@@ -49,7 +49,7 @@ def handle_locations():
     data = request.get_json()
     #topic = data.get('topic')
     device = data.get('devID')
-    nfctagID = data.get('nfctagID')
+    nfctagID = str(data.get('nfctagID'))
     
     logger.info(f"Received POST on /mqtt/location, from device: {device}, with nfctagID: {nfctagID}")
     
