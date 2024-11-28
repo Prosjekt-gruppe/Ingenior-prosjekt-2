@@ -74,7 +74,7 @@ void setup() {
     WiFi.begin(ssid, pass);
 
     // Initialize SPI bus
-    SPI.begin();
+    SPI.begin(SCK_PIN, MISO_PIN, MOSI_PIN, SS_PIN);
 
     // Initialize MFRC522 RFID reader
     mfrc522.PCD_Init();
@@ -119,47 +119,51 @@ void loop() {
     // Check if it's time to read the card again
     if (millis() - lastCardReadTime >= cardReadInterval) {
         // Check for new RFID card presence
-        if (mfrc522.PICC_IsNewCardPresent() && mfrc522.PICC_ReadCardSerial()) {
-            Serial.println(F("\n**Start Reading**"));
-            // Update the last card read time
-            lastCardReadTime = millis();
-
-            // Card detected
-            Serial.println(F("**Card Detected:**"));
-
-            // Dump details about the card
-            mfrc522.PICC_DumpDetailsToSerial(&(mfrc522.uid));
-
-            // Setup a string to hold the UID of the card
-            String uidString = "";
-
-            // Print Card UID and build string
-            Serial.print(F("Card UID:"));
-            for (byte i = 0; i < mfrc522.uid.size; i++) {
-                // Print each byte to the serial monitor
-                Serial.print(mfrc522.uid.uidByte[i] < 0x10 ? " 0" : " ");
-                Serial.print(mfrc522.uid.uidByte[i], HEX);
-
-                // Add each byte to the string
-                if (mfrc522.uid.uidByte[i] < 0x10) {
-                    uidString += "0";
-                }
-                uidString += String(mfrc522.uid.uidByte[i], HEX);
-            }
-            Serial.println();
-
-            // Convert the UID to uppercase
-            uidString.toUpperCase();
-
-            // Now you can use uidString as needed
-            // For example, publish it via MQTT
-            mqtt.publish(MQTT_TOPIC, uidString);
-
-            Serial.println(F("\n**End Reading**\n"));
-
-            // Halt PICC and stop encryption on PCD
-            mfrc522.PICC_HaltA();
-            mfrc522.PCD_StopCrypto1();
+        if ( ! mfrc522.PICC_IsNewCardPresent()){
+            return;
         }
+        if ( ! mfrc522.PICC_ReadCardSerial()){
+            return;
+        }
+        Serial.println(F("\n**Start Reading**"));
+        // Update the last card read time
+        lastCardReadTime = millis();
+
+        // Card detected
+        Serial.println(F("**Card Detected:**"));
+
+        // Dump details about the card
+        mfrc522.PICC_DumpDetailsToSerial(&(mfrc522.uid));
+
+        // Setup a string to hold the UID of the card
+        String uidString = "";
+
+        // Print Card UID and build string
+        Serial.print(F("Card UID:"));
+        for (byte i = 0; i < mfrc522.uid.size; i++) {
+            // Print each byte to the serial monitor
+            Serial.print(mfrc522.uid.uidByte[i] < 0x10 ? " 0" : " ");
+            Serial.print(mfrc522.uid.uidByte[i], HEX);
+
+            // Add each byte to the string
+            if (mfrc522.uid.uidByte[i] < 0x10) {
+                uidString += "0";
+            }
+            uidString += String(mfrc522.uid.uidByte[i], HEX);
+        }
+        Serial.println();
+
+        // Convert the UID to uppercase
+        uidString.toUpperCase();
+
+        // Now you can use uidString as needed
+        // For example, publish it via MQTT
+        mqtt.publish(MQTT_TOPIC, uidString);
+
+        Serial.println(F("\n**End Reading**\n"));
+
+        // Halt PICC and stop encryption on PCD
+        mfrc522.PICC_HaltA();
+        mfrc522.PCD_StopCrypto1();
     }
 }
