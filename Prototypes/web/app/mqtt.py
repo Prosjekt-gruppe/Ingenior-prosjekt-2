@@ -9,7 +9,7 @@ db = TinyDB('db/nfctags.json')
 
 
 def find_poi(nfctagID):
-    res = db.search(Query().nfctagID == str(nfctagID))
+    res = db.search(Query().nfctagID == nfctagID)
     logger.info(f"From find_poi: got {res}")
     
     if res:

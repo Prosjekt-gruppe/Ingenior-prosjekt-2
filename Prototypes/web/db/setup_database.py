@@ -9,7 +9,7 @@ if not os.path.exists(nfctag_db_path):
     os.makedirs(os.path.dirname(nfctag_db_path), exist_ok=True)
     db = TinyDB(nfctag_db_path)
     db.insert({"nfctagID": "nfctag1", "poiID": 303578})
-    db.insert({"nfctagID": "nfctag2", "poiID": 36148})
+    db.insert({"nfctagID": "33F55B03", "poiID": 36148})
 else:
     print("nfctagdb already exists")
 
