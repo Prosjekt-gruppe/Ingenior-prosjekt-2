@@ -22,7 +22,7 @@ def find_audio_file_path(poiID):
 
     res = db.search(Query().poiID == poiID)
 
-    logger.info(f"from find_audio_filename: got {res}")
+    logger.info(f"from find_audio_filename: got {res[0]["audio_filename"]}")
 
     if res:
         audio_file_path = os.path.join(audiopath, res[0]["audio_filename"])
@@ -56,7 +56,7 @@ def check_cookie():
 
 @socketio.on('request_audio')
 def handle_audio_request(data):
-    logger.info("Starting audio stream")
+    logger.info("initializing audio request")
 
     poiId = int(data.get('poiId'))
 
@@ -71,6 +71,7 @@ def handle_audio_request(data):
         return socketio.emit('error', {'message': 'no audio_file_path given'})
 
     audiostream = AudioStream(audio_file_path)
+    logger.info(f"Started audio stream with filepath: {audio_file_path}")
 
     for chunk in audiostream.stream_chunks():
         try:
