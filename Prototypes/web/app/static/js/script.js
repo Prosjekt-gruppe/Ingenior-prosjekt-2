@@ -185,8 +185,8 @@ document.getElementById("savedevicebutton").addEventListener("click", function (
 window.onload = function () {
     const savedeviceid = localStorage.getItem("chosendevice");
     if (savedeviceid) {
-        document.getElementById("chosendevice").textContent = `Chosen device: ${savedDeviceId}`;
-        document.getElementById("deviceidinput").value = savedDeviceId;
+        document.getElementById("chosendevice").textContent = `Chosen device: ${savedeviceid}`;
+        document.getElementById("deviceidinput").value = savedeviceid;
     }
 };
 
