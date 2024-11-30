@@ -70,8 +70,8 @@ def handle_audio_request(data):
         return socketio.emit('error', {'message': 'no audio_file_path given'})
 
     audiostream = AudioStream(audio_file_path)
-    logger.info(f"Started audio stream with filepath: {audio_file_path}")
 
+    logger.info(f"Started audio stream with filepath: {audio_file_path}")
     for chunk in audiostream.stream_chunks():
         try:
             socketio.emit('audio_chunk', chunk)
