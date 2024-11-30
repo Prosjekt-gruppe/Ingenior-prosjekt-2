@@ -6,7 +6,7 @@ After=network.target
 User=gruppe1
 Group=www-data
 WorkingDirectory=/srv/
-Environment="PATH=/srv/venv/"
+Environment="PATH=/srv/venv/bin:/usr/bin:/usr/local/bin"
 ExecStart=/srv/venv/bin/gunicorn --worker-class eventlet --bind 127.0.0.1:8000 production:app
 ExecReload=/bin/kill -s HUP $MAINPID
 KillMode=mixed
