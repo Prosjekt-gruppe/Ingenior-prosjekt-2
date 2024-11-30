@@ -40,7 +40,6 @@ h1, h2 {
     font-size: 16px;
     padding: 3px 15px;
     text-align: center;
-    width: 216;
     border: 1px solid #ccc;
     border-radius: 2px;
     max-width: 50%;
@@ -83,8 +82,9 @@ input#strength {
     max-width: 100%;
 }
 
+
 #devicewrapper {
-    visibility: hidden;
+    display: none;
     height: 0;
     margin-top: 10px;
     overflow: hidden;
@@ -92,7 +92,6 @@ input#strength {
 }
 
 #devicewrapper.visible {
-    visibility: visible;
     height: auto;
     display: flex;
     flex-direction: row;

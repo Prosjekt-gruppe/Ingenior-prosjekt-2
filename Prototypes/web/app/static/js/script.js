@@ -172,6 +172,8 @@ document.getElementById("deviceselectbutton").addEventListener("click", function
     }
 });
 
+
+
 function savedevice() {
     const deviceidinput = document.getElementById("deviceidinput").value.trim();
 
