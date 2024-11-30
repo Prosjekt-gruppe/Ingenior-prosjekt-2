@@ -43,10 +43,19 @@ def connect_error(data):
 def handle_strength(data):
     logger.info("handle_strength triggered.")
 
-    dev = "devices/2/data"
+    deviceid = data.get('device')
+
+    if not deviceid:
+        logger.info("Device ID not existing")
+        return
+    
+    data.pop("deviceID", None)
+
+    #dev = "devices/2/data"
     try:
-        logger.info(f"sending to {dev} with data: {data}")
-        client.publish(dev, f"{data}")
+        payload = json.dumps(data)
+        client.publish(f"devices/{deviceid}/data", payload=payload)
+        logger.info(f"sending to {deviceid} with payload: {payload}")
     except:
         exc = traceback.print_exc()
         logger.info(f"!Sednging failed! Traceback: {exc}")

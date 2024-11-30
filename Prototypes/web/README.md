@@ -13,8 +13,12 @@
 - [x] MQTT-device receiving input-values
 - [x] Favicon
 - [ ] Protect mqtt messages with ssl
-- [ ] Setup API for devices
-- [ ] Setup db
-- [ ] Integrate mazemap
-- [ ] Cookies
-- [ ] Make site nicer
+- [x] Setup API for devices
+- [x] Setup db
+- [x] Integrate mazemap
+- [x] Cookies
+- [x] Make site nicer
+- [x] Implement audio response
+
+# For next prototype:
+Expand multi-user functionality and improve security. Also cleanup of code and improve loggin-implementation.

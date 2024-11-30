@@ -102,16 +102,23 @@ function showInfo(data) {
 
 function handlestrengthbutton() {
     const collectedvalue = document.getElementById("strength").value;
+    const savedeviceid = localStorage.getItem("chosendevice");
+
 
     if (isNaN(parseInt(collectedvalue)) || collectedvalue === "") {
         console.log("Please input valid numeric value");
         return;
     }
 
+    if (!savedeviceid) {
+        console.log("no savedevice selected");
+        return;
+    }
+
     fetch('/front/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({strength: collectedvalue})
+        body: JSON.stringify({strength: collectedvalue, device: savedeviceid})
     })
     .then(response => response.json())
     .then(data => console.log(data))
@@ -176,8 +183,8 @@ document.getElementById("savedevicebutton").addEventListener("click", function (
 });
 
 window.onload = function () {
-    const savedDeviceId = localStorage.getItem("chosendevice");
-    if (savedDeviceId) {
+    const savedeviceid = localStorage.getItem("chosendevice");
+    if (savedeviceid) {
         document.getElementById("chosendevice").textContent = `Chosen device: ${savedDeviceId}`;
         document.getElementById("deviceidinput").value = savedDeviceId;
     }
