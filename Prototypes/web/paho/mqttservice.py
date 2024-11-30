@@ -49,7 +49,7 @@ def handle_strength(data):
         logger.info("Device ID not existing")
         return
     
-    data.pop("deviceID", None)
+    data.pop("device", None)
 
     #dev = "devices/2/data"
     try:
@@ -71,7 +71,7 @@ def return_location(data):
         logger.info("Device ID not existing")
         return
     
-    data.pop("device", None)
+    data.pop("deviceID", None)
 
     try:
         payload = json.dumps(data)
