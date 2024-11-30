@@ -71,7 +71,7 @@ def return_location(data):
         logger.info("Device ID not existing")
         return
     
-    data.pop("deviceID", None)
+    data.pop("device", None)
 
     try:
         payload = json.dumps(data)

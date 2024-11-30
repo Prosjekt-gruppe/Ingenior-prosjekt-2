@@ -163,10 +163,16 @@ function handlepoi(poi, deviceID) {
 
 document.getElementById("deviceselectbutton").addEventListener("click", function () {
     const devicewrapper = document.getElementById("devicewrapper");
+    const deviceidinput = document.getElementById("deviceidinput");
+
     devicewrapper.classList.toggle("visible");
+
+    if (devicewrapper.classList.contains("visible")) {
+        deviceidinput.focus();
+    }
 });
 
-document.getElementById("savedevicebutton").addEventListener("click", function () {
+function savedevice() {
     const deviceidinput = document.getElementById("deviceidinput").value.trim();
 
     if (deviceidinput === "") {
@@ -180,6 +186,17 @@ document.getElementById("savedevicebutton").addEventListener("click", function (
 
     document.getElementById("devicewrapper").classList.remove("visible");
     console.log(`device id set: ${deviceidinput}`);
+}
+
+document.getElementById("savedevicebutton").addEventListener("click", function () {
+    savedevice();
+});
+
+document.getElementById("deviceidinput").addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        savedevice();
+    }
 });
 
 window.onload = function () {
@@ -190,6 +207,12 @@ window.onload = function () {
     }
 };
 
-
+document.getElementById("strength").addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        handlestrengthbutton();
+        this.blur();
+    }
+});
 
 
