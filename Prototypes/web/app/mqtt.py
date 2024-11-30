@@ -4,7 +4,7 @@ from app import socketio
 from tinydb import TinyDB, Query
 bp = Blueprint('mqtt', __name__, url_prefix='/mqtt')
 
-db = TinyDB('db/nfctags.json')
+db = TinyDB('/srv/db/nfctags.json')
 
 
 

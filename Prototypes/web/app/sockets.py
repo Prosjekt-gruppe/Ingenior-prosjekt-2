@@ -11,7 +11,7 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for, jsonify, make_response
 )
 
-db = TinyDB('db/nfctags.json')
+db = TinyDB('/srv/db/nfctags.json')
 
 audiopath = "/srv/audio/"
 

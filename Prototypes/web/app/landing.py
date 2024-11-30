@@ -15,7 +15,7 @@ from flask import (
 from app import socketio, limiter
 
 # db
-db = TinyDB('uuids.json')
+db = TinyDB('/srv/db/uuids.json')
 UUID = Query()
 
 # blueprints

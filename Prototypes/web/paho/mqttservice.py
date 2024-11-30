@@ -8,7 +8,7 @@ import logging
 import traceback
 import json
 
-load_dotenv('../.env')
+load_dotenv('/srv/.env')
 
 log_dir = "/var/log/pymqtt"
 os.makedirs(log_dir, exist_ok=True)
