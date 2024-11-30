@@ -10,10 +10,13 @@ if not os.path.exists(nfctag_db_path):
     db = TinyDB(nfctag_db_path)
     db.insert({"nfctagID": "nfctag1", "poiID": 303578, "audio_filename": "someplace.opus"})
     db.insert({"nfctagID": "33F55B03", "poiID": 36148, "audio_filename": "bober.opus"})
+    db.insert({"nfctagID": "32F55B03", "poiID": 1000459343, "audio_filename": "tapirbygget.opus"})
 else:
     print("nfctagdb already exists")
 
-
+#https://use.mazemap.com/#v=1&campusid=1&zlevel=2&center=10.405620,63.418025&zoom=19&sharepoitype=poi&sharepoi=1000459343
+#
+#https://use.mazemap.com/#v=1&campusid=1&zlevel=3&center=10.405620,63.418025&zoom=19&sharepoitype=poi&sharepoi=36148
 uuid_db_path = os.path.join(base_dir, "uuids.json")
 
 if not os.path.exists(uuid_db_path):

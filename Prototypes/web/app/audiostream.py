@@ -3,6 +3,7 @@ from io import BytesIO
 import time
 from utils.logging import logger
 
+# TODO: implement streaming
 class AudioStream:
     def __init__(self, file_path, chunklength=0.05):
         self.filepath = file_path
