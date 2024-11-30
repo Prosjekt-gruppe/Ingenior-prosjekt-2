@@ -80,8 +80,9 @@ function startWebSocket() {
     });
 
     // handle audio
-    socket.on('audio_chunk', function(chunk) {
-        audio.addchunk(chunk)
+    socket.on('audio_file', function(audiofile) {
+        audio.playfile(audiofile)
+        console.log("Playing audio file")
     });
 
     socket.onAny((event, data) => {

@@ -42,4 +42,16 @@ export class AudioHandler {
         this.audioqueue = [];
         this.isplaying = false;
     }
+    
+    playfile(arraybuffer) {
+        this.audiocontext.decodeAudioData(arraybuffer, (buffer) => {
+            const source = this.audiocontext.createBufferSource();
+            source.buffer = buffer;
+            source.connect(this.audiocontext.destination);
+            source.start();
+            console.log("playing audio");
+        }, (error) => {
+            console.error("failed to decode exit with error:", error);
+        });
+    }
 }

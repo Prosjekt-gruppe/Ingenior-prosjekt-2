@@ -61,3 +61,14 @@ class AudioStream:
                 break
             logger.info(f"AudioStream: yielding chunk of size {len(chunk)} bytes")
             yield chunk
+
+    def simple_send(self):
+        logger.info("AudioStream: sending simple file")
+        try:
+            with open(self.filepath, "rb") as f:
+                opusfiledata = f.read()
+                logger.info(f"AudioStream: Read {len(opusfiledata)} bytes from {self.filepath}")
+                return opusfiledata
+        except Exception as e:
+            logger.error(f"AudioStream: failed to send simple file: {e}")
+            raise
