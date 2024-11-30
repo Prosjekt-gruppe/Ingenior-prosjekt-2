@@ -74,7 +74,7 @@ def handle_audio_request(data):
     logger.info(f"Started audio stream with filepath: {audio_file_path}")
 
     try:
-        audiofile = audiostream.simple_send(audio_file_path)
+        audiofile = audiostream.simple_send()
         socketio.emit('audio_file', audiofile)
     except Exception as e:
         logger.error(f"audio stream fail, error message: {e}")
