@@ -22,8 +22,7 @@ def find_audio_file_path(poiID):
 
     res = db.search(Query().poiID == poiID)
 
-    logger.info(f"from find_audio_filename: got {res[0]["audio_filename"]}")
-
+    logger.info("from find_audio_filename: got {}".format(res[0]["audio_filename"]))
     if res:
         audio_file_path = os.path.join(audiopath, res[0]["audio_filename"])
         return audio_file_path
