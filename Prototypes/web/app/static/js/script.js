@@ -198,6 +198,8 @@ document.getElementById("deviceidinput").addEventListener("keydown", function(ev
     if (event.key === "Enter") {
         event.preventDefault();
         savedevice();
+        const strengthinput = document.getElementById("strength");
+        strengthinput.focus();
     }
 });
 
