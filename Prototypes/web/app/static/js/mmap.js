@@ -2,8 +2,6 @@
 
 
 export class MazeMap {
-    
-    
     static async callPOI(poiID) {        
         try {
             const poi = await Mazemap.Data.getPoi(poiID);

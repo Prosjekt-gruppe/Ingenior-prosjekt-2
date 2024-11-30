@@ -1,4 +1,10 @@
 import { MazeMap } from './mmap.js';
+import { AudioHandler } from './audio.js';
+
+
+const audio = new AudioHandler();
+let socket;
+
 
 fetch('/set_cookie')
     .then(response => {
@@ -12,7 +18,7 @@ fetch('/set_cookie')
     .catch(error => console.error("Error setting cookie:", error));
 
 function startWebSocket() {
-    const socket = io("https://gruppe1.tech", {
+    socket = io("https://gruppe1.tech", {
         path: "/socket.io/",
         transports: ["websocket"],
     });
@@ -73,12 +79,16 @@ function startWebSocket() {
         console.log("Another test from landing.py", data);
     });
 
+    // handle audio
+    socket.on('audio_chunk', function(chunk) {
+        audio.addchunk(chunk)
+    });
+
     socket.onAny((event, data) => {
         console.log(`Received event: ${event}`, data);
     });
 }
     
-
 function showInfo(data) {
     const mqttList = document.getElementById("mqtt-data");
 
@@ -125,6 +135,10 @@ function handlepoi(poi, deviceID) {
 
     poiList.appendChild(poiItem);
 
+    audio.clearqueue();
+
+    socket.emit('request_audio', { poiId: poi.poiId });
+
     fetch('/mqtt/returndata', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -167,3 +181,7 @@ window.onload = function () {
         document.getElementById("deviceidinput").value = savedDeviceId;
     }
 };
+
+
+
+

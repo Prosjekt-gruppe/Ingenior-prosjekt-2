@@ -24,6 +24,7 @@ numpy==2.1.2
 ordered-set==4.1.0
 packaging==24.1
 paho-mqtt==2.1.0
+pydub==0.25.1
 Pygments==2.18.0
 python-dotenv==1.0.1
 python-engineio==4.10.1
