@@ -14,16 +14,26 @@ class AudioStream:
 
     def init_stream(self):
         logger.info("AudioStream: Started init_stream")
-        #self.wav_file = wave.open(self.filepath, 'rb')
-        with open(self.filepath, "rb") as f:
-            opusfiledata = f.read()
+        try:
+            with open(self.filepath, "rb") as f:
+                opusfiledata = f.read()
+                logger.info(f"AudioStream: Read {len(opusfiledata)} bytes from {self.filepath}")
 
-        opus_data = BytesIO(opusfiledata)
-        
-        self.samples = AudioSegment.from_file(opus_data, codec="opus")
-        #self.samplerate = self.samples.frame_rate
-        self.chunksize = int(self.chunklength * 1000)
-        self.position = 0
+            opus_data = BytesIO(opusfiledata)
+            logger.info("AudioStream: Created BytesIO object")
+
+            # Prøv å dekode filen med AudioSegment
+            self.samples = AudioSegment.from_file(opus_data, codec="opus")
+            logger.info("AudioStream: Successfully loaded AudioSegment")
+
+            # Sett opp chunksize og startposisjon
+            self.chunksize = int(self.chunklength * 1000)  # Millisekunder
+            self.position = 0
+            logger.info(f"AudioStream: Initialized with chunksize={self.chunksize}")
+
+        except Exception as e:
+            logger.error(f"AudioStream: Failed to initialize stream. Error: {e}")
+            raise
 
 
     def get_next_chunk(self):
