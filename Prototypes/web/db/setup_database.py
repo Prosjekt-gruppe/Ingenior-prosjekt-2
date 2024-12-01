@@ -10,8 +10,8 @@ if not os.path.exists(nfctag_db_path):
     db = TinyDB(nfctag_db_path)
     db.insert({"nfctagID": "nfctag1", "poiID": 303578, "audio_filename": "someplace.opus"})
     db.insert({"nfctagID": "33F55B03", "poiID": 36148, "audio_filename": "bober.opus"})
-    db.insert({"nfctagID": "32F55B03", "poiID": 1000459343, "audio_filename": "tapirbygget.opus"})
-    db.insert({"nfctagID": "31F55B03", "poiID": 1000319015, "audio_filename": "sentralbygget.opus"})
+    db.insert({"nfctagID": "83C7E411", "poiID": 1000459343, "audio_filename": "tapirbygget.opus"})
+    db.insert({"nfctagID": "93C0930D", "poiID": 1000319015, "audio_filename": "sentralbygget.opus"})
 else:
     print("nfctagdb already exists")
 
