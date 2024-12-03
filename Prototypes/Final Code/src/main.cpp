@@ -69,6 +69,20 @@ connect_to_host:
 void setup() {
     // Initialize serial communication
     Serial.begin(115200);
+
+    pinMode(5, OUTPUT);
+
+    tone(5, 740, 400);
+    tone(5, 587, 400);
+    tone(5, 440, 400);
+    tone(5, 587, 400);
+    tone(5, 659, 400);
+    tone(5, 880, 800);
+    tone(5, 659, 400);
+    tone(5, 740, 400);
+    tone(5, 659, 400);
+    tone(5, 440, 400);
+    tone(5, 587, 800);
     
     // Begin Wi-Fi connection
     WiFi.begin(ssid, pass);
