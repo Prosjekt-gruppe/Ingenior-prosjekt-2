@@ -30,6 +30,7 @@ MQTTPubSubClient mqtt;
 #define MOSI_PIN        11    // MOSI pin connected to GPIO16
 #define MISO_PIN        12     // MISO pin connected to GPIO2
 #define SCK_PIN         10     // SCK pin connected to GPIO1
+#define BUZZER_PIN      5
 
 // Create MFRC522 instance
 MFRC522 mfrc522(SS_PIN, RST_PIN);
@@ -70,19 +71,19 @@ void setup() {
     // Initialize serial communication
     Serial.begin(115200);
 
-    pinMode(5, OUTPUT);
+    pinMode(BUZZER_PIN, OUTPUT);
 
-    tone(5, 740, 400);
-    tone(5, 587, 400);
-    tone(5, 440, 400);
-    tone(5, 587, 400);
-    tone(5, 659, 400);
-    tone(5, 880, 800);
-    tone(5, 659, 400);
-    tone(5, 740, 400);
-    tone(5, 659, 400);
-    tone(5, 440, 400);
-    tone(5, 587, 800);
+    tone(BUZZER_PIN, 740, 400);
+    tone(BUZZER_PIN, 587, 400);
+    tone(BUZZER_PIN, 440, 400);
+    tone(BUZZER_PIN, 587, 400);
+    tone(BUZZER_PIN, 659, 400);
+    tone(BUZZER_PIN, 880, 800);
+    tone(BUZZER_PIN, 659, 400);
+    tone(BUZZER_PIN, 740, 400);
+    tone(BUZZER_PIN, 659, 400);
+    tone(BUZZER_PIN, 440, 400);
+    tone(BUZZER_PIN, 587, 800);
     
     // Begin Wi-Fi connection
     WiFi.begin(ssid, pass);
