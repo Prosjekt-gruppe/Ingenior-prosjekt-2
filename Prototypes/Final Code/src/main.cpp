@@ -1,7 +1,8 @@
+// Include the necessary libraries
 #include <Arduino.h>
 #include <WiFi.h>
 #include <SPI.h>
-#include <WebSocketsClient.h>  // include before MQTTPubSubClient.h
+#include <WebSocketsClient.h>
 #include <MQTTPubSubClient.h>
 #include <MFRC522.h>
 
@@ -84,33 +85,11 @@ void setup() {
 
     // Connect to Wi-Fi, host, and MQTT broker
     connect();
-
-    // Subscribe to MQTT topics (commented out)
-    // mqtt.subscribe([](const String& topic, const String& payload, const size_t size) {
-    //     Serial.println("mqtt received: " + topic + " - " + payload);
-    // });
-
-    // mqtt.subscribe("/hello", [](const String& payload, const size_t size) {
-    //     Serial.print("/hello ");
-    //     Serial.println(payload);
-    // });
 }
 
 void loop() {
     // Update MQTT client regularly
     mqtt.update();
-
-    // Reconnect if MQTT client is disconnected
-    //if (!mqtt.isConnected()) {
-    //    connect();
-    //}
-
-    // Publish a message to MQTT broker at regular intervals
-    //static uint32_t prevPublishTime = 0;
-    //if (millis() - prevPublishTime >= 1000) {
-    //    prevPublishTime = millis();
-    //    mqtt.publish(MQTT_TOPIC, "NFC tag is connected");
-    //}
 
     // Non-blocking delay for card reading
     static uint32_t lastCardReadTime = 0;
