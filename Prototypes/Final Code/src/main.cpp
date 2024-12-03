@@ -24,7 +24,6 @@ const char* pass = "";
 WebSocketsClient client;
 MQTTPubSubClient mqtt;
 
-// Pin Definitions for MFRC522 (RFID Reader)
 // Set up the pins
 #define RST_PIN         13    // RST pin connected to GPIO39
 #define SS_PIN          9    // SS (SDA) pin connected to GPIO14
