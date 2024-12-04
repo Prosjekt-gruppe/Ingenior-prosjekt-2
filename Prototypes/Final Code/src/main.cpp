@@ -11,35 +11,36 @@
 #define XSTR(x) #x
 #define STR(x) XSTR(x)
 
-// MQTT Configuration
-const char* MQTT_HOSTNAME = "mqtt.gruppe1.tech";
+// MQTT Configuration (DON'T LEAK THIS TO GITHUB!!!)
+const char* MQTT_HOSTNAME = "mqtt.gruppe1.tech"; //Define the MQTT broker address
 const char* MQTT_TOPIC = "devices/1/location"; // Define the topic to publish to
-const int MQTT_PORT1 = 9002;
-const char* MQTT_PASSWORD = STR(MQTT_PASSWD);
-const char* MQTT_USER = STR(MQTT_USERNAME);
+const int MQTT_PORT1 = 9002; // Define the port to connect to
+const char* MQTT_PASSWORD = STR(MQTT_PASSWD); //The password is defined in a local file
+const char* MQTT_USER = STR(MQTT_USERNAME); //The username is defined in a local file
 
-// Wi-Fi Configuration
-const char* ssid = "IOTHYM";
-const char* pass = "ESP32HYM";
+// Wi-Fi Configuration (DON'T LEAK THIS TO GITHUB!!!)
+const char* ssid = "";
+const char* pass = "";
 
 WebSocketsClient client;
 MQTTPubSubClient mqtt;
 
-// Set up the pins
-#define RST_PIN         1    // RST pin connected to GPIO39
-#define SS_PIN          9    // SS (SDA) pin connected to GPIO14
-#define MOSI_PIN        2    // MOSI pin connected to GPIO16
-#define MISO_PIN        11     // MISO pin connected to GPIO2
-#define SCK_PIN         10     // SCK pin connected to GPIO1
+// Set up the pins for the RFID reader
+#define RST_PIN         1
+#define SS_PIN          9
+#define MOSI_PIN        2
+#define MISO_PIN        11
+#define SCK_PIN         10
 #define BUZZER_PIN      5
 
+// Set up the pins for the distance sensors
 #define SDA_PIN 13
 #define SCL_PIN 12
-
 #define XSHUT_PIN_1 4
 #define XSHUT_PIN_2 6
 #define XSHUT_PIN_3 7
 
+// Create VL53L0X sensor instances
 VL53L0X sensor1;
 VL53L0X sensor2;
 VL53L0X sensor3;
@@ -78,9 +79,6 @@ connect_to_host:
     }
     Serial.println(" connected!");
 }
-
-unsigned long previousMillis = 0;
-const unsigned long interval = 100;  // Time between sensor readings (in millisec
 
 void setup() {
     Wire.begin(SDA_PIN, SCL_PIN);  // Initialize I2C bus
@@ -148,6 +146,10 @@ void setup() {
     connect();
 }
 
+unsigned long TOFMillis = 0;
+const unsigned long TOFInterval = 100;
+const uint32_t cardReadInterval = 1000; // Interval in milliseconds
+
 void loop() {
     // Update MQTT client regularly
     mqtt.update();
@@ -156,7 +158,6 @@ void loop() {
 
     // Non-blocking delay for card reading
     static uint32_t lastCardReadTime = 0;
-    const uint32_t cardReadInterval = 1000; // Interval in milliseconds
 
     // Check if it's time to read the card again
     if (currentMillis - lastCardReadTime >= cardReadInterval) {
@@ -206,8 +207,8 @@ void loop() {
     }
 
     // Sensor reading code
-    if (currentMillis - previousMillis >= interval) {
-        previousMillis = currentMillis;
+    if (currentMillis - TOFMillis >= TOFInterval) {
+        TOFMillis = currentMillis;
 
         // Read from sensor 1
         uint16_t distance1 = sensor1.readRangeContinuousMillimeters();
