@@ -1,3 +1,6 @@
+//Neste steg blir å legge til funksjonalitet i void loop() for å koble sensorene med motorene.
+
+
 // Include the necessary libraries
 #include <Arduino.h>
 #include <WiFi.h>
@@ -24,6 +27,18 @@ const char* pass = "";
 
 WebSocketsClient client;
 MQTTPubSubClient mqtt;
+
+// Define the pins for PWM control
+const int freq = 150;
+const int ledChannel0 = 0;
+const int ledChannel1 = 1;
+const int ledChannel2 = 2;
+const int resolution = 12; // 12 bit resolution
+
+// Define the pins for the motors
+const int motorPin1 = 16;
+const int motorPin2 = 17;
+const int motorPin3 = 18;
 
 // Set up the pins for the RFID reader
 #define RST_PIN         1
@@ -116,9 +131,23 @@ void setup() {
     sensor3.init();
     sensor3.startContinuous();
 
-    pinMode(BUZZER_PIN, OUTPUT);
+    // PWM setup
+    ledcSetup(ledChannel0, freq, resolution);
+    ledcSetup(ledChannel1, freq, resolution);
+    ledcSetup(ledChannel2, freq, resolution);
+
+    // Attach the motors to the PWM channels
+    ledcAttachPin(motorPin1, ledChannel0);
+    ledcAttachPin(motorPin2, ledChannel1);
+    ledcAttachPin(motorPin3, ledChannel2);
+
+    // Make sure the motors are off
+    ledcWrite(ledChannel0, 0);
+    ledcWrite(ledChannel1, 0);
+    ledcWrite(ledChannel2, 0);
 
     // Play startup sound (Family Mart jingle)
+    pinMode(BUZZER_PIN, OUTPUT);
     tone(BUZZER_PIN, 740, 400);
     tone(BUZZER_PIN, 587, 400);
     tone(BUZZER_PIN, 440, 400);
