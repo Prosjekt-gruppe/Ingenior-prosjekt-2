@@ -118,6 +118,7 @@ void setup() {
 
     pinMode(BUZZER_PIN, OUTPUT);
 
+    // Play startup sound (Family Mart jingle)
     tone(BUZZER_PIN, 740, 400);
     tone(BUZZER_PIN, 587, 400);
     tone(BUZZER_PIN, 440, 400);
