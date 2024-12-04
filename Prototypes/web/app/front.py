@@ -10,6 +10,16 @@ bp = Blueprint('front', __name__, url_prefix='/front')
 
 @bp.route('/', methods=('GET', 'POST'))
 def front():
+    """
+    Setter opp nettsiden sin landingsside på GET-forespørsler, 
+    og sender videre JSON-data i fra forespørslen til MQTT-klienten.
+
+    :rute:
+        GET, POST /front/
+
+    :returns: render_template|request
+    """
+
     if request.method == 'POST':
         data = request.get_json()
         #strength_value = data.get('strength')

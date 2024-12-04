@@ -1,14 +1,26 @@
+import os
 from utils.logging import logger
 from flask import Blueprint, request, jsonify
 from app import socketio
 from tinydb import TinyDB, Query
+
 bp = Blueprint('mqtt', __name__, url_prefix='/mqtt')
 
-db = TinyDB('/srv/db/nfctags.json')
-
-
+base_dir = os.path.dirname(os.path.abspath(__file__))
+db_dir = os.path.join(base_dir, "../db")
+nfctag_db = os.path.join(db_dir, "nfctags.json")
+db = TinyDB(nfctag_db)
 
 def find_poi(nfctagID):
+    """
+    Hjelpefunksjon for uthenging av database-data.
+
+    :param nfctagID: NFC-chippen sin ID
+    :type nfctagID: str
+    
+    :return: NFC-taggen sin tilhørende POI.
+    :rtype: int
+    """
     res = db.search(Query().nfctagID == nfctagID)
     logger.info(f"From find_poi: got {res}")
     
@@ -19,6 +31,10 @@ def find_poi(nfctagID):
     
 @bp.route('/test', methods=['GET'])
 def test_socketio():
+    """
+    Test-funksjon for å sjekke at tilkoblingen fungerer.
+
+    """
     try:
         socketio.emit("test_event", {"data": "test from mqttpy"})
         logger.info("test_event from mqtt.py")
@@ -29,7 +45,12 @@ def test_socketio():
 
 @bp.route('/', methods=['POST'])
 def getmqtt():
+    """
+    Ta i mot meldinger fra MQTT-klient.
+
+    """
     logger.info("Got post request")
+    
 
     data = request.get_json()
     topic = data.get('topic')
@@ -44,6 +65,10 @@ def getmqtt():
 
 @bp.route('/location', methods=['POST'])
 def handle_locations():
+    """
+    Håndterer forespørsler angående beliggenhet.
+    
+    """
     logger.info("Got post request")
 
     data = request.get_json()
@@ -63,9 +88,17 @@ def handle_locations():
     else:
         return jsonify({"status": "error in sending poi"}), 404
 
-# return location data to device
+
 @bp.route('/returndata', methods=['POST'])
 def handle_returndata():
+    """
+    :return: 
+        JSON:
+            Statusrapport.
+        SocketIO:
+            Lokasjonsdata til MQTT-klienten.
+    
+    """
     data = request.get_json()
     
     logger.info(f"Received POI data: {data}")

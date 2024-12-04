@@ -4,7 +4,19 @@ import time
 from utils.logging import logger
 
 # TODO: implement streaming
+
 class AudioStream:
+    """
+    Funksjonalitet:
+        - Leser inn en lydfil i opus-format.
+        - Sender en lydfil i rå-data over socket til WebServer.
+
+    :param str file_path: Stien til filen som skal spilles av.
+
+    :ivar str filepath: Stien til lydfilen.
+
+
+    """
     def __init__(self, file_path, chunklength=0.05):
         self.filepath = file_path
         self.chunklength = chunklength
@@ -15,6 +27,10 @@ class AudioStream:
 
     # currently not in use
     def init_stream(self):
+        """
+        Oppretter en forbindelse med stream
+
+        """
         logger.info("AudioStream: Started init_stream")
         try:
             with open(self.filepath, "rb") as f:
@@ -37,6 +53,10 @@ class AudioStream:
 
     # currently not in use
     def get_next_chunk(self):
+        """
+        Henter nye chunks
+
+        """
         logger.info("AudioStream: Getting next chunk")
         # chunk = self.samples.readframes(self.chunksize)
 
@@ -64,6 +84,17 @@ class AudioStream:
             yield chunk
 
     def simple_send(self):
+        """
+        Sender lydfil som rå-data til en WebServer.
+        
+
+
+        Returns:
+            bytes: Data fra lydfilen som sendes til serveren.
+
+        Raises:
+            Exception: Hvis filen ikke kan leses eller en annen feil oppstår.
+        """
         logger.info("AudioStream: sending simple file")
         try:
             with open(self.filepath, "rb") as f:

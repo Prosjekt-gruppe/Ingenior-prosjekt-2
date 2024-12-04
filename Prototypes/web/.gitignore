@@ -11,3 +11,12 @@ htmlcov/
 dist/
 build/
 *.egg-info/
+
+logs
+db/uuids.json
+db/nfctags.json
+
+docs/_build
+
+
+docs/out

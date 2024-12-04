@@ -1,4 +1,9 @@
 export class AudioHandler {
+    /**
+     * Oppretter en ny AudioHandler.
+     *
+     * @constructor
+     */
     constructor() {
         this.audiocontext = new AudioContext();
         this.audioqueue = [];
@@ -17,7 +22,7 @@ export class AudioHandler {
             console.error("decode error ", error);
         });
     }
-
+    
     playnextchunk() {
         if (this.audioqueue.length > 0) {
             const source = this.audiocontext.createBufferSource();
@@ -42,7 +47,12 @@ export class AudioHandler {
         this.audioqueue = [];
         this.isplaying = false;
     }
-    
+
+    /**
+     * Avspilling av lydfil mottatt fra server
+     *
+     * @param {ArrayBuffer} arraybuffer Rå lyd-data
+     */
     playfile(arraybuffer) {
         this.audiocontext.decodeAudioData(arraybuffer, (buffer) => {
             const source = this.audiocontext.createBufferSource();

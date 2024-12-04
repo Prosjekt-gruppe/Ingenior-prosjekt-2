@@ -7,11 +7,20 @@ from utils.logging import logger
 from dotenv import load_dotenv
 import os
 
-envpath = os.path.abspath('/srv/.env')
+base_dir = os.path.dirname(os.path.abspath(__file__))
+envpath = os.path.join(base_dir, "../.env")
+
+#envpath = os.path.abspath('/srv/.env')
+
 socketio = SocketIO(cors_allowed_origins="*")
 limiter = Limiter(get_remote_address)
 
 def create_app():
+    """
+    Oppretter en flask server og initialiserer diverse tillegsmoduler.
+
+    :returns: Flask app-instans.
+    """
     logger.info("Creating app...")
     
     app = Flask(__name__)

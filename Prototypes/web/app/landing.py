@@ -1,4 +1,5 @@
 from utils.logging import logger
+import os
 import uuid
 from tinydb import TinyDB, Query
 import functools
@@ -14,8 +15,12 @@ from flask import (
 # local imports
 from app import socketio, limiter
 
+base_dir = os.path.dirname(os.path.abspath(__file__))
+
 # db
-db = TinyDB('/srv/db/uuids.json')
+db_uuid_file = os.path.join(base_dir, "../db/uuids.json")
+db = TinyDB(db_uuid_file)
+
 UUID = Query()
 
 # blueprints
@@ -25,11 +30,35 @@ bp = Blueprint('landing', __name__)
 @bp.route('/')
 @limiter.limit("5 per minute")
 def redirect_front():
+    """
+    Funksjon for å redirigere trafikk til landingssiden (front).
+
+    :rute:
+        GET /
+
+    :return: Rediriger nettleseren til /front-endepunktet.
+    """
     return redirect(url_for('front.front'))
 
 
 @bp.route("/set_cookie")
 def set_cookie():
+    """
+    Oppretter cookie i nettleseren.
+
+    Egenskaper:
+        - Levetid: 3600 sekunder
+        - Secure: True
+
+    :rute:
+        GET /set_cookie
+
+    :return:
+        JSON:
+            - Status: om ``cookie``-en ble opprettet suksessfult eller ikke
+            - Statuskode: ``200``
+
+    """
     cookie = request.cookies.get("user_data")
     if not cookie:
         new_uuid = str(uuid.uuid4())

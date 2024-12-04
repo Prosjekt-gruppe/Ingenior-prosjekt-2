@@ -1,4 +1,5 @@
 import paho.mqtt.client as paho
+import platform
 import paho.mqtt.publish as publish
 import requests
 import socketio
@@ -8,9 +9,18 @@ import logging
 import traceback
 import json
 
-load_dotenv('/srv/.env')
+base_dir = os.path.dirname(os.path.abspath(__file__))
+dotenv_file = os.path.join(base_dir, "../.env")
 
-log_dir = "/var/log/pymqtt"
+load_dotenv(dotenv_file)
+
+
+if platform.system() == "Linux":
+    log_dir = "/var/log/pymqtt"
+else:
+    log_dir = os.path.join(base_dir, "../logs")
+
+
 os.makedirs(log_dir, exist_ok=True)
 logging.basicConfig(level=logging.INFO, filename=f"{log_dir}/mqtt.log",filemode="w")
 #logging.basicConfig(level=logging.DEBUG, filename=f"{log_dir}/debug.log",filemode="w")
@@ -82,7 +92,7 @@ def return_location(data):
 
 
 # connect socket
-sio.connect("http://127.0.0.1:8000", transports=["websocket"])
+#sio.connect("http://127.0.0.1:8000", transports=["websocket"])
 
 def message_handler(client, msg, deviceID):
     payload = {
@@ -152,4 +162,8 @@ client.on_connect = on_connect
 client.on_message = on_message
 client.username_pw_set(username, password)
 client.connect("mqtt.gruppe1.tech", 9002)
-client.loop_forever()
+
+
+if __name__ == "__main__":
+    sio.connect("http://127.0.0.1:8000", transports=["websocket"])
+    client.loop_forever()

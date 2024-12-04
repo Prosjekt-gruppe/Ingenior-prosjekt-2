@@ -11,11 +11,19 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for, jsonify, make_response
 )
 
-db = TinyDB('/srv/db/nfctags.json')
+base_dir = os.path.dirname(os.path.abspath(__file__))
+db_dir = os.path.join(base_dir, "../db")
+nfctag_db = os.path.join(db_dir, "nfctags.json")
+db = TinyDB(nfctag_db)
 
-audiopath = "/srv/audio/"
+audiopath = os.path.join(base_dir, "../audio")
+
 
 def find_audio_file_path(poiID):
+    """
+    Funksjon som finner riktig lydfil basert på tilsent interessepunkt.
+
+    """
     if not isinstance(poiID, int):
         logger.info("cant find file because it search term not int")
         return
