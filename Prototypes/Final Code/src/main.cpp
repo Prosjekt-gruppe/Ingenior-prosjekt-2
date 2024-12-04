@@ -5,6 +5,7 @@
 #include <WebSocketsClient.h>
 #include <MQTTPubSubClient.h>
 #include <MFRC522.h>
+#include <VL53L0X.h>
 
 // Macro definitions for string conversion
 #define XSTR(x) #x
@@ -18,19 +19,30 @@ const char* MQTT_PASSWORD = STR(MQTT_PASSWD);
 const char* MQTT_USER = STR(MQTT_USERNAME);
 
 // Wi-Fi Configuration
-const char* ssid = "NTNU-IOT";
-const char* pass = "";
+const char* ssid = "IOTHYM";
+const char* pass = "ESP32HYM";
 
 WebSocketsClient client;
 MQTTPubSubClient mqtt;
 
 // Set up the pins
-#define RST_PIN         13    // RST pin connected to GPIO39
+#define RST_PIN         1    // RST pin connected to GPIO39
 #define SS_PIN          9    // SS (SDA) pin connected to GPIO14
-#define MOSI_PIN        11    // MOSI pin connected to GPIO16
-#define MISO_PIN        12     // MISO pin connected to GPIO2
+#define MOSI_PIN        2    // MOSI pin connected to GPIO16
+#define MISO_PIN        11     // MISO pin connected to GPIO2
 #define SCK_PIN         10     // SCK pin connected to GPIO1
 #define BUZZER_PIN      5
+
+#define SDA_PIN 13
+#define SCL_PIN 12
+
+#define XSHUT_PIN_1 4
+#define XSHUT_PIN_2 6
+#define XSHUT_PIN_3 7
+
+VL53L0X sensor1;
+VL53L0X sensor2;
+VL53L0X sensor3;
 
 // Create MFRC522 instance
 MFRC522 mfrc522(SS_PIN, RST_PIN);
@@ -67,9 +79,44 @@ connect_to_host:
     Serial.println(" connected!");
 }
 
+unsigned long previousMillis = 0;
+const unsigned long interval = 100;  // Time between sensor readings (in millisec
+
 void setup() {
-    // Initialize serial communication
+    Wire.begin(SDA_PIN, SCL_PIN);  // Initialize I2C bus
     Serial.begin(115200);
+
+    // Initialize XSHUT pins
+    pinMode(XSHUT_PIN_1, OUTPUT);
+    pinMode(XSHUT_PIN_2, OUTPUT);
+    pinMode(XSHUT_PIN_3, OUTPUT);
+
+    // Shutdown all sensors
+    digitalWrite(XSHUT_PIN_1, LOW);
+    digitalWrite(XSHUT_PIN_2, LOW);
+    digitalWrite(XSHUT_PIN_3, LOW);
+    delay(10);  // Short delay to ensure sensors are in shutdown
+
+    // Initialize and assign new address to sensor 1
+    digitalWrite(XSHUT_PIN_1, HIGH);
+    delay(10);  // Wait for the sensor to boot up
+    sensor1.setAddress(0x30);  // New I2C address for sensor 1
+    sensor1.init();
+    sensor1.startContinuous();
+
+    // Initialize and assign new address to sensor 2
+    digitalWrite(XSHUT_PIN_2, HIGH);
+    delay(10);  // Wait for the sensor to boot up
+    sensor2.setAddress(0x31);  // New I2C address for sensor 2
+    sensor2.init();
+    sensor2.startContinuous();
+
+    // Initialize and assign new address to sensor 3
+    digitalWrite(XSHUT_PIN_3, HIGH);
+    delay(10);  // Wait for the sensor to boot up
+    sensor3.setAddress(0x32);  // New I2C address for sensor 3
+    sensor3.init();
+    sensor3.startContinuous();
 
     pinMode(BUZZER_PIN, OUTPUT);
 
@@ -105,58 +152,91 @@ void loop() {
     // Update MQTT client regularly
     mqtt.update();
 
+    unsigned long currentMillis = millis();
+
     // Non-blocking delay for card reading
     static uint32_t lastCardReadTime = 0;
     const uint32_t cardReadInterval = 1000; // Interval in milliseconds
 
     // Check if it's time to read the card again
-    if (millis() - lastCardReadTime >= cardReadInterval) {
-        // Check for new RFID card presence
-        if ( ! mfrc522.PICC_IsNewCardPresent()){
-            return;
-        }
-        if ( ! mfrc522.PICC_ReadCardSerial()){
-            return;
-        }
-        Serial.println(F("\n**Start Reading**"));
-        // Update the last card read time
-        lastCardReadTime = millis();
+    if (currentMillis - lastCardReadTime >= cardReadInterval) {
+        // Try to read the card
+        if (mfrc522.PICC_IsNewCardPresent() && mfrc522.PICC_ReadCardSerial()) {
+            Serial.println(F("\n**Start Reading**"));
+            lastCardReadTime = currentMillis;
 
-        // Card detected
-        Serial.println(F("**Card Detected:**"));
+            // Card detected
+            Serial.println(F("**Card Detected:**"));
 
-        // Dump details about the card
-        mfrc522.PICC_DumpDetailsToSerial(&(mfrc522.uid));
+            // Dump details about the card
+            mfrc522.PICC_DumpDetailsToSerial(&(mfrc522.uid));
 
-        // Setup a string to hold the UID of the card
-        String uidString = "";
+            // Setup a string to hold the UID of the card
+            String uidString = "";
 
-        // Print Card UID and build string
-        Serial.print(F("Card UID:"));
-        for (byte i = 0; i < mfrc522.uid.size; i++) {
-            // Print each byte to the serial monitor
-            Serial.print(mfrc522.uid.uidByte[i] < 0x10 ? " 0" : " ");
-            Serial.print(mfrc522.uid.uidByte[i], HEX);
+            // Print Card UID and build string
+            Serial.print(F("Card UID:"));
+            for (byte i = 0; i < mfrc522.uid.size; i++) {
+                // Print each byte to the serial monitor
+                Serial.print(mfrc522.uid.uidByte[i] < 0x10 ? " 0" : " ");
+                Serial.print(mfrc522.uid.uidByte[i], HEX);
 
-            // Add each byte to the string
-            if (mfrc522.uid.uidByte[i] < 0x10) {
-                uidString += "0";
+                // Add each byte to the string
+                if (mfrc522.uid.uidByte[i] < 0x10) {
+                    uidString += "0";
+                }
+                uidString += String(mfrc522.uid.uidByte[i], HEX);
             }
-            uidString += String(mfrc522.uid.uidByte[i], HEX);
+            Serial.println();
+
+            // Convert the UID to uppercase
+            uidString.toUpperCase();
+
+            // Now you can use uidString as needed
+            // For example, publish it via MQTT
+            mqtt.publish(MQTT_TOPIC, uidString);
+
+            Serial.println(F("\n**End Reading**\n"));
+
+            // Halt PICC and stop encryption on PCD
+            mfrc522.PICC_HaltA();
+            mfrc522.PCD_StopCrypto1();
         }
-        Serial.println();
+        // No else needed; if no card is present, simply continue
+    }
 
-        // Convert the UID to uppercase
-        uidString.toUpperCase();
+    // Sensor reading code
+    if (currentMillis - previousMillis >= interval) {
+        previousMillis = currentMillis;
 
-        // Now you can use uidString as needed
-        // For example, publish it via MQTT
-        mqtt.publish(MQTT_TOPIC, uidString);
+        // Read from sensor 1
+        uint16_t distance1 = sensor1.readRangeContinuousMillimeters();
+        if (sensor1.timeoutOccurred()) {
+            Serial.println("Sensor 1 timeout!");
+        } else {
+            Serial.print("Distance 1: ");
+            Serial.print(distance1);
+            Serial.println(" mm");
+        }
 
-        Serial.println(F("\n**End Reading**\n"));
+        // Read from sensor 2
+        uint16_t distance2 = sensor2.readRangeContinuousMillimeters();
+        if (sensor2.timeoutOccurred()) {
+            Serial.println("Sensor 2 timeout!");
+        } else {
+            Serial.print("Distance 2: ");
+            Serial.print(distance2);
+            Serial.println(" mm");
+        }
 
-        // Halt PICC and stop encryption on PCD
-        mfrc522.PICC_HaltA();
-        mfrc522.PCD_StopCrypto1();
+        // Read from sensor 3
+        uint16_t distance3 = sensor3.readRangeContinuousMillimeters();
+        if (sensor3.timeoutOccurred()) {
+            Serial.println("Sensor 3 timeout!");
+        } else {
+            Serial.print("Distance 3: ");
+            Serial.print(distance3);
+            Serial.println(" mm");
+        }
     }
 }

@@ -1,39 +1,49 @@
+/*********
+  Rui Santos
+  Complete project details at https://randomnerdtutorials.com  
+*********/
+
 #include <Arduino.h>
-#include <SPI.h>
-#include <MFRC522.h>
+#include <Wire.h>
 
-// Define your SPI and MFRC522 pins
-//Disse må nok endres før koden passer perfekt
-#define RST_PIN         13    // RST pin connected to GPIO39
-#define SS_PIN          9    // SS (SDA) pin connected to GPIO14
-#define MOSI_PIN        11    // MOSI pin connected to GPIO16
-#define MISO_PIN        12     // MISO pin connected to GPIO2
-#define SCK_PIN         10     // SCK pin connected to GPIO1
-
-MFRC522 mfrc522(SS_PIN, RST_PIN);  // Create MFRC522 instance
-
+#define SDA_PIN 13  // Replace with your chosen SDA pin
+#define SCL_PIN 12  // Replace with your chosen SCL pin
+ 
 void setup() {
-    Serial.begin(115200);    // Initialize serial communications with the PC
-    while (!Serial);         // Wait for the serial port to open
-    // Initialize SPI bus with specified pins
-    SPI.begin(SCK_PIN, MISO_PIN, MOSI_PIN, SS_PIN);
-    // Initialize MFRC522
-    mfrc522.PCD_Init();
-    delay(5);                // Optional delay
-    // Show details of PCD - MFRC522 Card Reader details
-    mfrc522.PCD_DumpVersionToSerial();
-    Serial.println(F("Scan PICC to see UID, SAK, type, and data blocks..."));
+  Wire.begin(SDA_PIN, SCL_PIN);
+  Serial.begin(115200);
+  Serial.println("\nI2C Scanner");
 }
-
+ 
 void loop() {
-    // Reset the loop if no new card present on the sensor/reader.
-    if ( ! mfrc522.PICC_IsNewCardPresent()) {
-        return;
+  byte error, address;
+  int nDevices;
+  Serial.println("Scanning...");
+  nDevices = 0;
+  for(address = 1; address < 127; address++ ) {
+    Wire.beginTransmission(address);
+    error = Wire.endTransmission();
+    if (error == 0) {
+      Serial.print("I2C device found at address 0x");
+      if (address<16) {
+        Serial.print("0");
+      }
+      Serial.println(address,HEX);
+      nDevices++;
     }
-    // Select one of the cards
-    if ( ! mfrc522.PICC_ReadCardSerial()) {
-        return;
-    }
-    // Only dumps UID
-    mfrc522.PICC_DumpToSerial(&(mfrc522.uid));
+    else if (error==4) {
+      Serial.print("Unknow error at address 0x");
+      if (address<16) {
+        Serial.print("0");
+      }
+      Serial.println(address,HEX);
+    }    
+  }
+  if (nDevices == 0) {
+    Serial.println("No I2C devices found\n");
+  }
+  else {
+    Serial.println("done\n");
+  }
+  delay(5000);          
 }
