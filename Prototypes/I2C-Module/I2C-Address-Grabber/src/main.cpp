@@ -1,18 +1,19 @@
+//Include the necessary libraries
 #include <Arduino.h>
 #include <Wire.h>
 
 #define SDA_PIN 13  // Replace with your chosen SDA pin
 #define SCL_PIN 12  // Replace with your chosen SCL pin
- 
+
 void setup() {
-  Wire.begin(SDA_PIN, SCL_PIN);
+  Wire.begin(SDA_PIN, SCL_PIN); 
   Serial.begin(115200);
   Serial.println("\nI2C Scanner");
 }
  
 void loop() {
-  byte error, address;
-  int nDevices;
+  byte error, address; //variable for error and I2C address
+  int nDevices; //variable for number of devices
   Serial.println("Scanning...");
   nDevices = 0;
   for(address = 1; address < 127; address++ ) {
