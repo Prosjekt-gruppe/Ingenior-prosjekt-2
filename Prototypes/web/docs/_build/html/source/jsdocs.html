@@ -1,0 +1,406 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WebSocket &mdash; Ingeniørprosjekt II v3.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5773a0da"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Jinja" href="csshtml.html" />
+    <link rel="prev" title="audiostream.py" href="app.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Ingeniørprosjekt II
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Innhold</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="overview.html">Systemoversikt</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="overview.html#flask-app">Flask-app</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="modules.html">Moduler</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="modules.html#javascript-api">JavaScript API</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">WebSocket</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#hendelsesbehandlere">Hendelsesbehandlere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dom">DOM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mazemap">MazeMap</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lyd">Lyd</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#statisk-innhold">Statisk innhold</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#rutebeskrivelse">Rutebeskrivelse</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#mqtt">MQTT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#omvendt-proxy-nginx">Omvendt proxy (NGINX)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#systemd">Systemd</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Kildekode</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="code.html">Kildekode</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Ingeniørprosjekt II</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="overview.html">Systemoversikt</a></li>
+          <li class="breadcrumb-item"><a href="modules.html">Moduler</a></li>
+      <li class="breadcrumb-item active">WebSocket</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/source/jsdocs.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="websocket">
+<h1>WebSocket<a class="headerlink" href="#websocket" title="Link to this heading"></a></h1>
+<dl class="js function">
+<dt class="sig sig-object js" id="fetch">
+<span class="sig-name descname"><span class="n"><span class="pre">fetch</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fetch" title="Link to this definition"></a></dt>
+<dd><p>Sørger for at nettleseren oppretter en <code class="docutils literal notranslate"><span class="pre">cookie</span></code> før websocket starter.</p>
+</dd></dl>
+
+<dl class="js function">
+<dt class="sig sig-object js" id="startwebsocket">
+<span class="sig-name descname"><span class="n"><span class="pre">startwebsocket</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#startwebsocket" title="Link to this definition"></a></dt>
+<dd><p>Starter WebSocket-tilkoblingen og setter opp hendelseslyttere for ulike servermeldinger.</p>
+</dd></dl>
+
+</section>
+<section id="hendelsesbehandlere">
+<h1>Hendelsesbehandlere<a class="headerlink" href="#hendelsesbehandlere" title="Link to this heading"></a></h1>
+<dl class="js function">
+<dt class="sig sig-object js" id="connectsocket">
+<span class="sig-name descname"><span class="n"><span class="pre">connectsocket</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#connectsocket" title="Link to this definition"></a></dt>
+<dd><p>Håndterer <code class="docutils literal notranslate"><span class="pre">connect</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>void</strong> –</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js function">
+<dt class="sig sig-object js" id="updatecookie">
+<span class="sig-name descname"><span class="n"><span class="pre">updatecookie</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#updatecookie" title="Link to this definition"></a></dt>
+<dd><p>Håndterer <code class="docutils literal notranslate"><span class="pre">cookie_update</span></code> fra Flask socket</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>Object</em>) – Data relatert til oppdaterte cookies.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>void</strong> –</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js function">
+<dt class="sig sig-object js" id="confirmcookie">
+<span class="sig-name descname"><span class="n"><span class="pre">confirmcookie</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#confirmcookie" title="Link to this definition"></a></dt>
+<dd><p>Håndterer <code class="docutils literal notranslate"><span class="pre">cookie_valid</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>Object</em>) – Data om gyldige cookies.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>void</strong> –</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js function">
+<dt class="sig sig-object js" id="mqttreceiver">
+<span class="sig-name descname"><span class="n"><span class="pre">mqttreceiver</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mqttreceiver" title="Link to this definition"></a></dt>
+<dd><p>Håndterer <code class="docutils literal notranslate"><span class="pre">mqttsocket</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>Object</em>) – Data fra MQTT-socket.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>void</strong> –</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js function">
+<dt class="sig sig-object js" id="colorhandler">
+<span class="sig-name descname"><span class="n"><span class="pre">colorhandler</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#colorhandler" title="Link to this definition"></a></dt>
+<dd><p>Sørger for at <code class="docutils literal notranslate"><span class="pre">colorchange</span></code>-hendelse på socket blir oppfylt.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>Object</em>) – Data som inneholder fargeinformasjon.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js function">
+<dt class="sig sig-object js" id="locationhandler">
+<span class="sig-name descname"><span class="n"><span class="pre">locationhandler</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#locationhandler" title="Link to this definition"></a></dt>
+<dd><p>Sørger for at informasjon over WebSocket-en <code class="docutils literal notranslate"><span class="pre">getlocation</span></code> behandles korrekt.</p>
+<p>Funksjonen undersøker først om den har mottatt en gyldig POI (Point of Interest).
+Deretter kaller den det eksterne biblioteket <code class="docutils literal notranslate"><span class="pre">MazeMap</span></code> med POI.
+Til slutt returnerer informasjonen til funksjonen <cite>handlepoi()</cite></p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>Object</em>) – Data som inneholder POI og enhets-ID.</p></li>
+<li><p><strong>data.poiID</strong> (<em>string</em>) – ID for punktet av interesse.</p></li>
+<li><p><strong>data.device</strong> (<em>string</em>) – Enhets-ID assosiert med forespørselen.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js function">
+<dt class="sig sig-object js" id="audiofilehandler">
+<span class="sig-name descname"><span class="n"><span class="pre">audiofilehandler</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">audiofile</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#audiofilehandler" title="Link to this definition"></a></dt>
+<dd><p>Håndterer ‘audio_file’-hendelsen.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>audiofile</strong> (<em>ArrayBuffer</em>) – Rå lyd-data.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js function">
+<dt class="sig sig-object js" id="loganyevent">
+<span class="sig-name descname"><span class="n"><span class="pre">loganyevent</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#loganyevent" title="Link to this definition"></a></dt>
+<dd><p>Logger alle hendelser over SocketIO-tilkoblingen.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>event</strong> (<em>string</em>) – Alle hendelser</p></li>
+<li><p><strong>data</strong> (<em>Object</em>) – Data sendt over socket</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="dom">
+<h1>DOM<a class="headerlink" href="#dom" title="Link to this heading"></a></h1>
+<p>Funksjoner som har med å manipulere DOM (Document Object Model) i nettleseren.</p>
+<dl class="js function">
+<dt class="sig sig-object js" id="handlestrengthbutton">
+<span class="sig-name descname"><span class="n"><span class="pre">handlestrengthbutton</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#handlestrengthbutton" title="Link to this definition"></a></dt>
+<dd><p>Håndterer <code class="docutils literal notranslate"><span class="pre">strength</span></code>-knappen i nettleseren.</p>
+</dd></dl>
+
+<dl class="js function">
+<dt class="sig sig-object js" id="handlepoi">
+<span class="sig-name descname"><span class="n"><span class="pre">handlepoi</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#handlepoi" title="Link to this definition"></a></dt>
+<dd><p>Håndterer lydavspilling og vising av informasjon innhentet fra MazeMap.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>Object</em>) – Data mottatt fra MQTT.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js function">
+<dt class="sig sig-object js" id="deviceselectclick">
+<span class="sig-name descname"><span class="n"><span class="pre">deviceselectclick</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#deviceselectclick" title="Link to this definition"></a></dt>
+<dd><p>Håndterer klikk på knappen med ID <cite>deviceselectbutton</cite>.</p>
+<p>Når knappen trykkes:</p>
+<ul class="simple">
+<li><p><cite>toggler</cite> synligheten til enhetinput-feltet.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="js function">
+<dt class="sig sig-object js" id="savedevice">
+<span class="sig-name descname"><span class="n"><span class="pre">savedevice</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#savedevice" title="Link to this definition"></a></dt>
+<dd><p>Lagrer hvilken enhet styrke-informasjonen skal returneres til.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>Object</em>) – Data mottatt fra MQTT.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js function">
+<dt class="sig sig-object js" id="savedevicebutton">
+<span class="sig-name descname"><span class="n"><span class="pre">savedevicebutton</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#savedevicebutton" title="Link to this definition"></a></dt>
+<dd><p>Aktiverer lagring til enhet ved muse-klikk.</p>
+</dd></dl>
+
+<dl class="js function">
+<dt class="sig sig-object js" id="deviceinput">
+<span class="sig-name descname"><span class="n"><span class="pre">deviceinput</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#deviceinput" title="Link to this definition"></a></dt>
+<dd><p>Håndterer lagring av enhet</p>
+</dd></dl>
+
+<dl class="js function">
+<dt class="sig sig-object js" id="keydownlistener">
+<span class="sig-name descname"><span class="n"><span class="pre">keydownlistener</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#keydownlistener" title="Link to this definition"></a></dt>
+<dd><p>Forteller funksjonen <cite>handlestrengthbutton()</cite> til å returnere når enter-tasten trykkes.</p>
+</dd></dl>
+
+<dl class="js function">
+<dt class="sig sig-object js" id="onload">
+<span class="sig-name descname"><span class="n"><span class="pre">onload</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#onload" title="Link to this definition"></a></dt>
+<dd><p>Kjører når vinudet i nettleseren lastes inn</p>
+</dd></dl>
+
+</section>
+<section id="mazemap">
+<h1>MazeMap<a class="headerlink" href="#mazemap" title="Link to this heading"></a></h1>
+<dl class="js class">
+<dt class="sig sig-object js" id="MazeMap">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="n"><span class="pre">MazeMap</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MazeMap" title="Link to this definition"></a></dt>
+<dd><p>Oppretter en ny MazeMap-instans.</p>
+<dl class="js staticfunction">
+<dt class="sig sig-object js" id="MazeMap.callPOI">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="n"><span class="pre">MazeMap</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">callPOI</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">poiID</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#MazeMap.callPOI" title="Link to this definition"></a></dt>
+<dd><p>Asynkron funksjon for uthenting av lokasjonsdata.</p>
+<p><strong>Variabler som hentes fra MazeMap:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">poiId</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">names</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">floorName</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">buildingName</span></code></p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>poiID</strong> (<em>string</em>) – Hentes fra database.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>Object</strong> – Returnerer utvalgt <code class="docutils literal notranslate"><span class="pre">point</span> <span class="pre">of</span> <span class="pre">interest</span></code>-informasjon eller <code class="docutils literal notranslate"><span class="pre">null</span></code> hvis ingen poi ble funnet, eller en feil oppstod.</p>
+</dd>
+</dl>
+<p><strong>Examples:</strong></p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span><span class="w"> </span><span class="nx">poi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">MazeMap</span><span class="p">.</span><span class="nx">callPOI</span><span class="p">(</span><span class="s2">&quot;36148&quot;</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">poi</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">poi</span><span class="p">.</span><span class="nx">names</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="c1">// returnerer informasjon om stedet med nummer POI-nummer 36148</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="lyd">
+<h1>Lyd<a class="headerlink" href="#lyd" title="Link to this heading"></a></h1>
+<dl class="js class">
+<dt class="sig sig-object js" id="AudioHandler">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="n"><span class="pre">AudioHandler</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AudioHandler" title="Link to this definition"></a></dt>
+<dd><p>Oppretter en ny AudioHandler.</p>
+<dl class="js function">
+<dt class="sig sig-object js" id="AudioHandler.playfile">
+<span class="sig-prename descclassname"><span class="n"><span class="pre">AudioHandler</span></span><span class="p"><span class="pre">.</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">playfile</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arraybuffer</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#AudioHandler.playfile" title="Link to this definition"></a></dt>
+<dd><p>Avspilling av lydfil mottatt fra server</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>arraybuffer</strong> (<em>ArrayBuffer</em>) – Rå lyd-data</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="app.html" class="btn btn-neutral float-left" title="audiostream.py" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="csshtml.html" class="btn btn-neutral float-right" title="Jinja" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Gruppe 1.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      Version: Current version here
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      We list the other versions here
+    </div>
+  </div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

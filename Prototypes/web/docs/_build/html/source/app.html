@@ -1,0 +1,342 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>audiostream.py &mdash; Ingeniørprosjekt II v3.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5773a0da"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="WebSocket" href="jsdocs.html" />
+    <link rel="prev" title="Moduler" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Ingeniørprosjekt II
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Innhold</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="overview.html">Systemoversikt</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="overview.html#flask-app">Flask-app</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="modules.html">Moduler</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">audiostream.py</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-app.front">front.py</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-app.landing">landing.py</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-app.mqtt">mqtt.py</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sockets-py">sockets.py</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-app">app.py</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#javascript-api">JavaScript API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#statisk-innhold">Statisk innhold</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#rutebeskrivelse">Rutebeskrivelse</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#mqtt">MQTT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#omvendt-proxy-nginx">Omvendt proxy (NGINX)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#systemd">Systemd</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Kildekode</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="code.html">Kildekode</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Ingeniørprosjekt II</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="overview.html">Systemoversikt</a></li>
+          <li class="breadcrumb-item"><a href="modules.html">Moduler</a></li>
+      <li class="breadcrumb-item active">audiostream.py</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/source/app.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="audiostream-py">
+<h1>audiostream.py<a class="headerlink" href="#audiostream-py" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="app.audiostream.AudioStream">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">AudioStream</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunklength</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/audiostream.html#AudioStream"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.audiostream.AudioStream" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="simple">
+<dt>Funksjonalitet:</dt><dd><ul class="simple">
+<li><p>Leser inn en lydfil i opus-format.</p></li>
+<li><p>Sender en lydfil i rå-data over socket til WebServer.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file_path</strong> (<em>str</em>) – Stien til filen som skal spilles av.</p>
+</dd>
+<dt class="field-even">Variables<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>filepath</strong> (<em>str</em>) – Stien til lydfilen.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="app.audiostream.AudioStream.simple_send">
+<span class="sig-name descname"><span class="pre">simple_send</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/audiostream.html#AudioStream.simple_send"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.audiostream.AudioStream.simple_send" title="Link to this definition"></a></dt>
+<dd><p>Sender lydfil som rå-data til en WebServer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Data fra lydfilen som sendes til serveren.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bytes</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Exception</strong> – Hvis filen ikke kan leses eller en annen feil oppstår.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-app.front">
+<span id="front-py"></span><h1>front.py<a class="headerlink" href="#module-app.front" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="app.front.front">
+<span class="sig-name descname"><span class="pre">front</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/front.html#front"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.front.front" title="Link to this definition"></a></dt>
+<dd><p>Setter opp nettsiden sin landingsside på GET-forespørsler,
+og sender videre JSON-data i fra forespørslen til MQTT-klienten.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Rute<span class="colon">:</span></dt>
+<dd class="field-odd"><p>GET, POST /front/</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>render_template|request</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-app.landing">
+<span id="landing-py"></span><h1>landing.py<a class="headerlink" href="#module-app.landing" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="app.landing.redirect_front">
+<span class="sig-name descname"><span class="pre">redirect_front</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/landing.html#redirect_front"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.landing.redirect_front" title="Link to this definition"></a></dt>
+<dd><p>Funksjon for å redirigere trafikk til landingssiden (front).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Rute<span class="colon">:</span></dt>
+<dd class="field-odd"><p>GET /</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Rediriger nettleseren til /front-endepunktet.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.landing.set_cookie">
+<span class="sig-name descname"><span class="pre">set_cookie</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/landing.html#set_cookie"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.landing.set_cookie" title="Link to this definition"></a></dt>
+<dd><p>Oppretter cookie i nettleseren.</p>
+<dl class="simple">
+<dt>Egenskaper:</dt><dd><ul class="simple">
+<li><p>Levetid: 3600 sekunder</p></li>
+<li><p>Secure: True</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Rute<span class="colon">:</span></dt>
+<dd class="field-odd"><p>GET /set_cookie</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>JSON:</dt><dd><ul class="simple">
+<li><p>Status: om <code class="docutils literal notranslate"><span class="pre">cookie</span></code>-en ble opprettet suksessfult eller ikke</p></li>
+<li><p>Statuskode: <code class="docutils literal notranslate"><span class="pre">200</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-app.mqtt">
+<span id="mqtt-py"></span><h1>mqtt.py<a class="headerlink" href="#module-app.mqtt" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="app.mqtt.find_poi">
+<span class="sig-name descname"><span class="pre">find_poi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nfctagID</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/mqtt.html#find_poi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.mqtt.find_poi" title="Link to this definition"></a></dt>
+<dd><p>Hjelpefunksjon for uthenging av database-data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>nfctagID</strong> (<em>str</em>) – NFC-chippen sin ID</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>NFC-taggen sin tilhørende POI.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.mqtt.getmqtt">
+<span class="sig-name descname"><span class="pre">getmqtt</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/mqtt.html#getmqtt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.mqtt.getmqtt" title="Link to this definition"></a></dt>
+<dd><p>Ta i mot meldinger fra MQTT-klient.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.mqtt.handle_locations">
+<span class="sig-name descname"><span class="pre">handle_locations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/mqtt.html#handle_locations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.mqtt.handle_locations" title="Link to this definition"></a></dt>
+<dd><p>Håndterer forespørsler angående beliggenhet.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.mqtt.handle_returndata">
+<span class="sig-name descname"><span class="pre">handle_returndata</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/mqtt.html#handle_returndata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.mqtt.handle_returndata" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>JSON:</dt><dd><p>Statusrapport.</p>
+</dd>
+<dt>SocketIO:</dt><dd><p>Lokasjonsdata til MQTT-klienten.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.mqtt.test_socketio">
+<span class="sig-name descname"><span class="pre">test_socketio</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/mqtt.html#test_socketio"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.mqtt.test_socketio" title="Link to this definition"></a></dt>
+<dd><p>Test-funksjon for å sjekke at tilkoblingen fungerer.</p>
+</dd></dl>
+
+</section>
+<section id="sockets-py">
+<h1>sockets.py<a class="headerlink" href="#sockets-py" title="Link to this heading"></a></h1>
+<p>Håndterer socket-funksjonalitet for flask-serveren.</p>
+<dl class="py function" id="module-app.sockets">
+<dt class="sig sig-object py" id="app.sockets.check_cookie">
+<span class="sig-name descname"><span class="pre">check_cookie</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/sockets.html#check_cookie"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.sockets.check_cookie" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.sockets.find_audio_file_path">
+<span class="sig-name descname"><span class="pre">find_audio_file_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">poiID</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/sockets.html#find_audio_file_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.sockets.find_audio_file_path" title="Link to this definition"></a></dt>
+<dd><p>Funksjon som finner riktig lydfil basert på tilsent interessepunkt.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.sockets.handle_audio_request">
+<span class="sig-name descname"><span class="pre">handle_audio_request</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/sockets.html#handle_audio_request"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.sockets.handle_audio_request" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.sockets.handle_connect">
+<span class="sig-name descname"><span class="pre">handle_connect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/sockets.html#handle_connect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.sockets.handle_connect" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="app.sockets.handle_disconnect">
+<span class="sig-name descname"><span class="pre">handle_disconnect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app/sockets.html#handle_disconnect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.sockets.handle_disconnect" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-app">
+<span id="app-py"></span><h1>app.py<a class="headerlink" href="#module-app" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="app.create_app">
+<span class="sig-name descname"><span class="pre">create_app</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/app.html#create_app"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#app.create_app" title="Link to this definition"></a></dt>
+<dd><p>Oppretter en flask server og initialiserer diverse tillegsmoduler.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Flask app-instans.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="Moduler" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="jsdocs.html" class="btn btn-neutral float-right" title="WebSocket" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Gruppe 1.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      Version: Current version here
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      We list the other versions here
+    </div>
+  </div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
