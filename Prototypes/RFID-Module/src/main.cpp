@@ -1,7 +1,8 @@
+//Include the necessary libraries
 #include <Arduino.h>
 #include <WiFi.h>
 #include <SPI.h>
-#include <WebSocketsClient.h>  // include before MQTTPubSubClient.h
+#include <WebSocketsClient.h>
 #include <MQTTPubSubClient.h>
 #include <MFRC522.h>
 
@@ -10,26 +11,26 @@
 #define STR(x) XSTR(x)
 
 // MQTT Configuration
-const char* MQTT_HOSTNAME = "mqtt.gruppe1.tech";
+const char* MQTT_HOSTNAME = "mqtt.gruppe1.tech"; // Define the MQTT broker hostname
 const char* MQTT_TOPIC = "devices/1/location"; // Define the topic to publish to
-const int MQTT_PORT1 = 9002;
-const char* MQTT_PASSWORD = STR(MQTT_PASSWD);
-const char* MQTT_USER = STR(MQTT_USERNAME);
+const int MQTT_PORT1 = 9002; // Define the port number for MQTT
+const char* MQTT_PASSWORD = STR(MQTT_PASSWD); //The password is defines in a local file
+const char* MQTT_USER = STR(MQTT_USERNAME); //The username is defines in a local file
 
 // Wi-Fi Configuration
-const char* ssid = "NTNU-IOT";
-const char* pass = "";
+const char* ssid = "NTNU-IOT"; // Define the SSID of the Wi-Fi network
+const char* pass = ""; // Define the password of the Wi-Fi network
 
-WebSocketsClient client;
-MQTTPubSubClient mqtt;
+WebSocketsClient client; // Create a WebSockets client
+MQTTPubSubClient mqtt; // Create an MQTT client
 
 // Pin Definitions for MFRC522 (RFID Reader)
 // Set up the pins
-#define RST_PIN         13    // RST pin connected to GPIO39
-#define SS_PIN          9    // SS (SDA) pin connected to GPIO14
-#define MOSI_PIN        11    // MOSI pin connected to GPIO16
-#define MISO_PIN        12     // MISO pin connected to GPIO2
-#define SCK_PIN         10     // SCK pin connected to GPIO1
+#define RST_PIN         13
+#define SS_PIN          9
+#define MOSI_PIN        11
+#define MISO_PIN        12
+#define SCK_PIN         10
 
 // Create MFRC522 instance
 MFRC522 mfrc522(SS_PIN, RST_PIN);
@@ -47,7 +48,7 @@ connect_to_wifi:
 connect_to_host:
     Serial.println("connecting to host...");
     client.disconnect();
-    client.begin(MQTT_HOSTNAME, MQTT_PORT1, "/", "mqtt");  // "mqtt" is required
+    client.begin(MQTT_HOSTNAME, MQTT_PORT1, "/", "mqtt");
     client.setReconnectInterval(2000);
 
     Serial.print("connecting to mqtt broker...");
@@ -84,33 +85,11 @@ void setup() {
 
     // Connect to Wi-Fi, host, and MQTT broker
     connect();
-
-    // Subscribe to MQTT topics (commented out)
-    // mqtt.subscribe([](const String& topic, const String& payload, const size_t size) {
-    //     Serial.println("mqtt received: " + topic + " - " + payload);
-    // });
-
-    // mqtt.subscribe("/hello", [](const String& payload, const size_t size) {
-    //     Serial.print("/hello ");
-    //     Serial.println(payload);
-    // });
 }
 
 void loop() {
     // Update MQTT client regularly
     mqtt.update();
-
-    // Reconnect if MQTT client is disconnected
-    //if (!mqtt.isConnected()) {
-    //    connect();
-    //}
-
-    // Publish a message to MQTT broker at regular intervals
-    //static uint32_t prevPublishTime = 0;
-    //if (millis() - prevPublishTime >= 1000) {
-    //    prevPublishTime = millis();
-    //    mqtt.publish(MQTT_TOPIC, "NFC tag is connected");
-    //}
 
     // Non-blocking delay for card reading
     static uint32_t lastCardReadTime = 0;
@@ -122,6 +101,7 @@ void loop() {
         if ( ! mfrc522.PICC_IsNewCardPresent()){
             return;
         }
+        // Select one of the cards
         if ( ! mfrc522.PICC_ReadCardSerial()){
             return;
         }
@@ -156,14 +136,13 @@ void loop() {
         // Convert the UID to uppercase
         uidString.toUpperCase();
 
-        // Now you can use uidString as needed
-        // For example, publish it via MQTT
+        // Publish the UID to the MQTT broker
         mqtt.publish(MQTT_TOPIC, uidString);
 
         Serial.println(F("\n**End Reading**\n"));
 
         // Halt PICC and stop encryption on PCD
-        mfrc522.PICC_HaltA();
-        mfrc522.PCD_StopCrypto1();
+        mfrc522.PICC_HaltA(); 
+        mfrc522.PCD_StopCrypto1(); 
     }
 }
