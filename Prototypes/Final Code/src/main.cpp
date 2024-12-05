@@ -2,6 +2,7 @@
 #include <Arduino.h>
 #include <WiFi.h>
 #include <SPI.h>
+#include <Wire.h>
 #include <WebSocketsClient.h>
 #include <MQTTPubSubClient.h>
 #include <MFRC522.h>
