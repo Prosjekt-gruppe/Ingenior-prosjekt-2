@@ -20,21 +20,21 @@ const char* MQTT_PASSWORD = STR(MQTT_PASSWD);
 const char* MQTT_USER = STR(MQTT_USERNAME);
 
 // Wi-Fi Configuration (DON'T LEAK THIS TO GITHUB!!!)
-const char* ssid = "";  // Your Wi-Fi SSID
+const char* ssid = "NTNU-IOT";  // Your Wi-Fi SSID
 const char* pass = "";  // Your Wi-Fi password
 
 WebSocketsClient client;
 MQTTPubSubClient mqtt;
 
 // Define the pins for PWM control
-const int freq = 150;            // PWM frequency in Hz
+const int freq = 10000;            // PWM frequency in Hz
 const int ledChannel0 = 0;       // PWM channel for motor 1
 const int ledChannel1 = 1;       // PWM channel for motor 2
 const int ledChannel2 = 2;       // PWM channel for motor 3
 const int resolution = 12;       // PWM resolution (12 bits)
 
 // Define the pins for the motors
-const int motorPin1 = 16;        // GPIO pin for motor 1
+const int motorPin1 = 3;        // GPIO pin for motor 1
 const int motorPin2 = 17;        // GPIO pin for motor 2
 const int motorPin3 = 18;        // GPIO pin for motor 3
 
