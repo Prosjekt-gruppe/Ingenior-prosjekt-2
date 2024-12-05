@@ -26,19 +26,19 @@ WebSocketsClient client;
 MQTTPubSubClient mqtt;
 
 // Set up the pins for the RFID reader
-#define RST_PIN         1
-#define SS_PIN          9
-#define MOSI_PIN        2
-#define MISO_PIN        11
-#define SCK_PIN         10
-#define BUZZER_PIN      5
+#define RST_PIN         48
+#define SS_PIN          46
+#define MOSI_PIN        47
+#define MISO_PIN        2
+#define SCK_PIN         1
+#define BUZZER_PIN      10
 
 // Set up the pins for the distance sensors
-#define SDA_PIN 13
-#define SCL_PIN 12
-#define XSHUT_PIN_1 4
-#define XSHUT_PIN_2 6
-#define XSHUT_PIN_3 7
+#define SDA_PIN 8
+#define SCL_PIN 9
+#define XSHUT_PIN_1 11
+#define XSHUT_PIN_2 12
+#define XSHUT_PIN_3 13
 
 // Create VL53L0X sensor instances
 VL53L0X sensor1;
