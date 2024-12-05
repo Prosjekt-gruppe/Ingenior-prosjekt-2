@@ -63,7 +63,7 @@ MFRC522 mfrc522(SS_PIN, RST_PIN);
 
 // Define distance range for mapping
 const uint16_t minDistance = 50;     // Minimum distance in mm (closest)
-const uint16_t maxDistance = 500;    // Maximum distance in mm (farthest)
+const uint16_t maxDistance = 2000;    // Maximum distance in mm (farthest)
 
 // Function to map distance to duty cycle
 uint32_t mapDistanceToDutyCycle(uint16_t distance) {
