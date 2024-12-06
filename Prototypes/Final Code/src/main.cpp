@@ -26,24 +26,37 @@ WebSocketsClient client;
 MQTTPubSubClient mqtt;
 
 // Set up the pins for the RFID reader
-#define RST_PIN         48
-#define SS_PIN          46
-#define MOSI_PIN        47
-#define MISO_PIN        2
-#define SCK_PIN         1
-#define BUZZER_PIN      10
+#define RST_PIN         1
+#define SS_PIN          9
+#define MOSI_PIN        2
+#define MISO_PIN        11
+#define SCK_PIN         10
+#define BUZZER_PIN      5
 
 // Set up the pins for the distance sensors
-#define SDA_PIN 8
-#define SCL_PIN 9
-#define XSHUT_PIN_1 11
-#define XSHUT_PIN_2 12
-#define XSHUT_PIN_3 13
+#define SDA_PIN 13
+#define SCL_PIN 12
+#define XSHUT_PIN_1 4
+#define XSHUT_PIN_2 6
+//#define XSHUT_PIN_3 7
+const unsigned int mindistance = 50;
+const unsigned int maxdistance = 300;
+
+//Define pins for the PWM control
+const unsigned int freq = 20000;
+const unsigned int ledChannel0 = 0; // PWM channel for motor 1
+const unsigned int resolution = 8;
+const unsigned int maxDutyCycle = 255;
+float dutyCycleMotor1 = 0;
+float dutyCycleIntervals = maxDutyCycle / (maxdistance - mindistance);
+
+// Define pins for the motors
+const int motor1 = 3;
 
 // Create VL53L0X sensor instances
 VL53L0X sensor1;
 VL53L0X sensor2;
-VL53L0X sensor3;
+//VL53L0X sensor3;
 
 // Create MFRC522 instance
 MFRC522 mfrc522(SS_PIN, RST_PIN);
@@ -81,18 +94,37 @@ connect_to_host:
 }
 
 void setup() {
+    //Initialize the motor to set it off
+    pinMode(motor1, OUTPUT);
+    digitalWrite(motor1, LOW);
+
+    // Play startup sound (Family Mart jingle)
+    pinMode(BUZZER_PIN, OUTPUT);
+    tone(BUZZER_PIN, 740, 400);
+    tone(BUZZER_PIN, 587, 400);
+    tone(BUZZER_PIN, 440, 400);
+    tone(BUZZER_PIN, 587, 400);
+    tone(BUZZER_PIN, 659, 400);
+    tone(BUZZER_PIN, 880, 800);
+    tone(BUZZER_PIN, 659, 400);
+    tone(BUZZER_PIN, 740, 400);
+    tone(BUZZER_PIN, 659, 400);
+    tone(BUZZER_PIN, 440, 400);
+    tone(BUZZER_PIN, 587, 800);
+
+
     Wire.begin(SDA_PIN, SCL_PIN);  // Initialize I2C bus
     Serial.begin(115200);
 
     // Initialize XSHUT pins
     pinMode(XSHUT_PIN_1, OUTPUT);
     pinMode(XSHUT_PIN_2, OUTPUT);
-    pinMode(XSHUT_PIN_3, OUTPUT);
+    //pinMode(XSHUT_PIN_3, OUTPUT);
 
     // Shutdown all sensors
     digitalWrite(XSHUT_PIN_1, LOW);
     digitalWrite(XSHUT_PIN_2, LOW);
-    digitalWrite(XSHUT_PIN_3, LOW);
+    //digitalWrite(XSHUT_PIN_3, LOW);
     delay(10);  // Short delay to ensure sensors are in shutdown
 
     // Initialize and assign new address to sensor 1
@@ -110,26 +142,23 @@ void setup() {
     sensor2.startContinuous();
 
     // Initialize and assign new address to sensor 3
-    digitalWrite(XSHUT_PIN_3, HIGH);
-    delay(10);  // Wait for the sensor to boot up
-    sensor3.setAddress(0x32);  // New I2C address for sensor 3
-    sensor3.init();
-    sensor3.startContinuous();
+    //digitalWrite(XSHUT_PIN_3, HIGH);
+    //delay(10);  // Wait for the sensor to boot up
+    //sensor3.setAddress(0x32);  // New I2C address for sensor 3
+    //sensor3.init();
+    //sensor3.startContinuous();
+    
+    delay(5000); // Wait before activating the motors, or else there will be failures
 
-    pinMode(BUZZER_PIN, OUTPUT);
+    // Initialize PWM channels
+    ledcSetup(ledChannel0, freq, resolution);
 
-    // Play startup sound (Family Mart jingle)
-    tone(BUZZER_PIN, 740, 400);
-    tone(BUZZER_PIN, 587, 400);
-    tone(BUZZER_PIN, 440, 400);
-    tone(BUZZER_PIN, 587, 400);
-    tone(BUZZER_PIN, 659, 400);
-    tone(BUZZER_PIN, 880, 800);
-    tone(BUZZER_PIN, 659, 400);
-    tone(BUZZER_PIN, 740, 400);
-    tone(BUZZER_PIN, 659, 400);
-    tone(BUZZER_PIN, 440, 400);
-    tone(BUZZER_PIN, 587, 800);
+    //Attach motor to PWM channel
+    ledcAttachPin(motor1, ledChannel0);
+
+    //Ensure that the motors are off
+    ledcWrite(ledChannel0, 0);
+
     
     // Begin Wi-Fi connection
     WiFi.begin(ssid, pass);
@@ -145,6 +174,8 @@ void setup() {
 
     // Connect to Wi-Fi, host, and MQTT broker
     connect();
+
+
 }
 
 unsigned long TOFMillis = 0;
@@ -219,6 +250,13 @@ void loop() {
             Serial.print("Distance 1: ");
             Serial.print(distance1);
             Serial.println(" mm");
+            if (distance1 < maxdistance && distance1 > mindistance) {
+                dutyCycleMotor1 = (maxdistance - distance1) * dutyCycleIntervals;
+                int integerDutyCycleMotor1 = (int)dutyCycleMotor1;
+                ledcWrite(ledChannel0, integerDutyCycleMotor1);
+            } else {
+                ledcWrite(ledChannel0, 0);
+            }
         }
 
         // Read from sensor 2
@@ -232,13 +270,13 @@ void loop() {
         }
 
         // Read from sensor 3
-        uint16_t distance3 = sensor3.readRangeContinuousMillimeters();
-        if (sensor3.timeoutOccurred()) {
-            Serial.println("Sensor 3 timeout!");
-        } else {
-            Serial.print("Distance 3: ");
-            Serial.print(distance3);
-            Serial.println(" mm");
-        }
+        //uint16_t distance3 = sensor3.readRangeContinuousMillimeters();
+        //if (sensor3.timeoutOccurred()) {
+        //    Serial.println("Sensor 3 timeout!");
+        //} else {
+        //    Serial.print("Distance 3: ");
+        //    Serial.print(distance3);
+        //    Serial.println(" mm");
+        //}
     }
 }
