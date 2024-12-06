@@ -46,10 +46,9 @@ function startwebsocket() {
 }
 
 /**
- * Håndterer ``connect``
+ * Håndterer ``connect``-hendelsen på WebSocketen 
  *
  * @function connectsocket
- * @returns {void}
  */
 function connectsocket() {
     console.log("Connected");
@@ -57,11 +56,10 @@ function connectsocket() {
 }
 
 /**
- * Håndterer ``cookie_update`` fra Flask socket
+ * Håndterer ``cookie_update``-hendelsen fra
  *
  * @function updatecookie
  * @param {Object} data - Data relatert til oppdaterte cookies.
- * @returns {void}
  */
 function updatecookie(data) {
     console.log("New cookie generated for:", data.user_data);
@@ -72,7 +70,6 @@ function updatecookie(data) {
  *
  * @function confirmcookie
  * @param {Object} data - Data om gyldige cookies.
- * @returns {void}
  */
 function confirmcookie(data) {
     console.log("Cookie already exists:", data.user_data);
@@ -83,7 +80,6 @@ function confirmcookie(data) {
  *
  * @function mqttreceiver
  * @param {Object} data - Data fra MQTT-socket.
- * @returns {void}
  */
 function mqttreceiver(data) {
     console.log("Updated info: ", data);
@@ -151,7 +147,7 @@ function anothereventhandler(data) {
 }
 
 /**
- * Håndterer 'audio_file'-hendelsen.
+ * Håndterer 'audio_file'-hendelsen og sender lydfilen til `audio`-biblioteket.
  *
  * @function audiofilehandler
  * @param {ArrayBuffer} audiofile Rå lyd-data.
@@ -162,7 +158,7 @@ function audiofilehandler(audiofile) {
 }
 
 /**
- * Logger alle hendelser over SocketIO-tilkoblingen.
+ * Logger alle hendelser over SocketIO-tilkoblingen, som gjør det enklere å debugge.
  *
  * @function loganyevent
  * @param {string} event Alle hendelser

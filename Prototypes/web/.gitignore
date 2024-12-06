@@ -16,7 +16,10 @@ logs
 db/uuids.json
 db/nfctags.json
 
-docs/_build
+docs/_build/doctrees
+docs/_build/latex
 
 
 docs/out
+
+build-website.yml

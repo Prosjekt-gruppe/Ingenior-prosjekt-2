@@ -1,10 +1,11 @@
-Jinja
+Jinja (HTML)
 ----------------
 
 Flask bruker `Jinja` og `templates` til å konstruere nettsiden. 
 Ved å velge en slik løsning kan man autogenerere HTML-kode ved hjelp av flask-serveren.
 Følgende HTML-kode blir satt sammen av flask-applikasjonen når nettsiden laster
 og setter dem sammen korrekt.
+
 
 **base.html**
 
@@ -16,4 +17,11 @@ og setter dem sammen korrekt.
 
 .. literalinclude:: ../../app/templates/front/fpage.html
    :language: html
+   :linenos:
+
+CSS
+----
+
+.. literalinclude:: ../../app/static/style.css
+   :language: css
    :linenos:

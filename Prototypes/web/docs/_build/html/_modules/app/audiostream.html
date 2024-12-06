@@ -93,7 +93,6 @@
 
 <span class="sd">    :ivar str filepath: Stien til lydfilen.</span>
 
-
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">,</span> <span class="n">chunklength</span><span class="o">=</span><span class="mf">0.05</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">filepath</span> <span class="o">=</span> <span class="n">file_path</span>
@@ -103,10 +102,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">samples</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="mi">0</span>
 
-    <span class="c1"># currently not in use</span>
     <span class="k">def</span> <span class="nf">init_stream</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Oppretter en forbindelse med stream</span>
+<span class="sd">        Oppretter en forbindelse med stream.</span>
+
+<span class="sd">        Foreløpig ikke implementert.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;AudioStream: Started init_stream&quot;</span><span class="p">)</span>
@@ -129,10 +129,12 @@
             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AudioStream: Failed to initialize stream. Error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="k">raise</span>
 
-    <span class="c1"># currently not in use</span>
+
     <span class="k">def</span> <span class="nf">get_next_chunk</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Henter nye chunks</span>
+<span class="sd">        Henter nye lydbiter </span>
+
+<span class="sd">        Foreløpig ikke implementert.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;AudioStream: Getting next chunk&quot;</span><span class="p">)</span>
@@ -149,8 +151,13 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">end</span>
         <span class="k">return</span> <span class="n">chunk</span><span class="o">.</span><span class="n">raw_data</span>
     
-    <span class="c1"># currently not in use</span>
+
     <span class="k">def</span> <span class="nf">stream_chunks</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sender en lydstrøm</span>
+
+<span class="sd">        Ikke implementert enda.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;AudioStream: stream_chunks called&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">init_stream</span><span class="p">()</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
@@ -161,17 +168,15 @@
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AudioStream: yielding chunk of size </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span><span class="si">}</span><span class="s2"> bytes&quot;</span><span class="p">)</span>
             <span class="k">yield</span> <span class="n">chunk</span>
 
+
 <div class="viewcode-block" id="AudioStream.simple_send">
 <a class="viewcode-back" href="../../source/app.html#app.audiostream.AudioStream.simple_send">[docs]</a>
     <span class="k">def</span> <span class="nf">simple_send</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Sender lydfil som rå-data til en WebServer.</span>
-<span class="sd">        </span>
-
+<span class="sd">        Åpner en lydfil of returnerer den som rådata.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            bytes: Data fra lydfilen som sendes til serveren.</span>
-
+<span class="sd">            bytes: Rådata opus-lydfil</span>
 <span class="sd">        Raises:</span>
 <span class="sd">            Exception: Hvis filen ikke kan leses eller en annen feil oppstår.</span>
 <span class="sd">        &quot;&quot;&quot;</span>

@@ -19,7 +19,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Jinja" href="csshtml.html" />
+    <link rel="next" title="Jinja (HTML)" href="csshtml.html" />
     <link rel="prev" title="audiostream.py" href="app.html" /> 
 </head>
 
@@ -45,6 +45,7 @@
               <p class="caption" role="heading"><span class="caption-text">Innhold</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="overview.html">Systemoversikt</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html#detaljert-beskrivelse">Detaljert beskrivelse</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="overview.html#flask-app">Flask-app</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="modules.html">Moduler</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="modules.html#javascript-api">JavaScript API</a><ul class="current">
@@ -62,6 +63,8 @@
 <li class="toctree-l2"><a class="reference internal" href="overview.html#mqtt">MQTT</a></li>
 <li class="toctree-l2"><a class="reference internal" href="overview.html#omvendt-proxy-nginx">Omvendt proxy (NGINX)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="overview.html#systemd">Systemd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#byggskript">Byggskript</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#avhengigheter">Avhengigheter</a></li>
 </ul>
 </li>
 </ul>
@@ -116,26 +119,18 @@
 <dl class="js function">
 <dt class="sig sig-object js" id="connectsocket">
 <span class="sig-name descname"><span class="n"><span class="pre">connectsocket</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#connectsocket" title="Link to this definition"></a></dt>
-<dd><p>Håndterer <code class="docutils literal notranslate"><span class="pre">connect</span></code></p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>void</strong> –</p>
-</dd>
-</dl>
+<dd><p>Håndterer <code class="docutils literal notranslate"><span class="pre">connect</span></code>-hendelsen på WebSocketen</p>
 </dd></dl>
 
 <dl class="js function">
 <dt class="sig sig-object js" id="updatecookie">
 <span class="sig-name descname"><span class="n"><span class="pre">updatecookie</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#updatecookie" title="Link to this definition"></a></dt>
-<dd><p>Håndterer <code class="docutils literal notranslate"><span class="pre">cookie_update</span></code> fra Flask socket</p>
+<dd><p>Håndterer <code class="docutils literal notranslate"><span class="pre">cookie_update</span></code>-hendelsen fra</p>
 <dl class="field-list simple">
 <dt class="field-odd">Arguments<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> (<em>Object</em>) – Data relatert til oppdaterte cookies.</p></li>
 </ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>void</strong> –</p>
 </dd>
 </dl>
 </dd></dl>
@@ -150,9 +145,6 @@
 <li><p><strong>data</strong> (<em>Object</em>) – Data om gyldige cookies.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>void</strong> –</p>
-</dd>
 </dl>
 </dd></dl>
 
@@ -165,9 +157,6 @@
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> (<em>Object</em>) – Data fra MQTT-socket.</p></li>
 </ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>void</strong> –</p>
 </dd>
 </dl>
 </dd></dl>
@@ -206,7 +195,7 @@ Til slutt returnerer informasjonen til funksjonen <cite>handlepoi()</cite></p>
 <dl class="js function">
 <dt class="sig sig-object js" id="audiofilehandler">
 <span class="sig-name descname"><span class="n"><span class="pre">audiofilehandler</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">audiofile</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#audiofilehandler" title="Link to this definition"></a></dt>
-<dd><p>Håndterer ‘audio_file’-hendelsen.</p>
+<dd><p>Håndterer ‘audio_file’-hendelsen og sender lydfilen til <cite>audio</cite>-biblioteket.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Arguments<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -219,7 +208,7 @@ Til slutt returnerer informasjonen til funksjonen <cite>handlepoi()</cite></p>
 <dl class="js function">
 <dt class="sig sig-object js" id="loganyevent">
 <span class="sig-name descname"><span class="n"><span class="pre">loganyevent</span></span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#loganyevent" title="Link to this definition"></a></dt>
-<dd><p>Logger alle hendelser over SocketIO-tilkoblingen.</p>
+<dd><p>Logger alle hendelser over SocketIO-tilkoblingen, som gjør det enklere å debugge.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Arguments<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -369,7 +358,7 @@ Til slutt returnerer informasjonen til funksjonen <cite>handlepoi()</cite></p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="app.html" class="btn btn-neutral float-left" title="audiostream.py" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="csshtml.html" class="btn btn-neutral float-right" title="Jinja" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="csshtml.html" class="btn btn-neutral float-right" title="Jinja (HTML)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

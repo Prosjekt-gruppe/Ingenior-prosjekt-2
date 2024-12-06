@@ -45,6 +45,7 @@
               <p class="caption" role="heading"><span class="caption-text">Innhold</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Systemoversikt</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#detaljert-beskrivelse">Detaljert beskrivelse</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#flask-app">Flask-app</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="modules.html">Moduler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="modules.html#javascript-api">JavaScript API</a></li>
@@ -62,6 +63,17 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#systemd">Systemd</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="services.html">Systemd-tjenester</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#byggskript">Byggskript</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="build.html">Github Workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="build.html#bash-script">Bash-script</a></li>
+<li class="toctree-l3"><a class="reference internal" href="build.html#database">Database</a></li>
+<li class="toctree-l3"><a class="reference internal" href="build.html#oppstart">Oppstart</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#avhengigheter">Avhengigheter</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dependencies.html">Python avhengigheter</a></li>
 </ul>
 </li>
 </ul>
@@ -103,9 +115,22 @@
 <a class="reference internal image-reference" href="../_images/highlevel_systemview.png"><img alt="Overordnet systemoversikt" src="../_images/highlevel_systemview.png" style="width: 70%;" />
 </a>
 <figcaption>
-<p><span class="caption-text">Høy-nivå overblikk av systemet.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+<p><span class="caption-text">Overblikk av MQTT-systemet.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
 </figcaption>
 </figure>
+<p>Her ser vi et overblikk over hvordan MQTT kommunikasjonen er implementert.</p>
+<section id="detaljert-beskrivelse">
+<h2>Detaljert beskrivelse<a class="headerlink" href="#detaljert-beskrivelse" title="Link to this heading"></a></h2>
+<p>Nednefor kan man observere i større grad hvordan de forskjellige delene
+av systemet henger sammen.</p>
+<figure class="align-center" id="id2">
+<a class="reference internal image-reference" href="../_images/weblayout_versjon3.png"><img alt="Detaljert systemoversikt" src="../_images/weblayout_versjon3.png" style="width: 70%;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Detaljert overblikk av WebServeren.</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+</section>
 <section id="flask-app">
 <h2>Flask-app<a class="headerlink" href="#flask-app" title="Link to this heading"></a></h2>
 <p>Python-biblioteket Flask ble brukt som rammeverk for å sette opp nettsiden.
@@ -132,7 +157,8 @@ Hver modul er definert i sin egen python-fil i app-mappen.</p>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html#statisk-innhold">Statisk innhold</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="csshtml.html">Jinja</a></li>
+<li class="toctree-l2"><a class="reference internal" href="csshtml.html">Jinja (HTML)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="csshtml.html#css">CSS</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html#rutebeskrivelse">Rutebeskrivelse</a><ul>
@@ -171,6 +197,25 @@ Hver modul er definert i sin egen python-fil i app-mappen.</p>
 <li class="toctree-l2"><a class="reference internal" href="services.html#pymqtt">PyMQTT</a></li>
 </ul>
 </li>
+</ul>
+</div>
+</section>
+<section id="byggskript">
+<h2>Byggskript<a class="headerlink" href="#byggskript" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="build.html">Github Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build.html#bash-script">Bash-script</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build.html#database">Database</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build.html#oppstart">Oppstart</a></li>
+</ul>
+</div>
+</section>
+<section id="avhengigheter">
+<h2>Avhengigheter<a class="headerlink" href="#avhengigheter" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="dependencies.html">Python avhengigheter</a></li>
 </ul>
 </div>
 </section>

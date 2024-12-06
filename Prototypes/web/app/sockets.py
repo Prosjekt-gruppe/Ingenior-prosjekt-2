@@ -21,8 +21,13 @@ audiopath = os.path.join(base_dir, "../audio")
 
 def find_audio_file_path(poiID):
     """
-    Funksjon som finner riktig lydfil basert på tilsent interessepunkt.
+    Hjelpefunksjon for uthenging av database-data.
 
+    :param poiID: lydfilen sin ID
+    :type poiID: int
+    
+    :return: poiID sin tilhørende lydfil.
+    :rtype: str
     """
     if not isinstance(poiID, int):
         logger.info("cant find file because it search term not int")
@@ -40,11 +45,36 @@ def find_audio_file_path(poiID):
 
 @socketio.on('connect')
 def handle_connect():
+    """
+    Funksjonen sikrer at serveren kobler seg til 
+
+    Mottar på:
+        Socket:
+            - ``connect``
+
+    Returns:
+        Socket:
+            - ``server_message`` beskjed: `velkommen!`
+    """
     logger.info("Client connected")
     socketio.emit('server_message', {'data': 'Welcome!'})
 
 @socketio.on('ready_for_message')
 def check_cookie():
+    """
+    Funksjonen mottar en forespørsel fra klienten over websocket.
+    Deretter sørger den for at riktig fil blir funnet og returnert til klienten.
+    Hvis riktig fil ikke eksisterer sender den feilmelding tilbake.
+
+    Mottar på:
+        Socket: 
+            - ``ready_for_message``
+
+    Returns:
+        Socket:
+            - ``no_cookie`` beskjed: `ingen cookie funnet`
+            - ``colorchange`` color: `fargedata [HEX]`
+    """
     cookie = request.cookies.get("user_data")
     
     if not cookie:
@@ -63,6 +93,21 @@ def check_cookie():
 
 @socketio.on('request_audio')
 def handle_audio_request(data):
+    """
+    Funksjonen mottar en forespørsel fra klienten over websocket.
+    Deretter sørger den for at riktig fil blir funnet og returnert til klienten.
+    Hvis riktig fil ikke eksisterer sender den feilmelding tilbake.
+
+    Mottar på:
+        Socket: 
+            - ``request_audio``
+
+    Returns:
+        Socket:
+            - ``error`` beskjed: `fil eksisterer ikke`
+            - ``error`` beskjed: `klarte ikke sende lydfil`
+            - ``audio_file`` `lydfil`
+    """
     logger.info("initializing audio request")
 
     poiId = int(data.get('poiId'))
@@ -92,4 +137,7 @@ def handle_audio_request(data):
 
 @socketio.on('disconnect')
 def handle_disconnect():
+    """
+    Sørger for å loggføre når klienter kobler seg av.
+    """
     logger.info("client disconnected")

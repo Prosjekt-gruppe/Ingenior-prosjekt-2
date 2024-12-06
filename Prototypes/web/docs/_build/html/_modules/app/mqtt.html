@@ -130,8 +130,18 @@
 <span class="nd">@bp</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;POST&#39;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">getmqtt</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Ta i mot meldinger fra MQTT-klient.</span>
+<span class="sd">    Funksjon som håndterer endepunktet for MQTT-beskjeder.</span>
 
+<span class="sd">    :rute:</span>
+<span class="sd">        GET /mqtt/</span>
+
+<span class="sd">    :return:</span>
+<span class="sd">        JSON:</span>
+<span class="sd">            - Status: om beskjeden mottas uten problemer</span>
+<span class="sd">            - Statuskode: ``200``</span>
+<span class="sd">        WebSocket:</span>
+<span class="sd">            - Endepunkt: ``mqttsocket`` sender melding.</span>
+<span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Got post request&quot;</span><span class="p">)</span>
     
@@ -153,9 +163,20 @@
 <span class="nd">@bp</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/location&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;POST&#39;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">handle_locations</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Håndterer forespørsler angående beliggenhet.</span>
-<span class="sd">    </span>
+<span class="sd">    Håndterer meldinger fra mikrokontrolleren og sender videre til nettleseren.    </span>
+
+<span class="sd">    :rute:</span>
+<span class="sd">        GET /mqtt/location</span>
+
+<span class="sd">    :return:</span>
+<span class="sd">        JSON:</span>
+<span class="sd">            - Status: beskjed om suksess eller ikke</span>
+<span class="sd">            - Statuskode: ``200`` om ingen feil, ``404`` om feil</span>
+<span class="sd">        WebSocket:</span>
+<span class="sd">            - Endepunkt: ``getlocation`` sender melding.</span>
+<span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Got post request&quot;</span><span class="p">)</span>
 
     <span class="n">data</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get_json</span><span class="p">()</span>
@@ -182,11 +203,14 @@
 <span class="nd">@bp</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/returndata&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;POST&#39;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">handle_returndata</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Funksjon som videresender tolker JSON-data og videresender til MQTT-klienten på serversiden.</span>
+<span class="sd">    </span>
 <span class="sd">    :return: </span>
 <span class="sd">        JSON:</span>
 <span class="sd">            Statusrapport.</span>
 <span class="sd">        SocketIO:</span>
-<span class="sd">            Lokasjonsdata til MQTT-klienten.</span>
+<span class="sd">            - Endepunkt: ``returndata``</span>
+<span class="sd">            - Lokasjonsdata til MQTT-klienten.</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get_json</span><span class="p">()</span>

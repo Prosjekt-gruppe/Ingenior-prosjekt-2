@@ -1,0 +1,284 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Github Workflow &mdash; Ingeniørprosjekt II v3.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5773a0da"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Python avhengigheter" href="dependencies.html" />
+    <link rel="prev" title="Systemd-tjenester" href="services.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Ingeniørprosjekt II
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Innhold</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="overview.html">Systemoversikt</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html#detaljert-beskrivelse">Detaljert beskrivelse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#flask-app">Flask-app</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#mqtt">MQTT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#omvendt-proxy-nginx">Omvendt proxy (NGINX)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#systemd">Systemd</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="overview.html#byggskript">Byggskript</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Github Workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bash-script">Bash-script</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#database">Database</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oppstart">Oppstart</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#avhengigheter">Avhengigheter</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Kildekode</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="code.html">Kildekode</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Ingeniørprosjekt II</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="overview.html">Systemoversikt</a></li>
+      <li class="breadcrumb-item active">Github Workflow</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/source/build.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="github-workflow">
+<h1>Github Workflow<a class="headerlink" href="#github-workflow" title="Link to this heading"></a></h1>
+<p>Skript som setter opp en virtuell maskin og dytter nyeste oppdateringene til serveren.
+Deretter aktiverer workflowen et <cite>build.sh</cite> bash-skript (se nedenfor).</p>
+<p><cite>.github/workflows/build-website.yml</cite></p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">build site</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="nt">on</span><span class="p">:</span>
+<span class="linenos"> 4</span><span class="w">  </span><span class="nt">push</span><span class="p">:</span>
+<span class="linenos"> 5</span><span class="w">    </span><span class="nt">paths</span><span class="p">:</span>
+<span class="linenos"> 6</span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;Prototypes/web/**&#39;</span>
+<span class="linenos"> 7</span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;.github/workflows/**&#39;</span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span><span class="nt">jobs</span><span class="p">:</span>
+<span class="linenos">10</span><span class="w">  </span><span class="nt">deploy</span><span class="p">:</span><span class="w"> </span>
+<span class="linenos">11</span><span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="linenos">12</span>
+<span class="linenos">13</span><span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="linenos">14</span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">get repo web</span>
+<span class="linenos">15</span><span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v4</span>
+<span class="linenos">16</span><span class="w">      </span>
+<span class="linenos">17</span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">setup ssh</span>
+<span class="linenos">18</span><span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="linenos">19</span><span class="w">          </span><span class="no">mkdir -p ~/.ssh</span>
+<span class="linenos">20</span><span class="w">          </span><span class="no">echo &quot;${{ secrets.SSH_PRIVATE_KEY }}&quot; &gt; ~/.ssh/id_rsa</span>
+<span class="linenos">21</span><span class="w">          </span><span class="no">chmod 600 ~/.ssh/id_rsa</span>
+<span class="linenos">22</span><span class="w">          </span><span class="no">ssh-keyscan -H ${{ vars.SERVER_IP }} &gt;&gt; ~/.ssh/known_hosts</span>
+<span class="linenos">23</span><span class="w">        </span><span class="nt">env</span><span class="p">:</span>
+<span class="linenos">24</span><span class="w">          </span><span class="nt">SSH_PRIVATE_KEY</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.SSH_PRIVATE_KEY }}</span>
+<span class="linenos">25</span>
+<span class="linenos">26</span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">copy files</span>
+<span class="linenos">27</span><span class="w">        </span><span class="nt">env</span><span class="p">:</span>
+<span class="linenos">28</span><span class="w">          </span><span class="nt">MQTT_ADMIN_USERNAME</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.MQTT_ADMIN_USERNAME }}</span>
+<span class="linenos">29</span><span class="w">          </span><span class="nt">MQTT_ADMIN_PASSWORD</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.MQTT_ADMIN_PASSWORD }}</span>
+<span class="linenos">30</span><span class="w">          </span><span class="nt">FLASK_SECRET_KEY</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.FLASK_SECRET_KEY }}</span>
+<span class="linenos">31</span><span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="linenos">32</span><span class="w">          </span><span class="no">rsync -avz --delete -e &quot;ssh -i ~/.ssh/id_rsa&quot; Prototypes/web/ gruppe1@${{ vars.SERVER_IP }}:/srv</span>
+<span class="linenos">33</span><span class="w">          </span><span class="no">ssh -i ~/.ssh/id_rsa gruppe1@${{ vars.SERVER_IP }} &#39;cat &lt;&lt;EOF &gt; /srv/.env</span>
+<span class="linenos">34</span><span class="w">          </span><span class="no">MQTT_ADMIN_USERNAME=${{ secrets.MQTT_ADMIN_USERNAME }}</span>
+<span class="linenos">35</span><span class="w">          </span><span class="no">MQTT_ADMIN_PASSWORD=${{ secrets.MQTT_ADMIN_PASSWORD }}</span>
+<span class="linenos">36</span><span class="w">          </span><span class="no">FLASK_SECRET_KEY=${{ secrets.FLASK_SECRET_KEY }}</span>
+<span class="linenos">37</span><span class="w">          </span><span class="no">EOF&#39;</span>
+<span class="linenos">38</span><span class="w">          </span>
+<span class="linenos">39</span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">make executable</span>
+<span class="linenos">40</span><span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ssh -i ~/.ssh/id_rsa gruppe1@${{ vars.SERVER_IP }} &#39;chmod +x /srv/build.sh&#39;</span>
+<span class="linenos">41</span>
+<span class="linenos">42</span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">run build script</span>
+<span class="linenos">43</span><span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ssh -i ~/.ssh/id_rsa gruppe1@${{ vars.SERVER_IP }} &#39;bash /srv/build.sh&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="bash-script">
+<h1>Bash-script<a class="headerlink" href="#bash-script" title="Link to this heading"></a></h1>
+<p>Skript som restarter tjenester og sørger for at
+python er oppdatert og kjører i riktig miljø.</p>
+<p><cite>build.sh</cite></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="ch">#!/bin/bash</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="c1"># move new files if modified</span>
+<span class="linenos"> 4</span>sudo<span class="w"> </span>rsync<span class="w"> </span>-av<span class="w"> </span>/srv/app/static/index.html<span class="w"> </span>/var/www/html/index.html
+<span class="linenos"> 5</span>sudo<span class="w"> </span>rsync<span class="w"> </span>-av<span class="w"> </span>/srv/nginx/default<span class="w"> </span>/etc/nginx/sites-enabled/default
+<span class="linenos"> 6</span>sudo<span class="w"> </span>rsync<span class="w"> </span>-av<span class="w"> </span>/srv/services/gunicorn.service<span class="w"> </span>/etc/systemd/system/gunicorn.service
+<span class="linenos"> 7</span>sudo<span class="w"> </span>rsync<span class="w"> </span>-av<span class="w"> </span>/srv/services/pymqtt.service<span class="w"> </span>/etc/systemd/system/pymqtt.service
+<span class="linenos"> 8</span>sudo<span class="w"> </span>rsync<span class="w"> </span>-av<span class="w"> </span>--delete<span class="w"> </span>/srv/mosquitto/<span class="w"> </span>/etc/mosquitto/conf.d/
+<span class="linenos"> 9</span>
+<span class="linenos">10</span><span class="nv">prj_path</span><span class="o">=</span><span class="s2">&quot;/srv&quot;</span>
+<span class="linenos">11</span><span class="nv">venv</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">prj_path</span><span class="si">}</span><span class="s2">/venv&quot;</span>
+<span class="linenos">12</span><span class="nv">requirements</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">prj_path</span><span class="si">}</span><span class="s2">/requirements.txt&quot;</span>
+<span class="linenos">13</span>
+<span class="linenos">14</span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>!<span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$venv</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="linenos">15</span><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;no venv found trying to setup venv&quot;</span>
+<span class="linenos">16</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>!<span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$requirements</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="linenos">17</span><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;no requirements file exiting&quot;</span>
+<span class="linenos">18</span><span class="w">        </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="linenos">19</span><span class="w">    </span><span class="k">else</span>
+<span class="linenos">20</span><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;found requirements.txt setting up venv&quot;</span>
+<span class="linenos">21</span><span class="w">        </span>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span><span class="nv">$venv</span>
+<span class="linenos">22</span><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;installing requirements.txt&quot;</span>
+<span class="linenos">23</span><span class="w">        </span><span class="nb">source</span><span class="w"> </span><span class="nv">$venv</span>/bin/activate
+<span class="linenos">24</span><span class="w">        </span>pip3<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span><span class="nv">$requirements</span>
+<span class="linenos">25</span><span class="w">    </span><span class="k">fi</span>
+<span class="linenos">26</span><span class="k">fi</span>
+<span class="linenos">27</span>
+<span class="linenos">28</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;create db&quot;</span>
+<span class="linenos">29</span><span class="nb">source</span><span class="w"> </span><span class="nv">$venv</span>/bin/activate
+<span class="linenos">30</span>python3<span class="w"> </span>/srv/db/setup_database.py
+<span class="linenos">31</span>
+<span class="linenos">32</span>sudo<span class="w"> </span>systemctl<span class="w"> </span>daemon-reload
+<span class="linenos">33</span>
+<span class="linenos">34</span>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>pymqtt
+<span class="linenos">35</span>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>mosquitto
+<span class="linenos">36</span>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>gunicorn
+<span class="linenos">37</span>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>nginx
+<span class="linenos">38</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;completed build&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="database">
+<h1>Database<a class="headerlink" href="#database" title="Link to this heading"></a></h1>
+<p>Enkelt python-script som setter opp test-data til nettsiden.</p>
+<p><cite>db/setup_database.py</cite></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">tinydb</span> <span class="kn">import</span> <span class="n">TinyDB</span>
+<span class="linenos"> 2</span><span class="kn">import</span> <span class="nn">os</span>
+<span class="linenos"> 3</span>
+<span class="linenos"> 4</span><span class="n">base_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
+<span class="linenos"> 5</span><span class="n">nfctag_db_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_dir</span><span class="p">,</span> <span class="s2">&quot;nfctags.json&quot;</span><span class="p">)</span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span><span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">nfctag_db_path</span><span class="p">):</span>
+<span class="linenos"> 9</span>    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">nfctag_db_path</span><span class="p">),</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="linenos">10</span>    <span class="n">db</span> <span class="o">=</span> <span class="n">TinyDB</span><span class="p">(</span><span class="n">nfctag_db_path</span><span class="p">)</span>
+<span class="linenos">11</span>    <span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">({</span><span class="s2">&quot;nfctagID&quot;</span><span class="p">:</span> <span class="s2">&quot;nfctag1&quot;</span><span class="p">,</span> <span class="s2">&quot;poiID&quot;</span><span class="p">:</span> <span class="mi">303578</span><span class="p">,</span> <span class="s2">&quot;audio_filename&quot;</span><span class="p">:</span> <span class="s2">&quot;someplace.opus&quot;</span><span class="p">})</span>
+<span class="linenos">12</span>    <span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">({</span><span class="s2">&quot;nfctagID&quot;</span><span class="p">:</span> <span class="s2">&quot;33F55B03&quot;</span><span class="p">,</span> <span class="s2">&quot;poiID&quot;</span><span class="p">:</span> <span class="mi">36148</span><span class="p">,</span> <span class="s2">&quot;audio_filename&quot;</span><span class="p">:</span> <span class="s2">&quot;bober.opus&quot;</span><span class="p">})</span>
+<span class="linenos">13</span>    <span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">({</span><span class="s2">&quot;nfctagID&quot;</span><span class="p">:</span> <span class="s2">&quot;83C7E411&quot;</span><span class="p">,</span> <span class="s2">&quot;poiID&quot;</span><span class="p">:</span> <span class="mi">1000459343</span><span class="p">,</span> <span class="s2">&quot;audio_filename&quot;</span><span class="p">:</span> <span class="s2">&quot;tapirbygget.opus&quot;</span><span class="p">})</span>
+<span class="linenos">14</span>    <span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">({</span><span class="s2">&quot;nfctagID&quot;</span><span class="p">:</span> <span class="s2">&quot;93C0930D&quot;</span><span class="p">,</span> <span class="s2">&quot;poiID&quot;</span><span class="p">:</span> <span class="mi">1000319015</span><span class="p">,</span> <span class="s2">&quot;audio_filename&quot;</span><span class="p">:</span> <span class="s2">&quot;sentralbygget.opus&quot;</span><span class="p">})</span>
+<span class="linenos">15</span><span class="k">else</span><span class="p">:</span>
+<span class="linenos">16</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;nfctagdb already exists&quot;</span><span class="p">)</span>
+<span class="linenos">17</span>
+<span class="linenos">18</span><span class="c1">#https://use.mazemap.com/#v=1&amp;campusid=1&amp;zlevel=2&amp;center=10.405620,63.418025&amp;zoom=19&amp;sharepoitype=poi&amp;sharepoi=1000459343 tapirbygget</span>
+<span class="linenos">19</span><span class="c1">#https://use.mazemap.com/#v=1&amp;campusid=1&amp;zlevel=3&amp;center=10.405620,63.418025&amp;zoom=19&amp;sharepoitype=poi&amp;sharepoi=36148 bober</span>
+<span class="linenos">20</span><span class="c1">#https://use.mazemap.com/#v=1&amp;campusid=1&amp;zlevel=1&amp;center=10.403742,63.417721&amp;zoom=19.6&amp;sharepoitype=poi&amp;sharepoi=1000319015 sentralbygget</span>
+<span class="linenos">21</span>
+<span class="linenos">22</span><span class="n">uuid_db_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_dir</span><span class="p">,</span> <span class="s2">&quot;uuids.json&quot;</span><span class="p">)</span>
+<span class="linenos">23</span>
+<span class="linenos">24</span><span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">uuid_db_path</span><span class="p">):</span>
+<span class="linenos">25</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;creating uuid-db&quot;</span><span class="p">)</span>
+<span class="linenos">26</span>    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">uuid_db_path</span><span class="p">),</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="linenos">27</span>    <span class="n">db</span> <span class="o">=</span> <span class="n">TinyDB</span><span class="p">(</span><span class="n">uuid_db_path</span><span class="p">)</span>
+<span class="linenos">28</span>    <span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">184</span><span class="p">,</span> <span class="mi">180</span>
+<span class="linenos">29</span>    <span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">({</span><span class="s2">&quot;uuid&quot;</span><span class="p">:</span> <span class="s2">&quot;123e4567-e89b-12d3-a456-426614174000&quot;</span><span class="p">,</span> <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;#</span><span class="si">{</span><span class="n">r</span><span class="si">:</span><span class="s2">02x</span><span class="si">}{</span><span class="n">g</span><span class="si">:</span><span class="s2">02x</span><span class="si">}{</span><span class="n">b</span><span class="si">:</span><span class="s2">02x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">})</span>
+<span class="linenos">30</span>    <span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">134</span><span class="p">,</span> <span class="mi">181</span><span class="p">,</span> <span class="mi">124</span>
+<span class="linenos">31</span>    <span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">({</span><span class="s2">&quot;uuid&quot;</span><span class="p">:</span> <span class="s2">&quot;123e4567-e89b-12d3-a456-426614174002&quot;</span><span class="p">,</span> <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;#</span><span class="si">{</span><span class="n">r</span><span class="si">:</span><span class="s2">02x</span><span class="si">}{</span><span class="n">g</span><span class="si">:</span><span class="s2">02x</span><span class="si">}{</span><span class="n">b</span><span class="si">:</span><span class="s2">02x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">})</span>
+<span class="linenos">32</span><span class="k">else</span><span class="p">:</span>
+<span class="linenos">33</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;uuiddatabase already exists&quot;</span><span class="p">)</span>
+<span class="linenos">34</span>
+</pre></div>
+</div>
+</section>
+<section id="oppstart">
+<h1>Oppstart<a class="headerlink" href="#oppstart" title="Link to this heading"></a></h1>
+<p>Gunicorn kaller denne filen for å starte web-appen.</p>
+<p><cite>production.py</cite></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="kn">from</span> <span class="nn">app</span> <span class="kn">import</span> <span class="n">create_app</span>
+<span class="linenos">2</span><span class="kn">from</span> <span class="nn">werkzeug.middleware.proxy_fix</span> <span class="kn">import</span> <span class="n">ProxyFix</span>
+<span class="linenos">3</span>
+<span class="linenos">4</span><span class="n">app</span> <span class="o">=</span> <span class="n">create_app</span><span class="p">()</span>
+<span class="linenos">5</span><span class="n">app</span><span class="o">.</span><span class="n">wsgi_app</span> <span class="o">=</span> <span class="n">ProxyFix</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">wsgi_app</span><span class="p">,</span> <span class="n">x_for</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">x_proto</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">x_host</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">x_prefix</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="services.html" class="btn btn-neutral float-left" title="Systemd-tjenester" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="dependencies.html" class="btn btn-neutral float-right" title="Python avhengigheter" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Gruppe 1.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      Version: Current version here
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      We list the other versions here
+    </div>
+  </div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

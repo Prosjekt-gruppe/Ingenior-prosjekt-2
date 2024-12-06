@@ -46,8 +46,18 @@ def test_socketio():
 @bp.route('/', methods=['POST'])
 def getmqtt():
     """
-    Ta i mot meldinger fra MQTT-klient.
+    Funksjon som håndterer endepunktet for MQTT-beskjeder.
 
+    :rute:
+        GET /mqtt/
+
+    :return:
+        JSON:
+            - Status: om beskjeden mottas uten problemer
+            - Statuskode: ``200``
+        WebSocket:
+            - Endepunkt: ``mqttsocket`` sender melding.
+        
     """
     logger.info("Got post request")
     
@@ -66,9 +76,20 @@ def getmqtt():
 @bp.route('/location', methods=['POST'])
 def handle_locations():
     """
-    Håndterer forespørsler angående beliggenhet.
-    
+    Håndterer meldinger fra mikrokontrolleren og sender videre til nettleseren.    
+
+    :rute:
+        GET /mqtt/location
+
+    :return:
+        JSON:
+            - Status: beskjed om suksess eller ikke
+            - Statuskode: ``200`` om ingen feil, ``404`` om feil
+        WebSocket:
+            - Endepunkt: ``getlocation`` sender melding.
+        
     """
+
     logger.info("Got post request")
 
     data = request.get_json()
@@ -92,11 +113,14 @@ def handle_locations():
 @bp.route('/returndata', methods=['POST'])
 def handle_returndata():
     """
+    Funksjon som videresender tolker JSON-data og videresender til MQTT-klienten på serversiden.
+    
     :return: 
         JSON:
             Statusrapport.
         SocketIO:
-            Lokasjonsdata til MQTT-klienten.
+            - Endepunkt: ``returndata``
+            - Lokasjonsdata til MQTT-klienten.
     
     """
     data = request.get_json()

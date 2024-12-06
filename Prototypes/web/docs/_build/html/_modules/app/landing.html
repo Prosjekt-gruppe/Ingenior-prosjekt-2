@@ -136,7 +136,7 @@
 
 <span class="sd">    :return:</span>
 <span class="sd">        JSON:</span>
-<span class="sd">            - Status: om ``cookie``-en ble opprettet suksessfult eller ikke</span>
+<span class="sd">            - Status: om cookie-en ble opprettet suksessfult eller ikke</span>
 <span class="sd">            - Statuskode: ``200``</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -163,6 +163,9 @@
 
 <span class="nd">@bp</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/another_test&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">another_test</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Kun for testing.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">socketio</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;another_event&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="s2">&quot;from landing.py&quot;</span><span class="p">})</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;another event landing.py&quot;</span><span class="p">)</span>

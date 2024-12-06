@@ -8,7 +8,24 @@ Løsningen er implementert i henhold til figuren:
    :align: center
    :width: 70%
 
-   Høy-nivå overblikk av systemet.
+   Overblikk av MQTT-systemet.
+
+Her ser vi et overblikk over hvordan MQTT kommunikasjonen er implementert.
+
+Detaljert beskrivelse
+----------------
+
+Nednefor kan man observere i større grad hvordan de forskjellige delene
+av systemet henger sammen.
+
+
+.. figure:: ../_static/weblayout_versjon3.png
+   :alt: Detaljert systemoversikt
+   :align: center
+   :width: 70%
+
+   Detaljert overblikk av WebServeren.
+
 
 Flask-app
 ----------
@@ -45,3 +62,19 @@ Systemd
    :maxdepth: 2
 
    services
+
+Byggskript
+-----------
+
+.. toctree::
+   :maxdepth: 2
+
+   build
+
+Avhengigheter
+-------------
+
+.. toctree::
+   :maxdepth: 2
+
+   dependencies

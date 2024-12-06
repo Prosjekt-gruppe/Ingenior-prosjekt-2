@@ -101,6 +101,7 @@
 <span class="c1">#logging.basicConfig(level=logging.DEBUG, filename=f&quot;{log_dir}/debug.log&quot;,filemode=&quot;w&quot;)</span>
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
+<span class="c1"># Henter innloggingsdata for serverside MQTT-klient fra .env-fil </span>
 <span class="n">username</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;MQTT_ADMIN_USERNAME&quot;</span><span class="p">)</span>
 <span class="n">password</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;MQTT_ADMIN_PASSWORD&quot;</span><span class="p">)</span>
 
@@ -116,6 +117,10 @@
 <a class="viewcode-back" href="../../source/mqttclient.html#mqttclient.mqttservice.connect">[docs]</a>
 <span class="nd">@sio</span><span class="o">.</span><span class="n">event</span>
 <span class="k">def</span> <span class="nf">connect</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Loggfører tilkobling til socket.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;SocketIO from mqtt-client connected&quot;</span><span class="p">)</span></div>
 
 
@@ -123,6 +128,10 @@
 <a class="viewcode-back" href="../../source/mqttclient.html#mqttclient.mqttservice.disconnect">[docs]</a>
 <span class="nd">@sio</span><span class="o">.</span><span class="n">event</span>
 <span class="k">def</span> <span class="nf">disconnect</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Loggfører avkobling til socket.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;SocketIO from mqtt-client disconnected&quot;</span><span class="p">)</span></div>
 
 
@@ -130,6 +139,10 @@
 <a class="viewcode-back" href="../../source/mqttclient.html#mqttclient.mqttservice.connect_error">[docs]</a>
 <span class="nd">@sio</span><span class="o">.</span><span class="n">event</span>
 <span class="k">def</span> <span class="nf">connect_error</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sier i fra om koblingen feiler.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Failed to connect to Flask Socket.IO server&quot;</span><span class="p">)</span></div>
 
 
@@ -137,6 +150,10 @@
 <a class="viewcode-back" href="../../source/mqttclient.html#mqttclient.mqttservice.handle_strength">[docs]</a>
 <span class="nd">@sio</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;strength&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">handle_strength</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returnerer styrke-koeffisient til mikrokontrolleren.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;handle_strength triggered.&quot;</span><span class="p">)</span>
 
     <span class="n">deviceid</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;device&#39;</span><span class="p">)</span>
@@ -161,6 +178,10 @@
 <a class="viewcode-back" href="../../source/mqttclient.html#mqttclient.mqttservice.return_location">[docs]</a>
 <span class="nd">@sio</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;returnlocation&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">return_location</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returnerer lokasjonsdata til MQTT-klienten.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;received </span><span class="si">{</span><span class="n">data</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="c1"># could drop this</span>
@@ -187,6 +208,10 @@
 <div class="viewcode-block" id="message_handler">
 <a class="viewcode-back" href="../../source/mqttclient.html#mqttclient.mqttservice.message_handler">[docs]</a>
 <span class="k">def</span> <span class="nf">message_handler</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">deviceID</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sender beskjeder til flask-appen.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;topic&#39;</span><span class="p">:</span> <span class="n">msg</span><span class="o">.</span><span class="n">topic</span><span class="p">,</span>
         <span class="s1">&#39;device&#39;</span><span class="p">:</span> <span class="n">deviceID</span><span class="p">,</span>
@@ -203,6 +228,10 @@
 <div class="viewcode-block" id="location_handler">
 <a class="viewcode-back" href="../../source/mqttclient.html#mqttclient.mqttservice.location_handler">[docs]</a>
 <span class="k">def</span> <span class="nf">location_handler</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">deviceID</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Videresender lokasjonsinformasjon til flask-appen.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;nfctagID&#39;</span><span class="p">:</span> <span class="n">msg</span><span class="o">.</span><span class="n">payload</span><span class="o">.</span><span class="n">decode</span><span class="p">(),</span>
         <span class="s1">&#39;devID&#39;</span><span class="p">:</span> <span class="n">deviceID</span>
@@ -217,7 +246,7 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
 
 
-<span class="c1"># topic routing table</span>
+<span class="c1"># enkel måte å implementere flere topics</span>
 <span class="n">topics</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="n">message_handler</span><span class="p">,</span>
     <span class="s2">&quot;location&quot;</span><span class="p">:</span> <span class="n">location_handler</span>
@@ -228,6 +257,14 @@
 <div class="viewcode-block" id="on_connect">
 <a class="viewcode-back" href="../../source/mqttclient.html#mqttclient.mqttservice.on_connect">[docs]</a>
 <span class="k">def</span> <span class="nf">on_connect</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">userdata</span><span class="p">,</span> <span class="n">flags</span><span class="p">,</span> <span class="n">rc</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Subscriber til følgende topics:</span>
+
+<span class="sd">    Forklaring:</span>
+<span class="sd">        - ``devices/+`` godtar alle int</span>
+<span class="sd">        - ``/#`` godtar alle str-topics</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">rc</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Connected to broker&quot;</span><span class="p">)</span>
         <span class="n">client</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s1">&#39;devices/+/#&#39;</span><span class="p">,</span> <span class="n">qos</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -239,6 +276,10 @@
 <div class="viewcode-block" id="on_message">
 <a class="viewcode-back" href="../../source/mqttclient.html#mqttclient.mqttservice.on_message">[docs]</a>
 <span class="k">def</span> <span class="nf">on_message</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">userdata</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Funksjon som sender forespørsel til server om lokasjonsdata.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;topic: </span><span class="si">{</span><span class="n">msg</span><span class="o">.</span><span class="n">topic</span><span class="si">}</span><span class="s2"> qos: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">qos</span><span class="p">)</span><span class="si">}</span><span class="s2"> payload: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">payload</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">parts</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">topic</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
 

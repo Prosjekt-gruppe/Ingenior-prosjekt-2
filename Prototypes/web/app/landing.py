@@ -55,7 +55,7 @@ def set_cookie():
 
     :return:
         JSON:
-            - Status: om ``cookie``-en ble opprettet suksessfult eller ikke
+            - Status: om cookie-en ble opprettet suksessfult eller ikke
             - Statuskode: ``200``
 
     """
@@ -81,6 +81,9 @@ def set_cookie():
 
 @bp.route('/another_test', methods=['GET'])
 def another_test():
+    """
+    Kun for testing.
+    """
     try:
         socketio.emit("another_event", {"data": "from landing.py"})
         logger.info("another event landing.py")

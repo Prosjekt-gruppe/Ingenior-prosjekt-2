@@ -19,7 +19,7 @@ def create_app():
     """
     Oppretter en flask server og initialiserer diverse tillegsmoduler.
 
-    :returns: Flask app-instans.
+    :return: Flask app-instans.
     """
     logger.info("Creating app...")
     

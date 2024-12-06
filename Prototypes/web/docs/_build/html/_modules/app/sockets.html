@@ -99,8 +99,13 @@
 <a class="viewcode-back" href="../../source/app.html#app.sockets.find_audio_file_path">[docs]</a>
 <span class="k">def</span> <span class="nf">find_audio_file_path</span><span class="p">(</span><span class="n">poiID</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Funksjon som finner riktig lydfil basert på tilsent interessepunkt.</span>
+<span class="sd">    Hjelpefunksjon for uthenging av database-data.</span>
 
+<span class="sd">    :param poiID: lydfilen sin ID</span>
+<span class="sd">    :type poiID: int</span>
+<span class="sd">    </span>
+<span class="sd">    :return: poiID sin tilhørende lydfil.</span>
+<span class="sd">    :rtype: str</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">poiID</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;cant find file because it search term not int&quot;</span><span class="p">)</span>
@@ -121,6 +126,17 @@
 <a class="viewcode-back" href="../../source/app.html#app.sockets.handle_connect">[docs]</a>
 <span class="nd">@socketio</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s1">&#39;connect&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">handle_connect</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Funksjonen sikrer at serveren kobler seg til </span>
+
+<span class="sd">    Mottar på:</span>
+<span class="sd">        Socket:</span>
+<span class="sd">            - ``connect``</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Socket:</span>
+<span class="sd">            - ``server_message`` beskjed: `velkommen!`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Client connected&quot;</span><span class="p">)</span>
     <span class="n">socketio</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s1">&#39;server_message&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="s1">&#39;Welcome!&#39;</span><span class="p">})</span></div>
 
@@ -129,6 +145,20 @@
 <a class="viewcode-back" href="../../source/app.html#app.sockets.check_cookie">[docs]</a>
 <span class="nd">@socketio</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s1">&#39;ready_for_message&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">check_cookie</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Funksjonen mottar en forespørsel fra klienten over websocket.</span>
+<span class="sd">    Deretter sørger den for at riktig fil blir funnet og returnert til klienten.</span>
+<span class="sd">    Hvis riktig fil ikke eksisterer sender den feilmelding tilbake.</span>
+
+<span class="sd">    Mottar på:</span>
+<span class="sd">        Socket: </span>
+<span class="sd">            - ``ready_for_message``</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Socket:</span>
+<span class="sd">            - ``no_cookie`` beskjed: `ingen cookie funnet`</span>
+<span class="sd">            - ``colorchange`` color: `fargedata [HEX]`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">cookie</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">cookies</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;user_data&quot;</span><span class="p">)</span>
     
     <span class="k">if</span> <span class="ow">not</span> <span class="n">cookie</span><span class="p">:</span>
@@ -150,6 +180,21 @@
 <a class="viewcode-back" href="../../source/app.html#app.sockets.handle_audio_request">[docs]</a>
 <span class="nd">@socketio</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s1">&#39;request_audio&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">handle_audio_request</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Funksjonen mottar en forespørsel fra klienten over websocket.</span>
+<span class="sd">    Deretter sørger den for at riktig fil blir funnet og returnert til klienten.</span>
+<span class="sd">    Hvis riktig fil ikke eksisterer sender den feilmelding tilbake.</span>
+
+<span class="sd">    Mottar på:</span>
+<span class="sd">        Socket: </span>
+<span class="sd">            - ``request_audio``</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Socket:</span>
+<span class="sd">            - ``error`` beskjed: `fil eksisterer ikke`</span>
+<span class="sd">            - ``error`` beskjed: `klarte ikke sende lydfil`</span>
+<span class="sd">            - ``audio_file`` `lydfil`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;initializing audio request&quot;</span><span class="p">)</span>
 
     <span class="n">poiId</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;poiId&#39;</span><span class="p">))</span>
@@ -182,6 +227,9 @@
 <a class="viewcode-back" href="../../source/app.html#app.sockets.handle_disconnect">[docs]</a>
 <span class="nd">@socketio</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s1">&#39;disconnect&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">handle_disconnect</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sørger for å loggføre når klienter kobler seg av.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;client disconnected&quot;</span><span class="p">)</span></div>
 
 </pre></div>

@@ -17,7 +17,8 @@ Teknisk dokumentasjon for design av en WebServer som kjører på domenet `gruppe
 
 .. important::
 
-   Du må aktivere ::func:: Autoplay-funksjonen i nettleseren for at lyden skal kunne avspilles.
+   Du må aktivere ``Autoplay``-funksjonen i nettleseren for at lyden skal kunne avspilles.
+
 .. toctree::
    :maxdepth: 3
    :caption: Innhold

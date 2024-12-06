@@ -9,7 +9,7 @@ Slik ser nginx-konfigurasjonen ut.
 
 Forklaring:
 -----------
-**upstrean**
+**upstream**
    - Ruter websocketen korrekt i henhold til gunicorn.
 **server**:
    - Definerer en ny virtuell server.

@@ -26,6 +26,7 @@ logging.basicConfig(level=logging.INFO, filename=f"{log_dir}/mqtt.log",filemode=
 #logging.basicConfig(level=logging.DEBUG, filename=f"{log_dir}/debug.log",filemode="w")
 logger = logging.getLogger(__name__)
 
+# Henter innloggingsdata for serverside MQTT-klient fra .env-fil 
 username = os.getenv("MQTT_ADMIN_USERNAME")
 password = os.getenv("MQTT_ADMIN_PASSWORD")
 
@@ -39,18 +40,34 @@ sio = socketio.Client()
 
 @sio.event
 def connect():
+    """
+    Loggfører tilkobling til socket.
+
+    """
     logger.info("SocketIO from mqtt-client connected")
 
 @sio.event
 def disconnect():
+    """
+    Loggfører avkobling til socket.
+
+    """
     logger.info("SocketIO from mqtt-client disconnected")
 
 @sio.event
 def connect_error(data):
+    """
+    Sier i fra om koblingen feiler.
+
+    """
     logger.info("Failed to connect to Flask Socket.IO server")
 
 @sio.on("strength")
 def handle_strength(data):
+    """
+    Returnerer styrke-koeffisient til mikrokontrolleren.
+
+    """
     logger.info("handle_strength triggered.")
 
     deviceid = data.get('device')
@@ -72,6 +89,10 @@ def handle_strength(data):
 
 @sio.on("returnlocation")
 def return_location(data):
+    """
+    Returnerer lokasjonsdata til MQTT-klienten.
+
+    """
     logger.info(f"received {data}")
 
     # could drop this
@@ -95,6 +116,10 @@ def return_location(data):
 #sio.connect("http://127.0.0.1:8000", transports=["websocket"])
 
 def message_handler(client, msg, deviceID):
+    """
+    Sender beskjeder til flask-appen.
+
+    """
     payload = {
         'topic': msg.topic,
         'device': deviceID,
@@ -108,6 +133,10 @@ def message_handler(client, msg, deviceID):
         logger.info(e)
 
 def location_handler(client, msg, deviceID):
+    """
+    Videresender lokasjonsinformasjon til flask-appen.
+
+    """
     payload = {
         'nfctagID': msg.payload.decode(),
         'devID': deviceID
@@ -121,7 +150,7 @@ def location_handler(client, msg, deviceID):
     except requests.exceptions.RequestException as e:
         logger.info(e)
 
-# topic routing table
+# enkel måte å implementere flere topics
 topics = {
     "message": message_handler,
     "location": location_handler
@@ -130,6 +159,14 @@ topics = {
 
 # connect mosquitto
 def on_connect(client, userdata, flags, rc):
+    """
+    Subscriber til følgende topics:
+
+    Forklaring:
+        - ``devices/+`` godtar alle int
+        - ``/#`` godtar alle str-topics
+
+    """
     if rc == 0:
         logger.info("Connected to broker")
         client.subscribe('devices/+/#', qos=1)
@@ -138,6 +175,10 @@ def on_connect(client, userdata, flags, rc):
 
 
 def on_message(client, userdata, msg):
+    """
+    Funksjon som sender forespørsel til server om lokasjonsdata.
+
+    """
     logger.info(f"topic: {msg.topic} qos: {str(msg.qos)} payload: {str(msg.payload)}")
     parts = msg.topic.split('/')
 

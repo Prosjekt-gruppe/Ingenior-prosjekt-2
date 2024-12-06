@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jinja &mdash; Ingeniørprosjekt II v3.0.0 documentation</title>
+  <title>Jinja (HTML) &mdash; Ingeniørprosjekt II v3.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
@@ -45,11 +45,13 @@
               <p class="caption" role="heading"><span class="caption-text">Innhold</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="overview.html">Systemoversikt</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html#detaljert-beskrivelse">Detaljert beskrivelse</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="overview.html#flask-app">Flask-app</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="modules.html">Moduler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="modules.html#javascript-api">JavaScript API</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="modules.html#statisk-innhold">Statisk innhold</a><ul class="current">
-<li class="toctree-l4 current"><a class="current reference internal" href="#">Jinja</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Jinja (HTML)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#css">CSS</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="modules.html#rutebeskrivelse">Rutebeskrivelse</a></li>
@@ -58,6 +60,8 @@
 <li class="toctree-l2"><a class="reference internal" href="overview.html#mqtt">MQTT</a></li>
 <li class="toctree-l2"><a class="reference internal" href="overview.html#omvendt-proxy-nginx">Omvendt proxy (NGINX)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="overview.html#systemd">Systemd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#byggskript">Byggskript</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#avhengigheter">Avhengigheter</a></li>
 </ul>
 </li>
 </ul>
@@ -82,7 +86,7 @@
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="overview.html">Systemoversikt</a></li>
           <li class="breadcrumb-item"><a href="modules.html">Moduler</a></li>
-      <li class="breadcrumb-item active">Jinja</li>
+      <li class="breadcrumb-item active">Jinja (HTML)</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/source/csshtml.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -92,8 +96,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="jinja">
-<h1>Jinja<a class="headerlink" href="#jinja" title="Link to this heading"></a></h1>
+  <section id="jinja-html">
+<h1>Jinja (HTML)<a class="headerlink" href="#jinja-html" title="Link to this heading"></a></h1>
 <p>Flask bruker <cite>Jinja</cite> og <cite>templates</cite> til å konstruere nettsiden.
 Ved å velge en slik løsning kan man autogenerere HTML-kode ved hjelp av flask-serveren.
 Følgende HTML-kode blir satt sammen av flask-applikasjonen når nettsiden laster
@@ -173,6 +177,125 @@ og setter dem sammen korrekt.</p>
 <span class="linenos">36</span>  
 <span class="linenos">37</span>
 <span class="linenos">38</span>{% endblock %}
+</pre></div>
+</div>
+</section>
+<section id="css">
+<h1>CSS<a class="headerlink" href="#css" title="Link to this heading"></a></h1>
+<div class="highlight-css notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="p">:</span><span class="nd">root</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">  2</span><span class="w">    </span><span class="nv">--common-color</span><span class="p">:</span><span class="w"> </span><span class="mh">#4CAF50</span><span class="p">;</span>
+<span class="linenos">  3</span><span class="p">}</span>
+<span class="linenos">  4</span>
+<span class="linenos">  5</span><span class="o">*</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">  6</span><span class="w">    </span><span class="k">margin</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos">  7</span><span class="w">    </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos">  8</span><span class="w">    </span><span class="k">box-sizing</span><span class="p">:</span><span class="w"> </span><span class="kc">border-box</span><span class="p">;</span>
+<span class="linenos">  9</span><span class="p">}</span>
+<span class="linenos"> 10</span>
+<span class="linenos"> 11</span><span class="nt">body</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 12</span><span class="w">    </span><span class="k">font-family</span><span class="p">:</span><span class="w"> </span><span class="n">Arial</span><span class="p">,</span><span class="w"> </span><span class="kc">sans-serif</span><span class="p">;</span>
+<span class="linenos"> 13</span><span class="w">    </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="mh">#333</span><span class="p">;</span>
+<span class="linenos"> 14</span><span class="w">    </span><span class="k">background-color</span><span class="p">:</span><span class="w"> </span><span class="mh">#f4f4f9</span><span class="p">;</span>
+<span class="linenos"> 15</span><span class="w">    </span><span class="k">line-height</span><span class="p">:</span><span class="w"> </span><span class="mf">1.6</span><span class="p">;</span>
+<span class="linenos"> 16</span><span class="p">}</span>
+<span class="linenos"> 17</span>
+<span class="linenos"> 18</span><span class="nt">header</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 19</span><span class="w">    </span><span class="k">background-color</span><span class="p">:</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--common-color</span><span class="p">);</span>
+<span class="linenos"> 20</span><span class="w">    </span><span class="k">transition</span><span class="p">:</span><span class="w"> </span><span class="k">background-color</span><span class="w"> </span><span class="mf">0.5</span><span class="kt">s</span><span class="w"> </span><span class="kc">ease-in-out</span><span class="p">;</span>
+<span class="linenos"> 21</span><span class="w">    </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="kc">white</span><span class="p">;</span>
+<span class="linenos"> 22</span><span class="w">    </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="kt">px</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos"> 23</span><span class="w">    </span><span class="k">text-align</span><span class="p">:</span><span class="w"> </span><span class="kc">center</span><span class="p">;</span>
+<span class="linenos"> 24</span><span class="p">}</span>
+<span class="linenos"> 25</span>
+<span class="linenos"> 26</span><span class="nt">h1</span><span class="o">,</span><span class="w"> </span><span class="nt">h2</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 27</span><span class="w">    </span><span class="k">margin</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="kt">px</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos"> 28</span><span class="w">    </span><span class="k">text-align</span><span class="p">:</span><span class="w"> </span><span class="kc">center</span><span class="p">;</span>
+<span class="linenos"> 29</span><span class="p">}</span>
+<span class="linenos"> 30</span>
+<span class="linenos"> 31</span><span class="p">.</span><span class="nc">inputcontainer</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 32</span><span class="w">    </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="kc">flex</span><span class="p">;</span>
+<span class="linenos"> 33</span><span class="w">    </span><span class="k">flex-direction</span><span class="p">:</span><span class="w"> </span><span class="kc">column</span><span class="p">;</span>
+<span class="linenos"> 34</span><span class="w">    </span><span class="k">align-items</span><span class="p">:</span><span class="w"> </span><span class="kc">center</span><span class="p">;</span>
+<span class="linenos"> 35</span><span class="w">    </span><span class="k">justify-content</span><span class="p">:</span><span class="w"> </span><span class="kc">center</span><span class="p">;</span>
+<span class="linenos"> 36</span><span class="w">    </span><span class="k">margin-top</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="kt">px</span><span class="p">;</span>
+<span class="linenos"> 37</span><span class="p">}</span>
+<span class="linenos"> 38</span>
+<span class="linenos"> 39</span><span class="p">.</span><span class="nc">inputcontainer</span><span class="w"> </span><span class="nt">input</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 40</span><span class="w">    </span><span class="k">font-size</span><span class="p">:</span><span class="w"> </span><span class="mi">16</span><span class="kt">px</span><span class="p">;</span>
+<span class="linenos"> 41</span><span class="w">    </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="kt">px</span><span class="w"> </span><span class="mi">15</span><span class="kt">px</span><span class="p">;</span>
+<span class="linenos"> 42</span><span class="w">    </span><span class="k">text-align</span><span class="p">:</span><span class="w"> </span><span class="kc">center</span><span class="p">;</span>
+<span class="linenos"> 43</span><span class="w">    </span><span class="k">border</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="kt">px</span><span class="w"> </span><span class="kc">solid</span><span class="w"> </span><span class="mh">#ccc</span><span class="p">;</span>
+<span class="linenos"> 44</span><span class="w">    </span><span class="k">border-radius</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="kt">px</span><span class="p">;</span>
+<span class="linenos"> 45</span><span class="w">    </span><span class="k">max-width</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="kt">%</span><span class="p">;</span>
+<span class="linenos"> 46</span><span class="w">  </span><span class="p">}</span>
+<span class="linenos"> 47</span>
+<span class="linenos"> 48</span><span class="nt">input</span><span class="p">#</span><span class="nn">strength</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 49</span><span class="w">    </span><span class="k">width</span><span class="p">:</span><span class="w"> </span><span class="mi">300</span><span class="kt">px</span><span class="p">;</span>
+<span class="linenos"> 50</span><span class="p">}</span>
+<span class="linenos"> 51</span>
+<span class="linenos"> 52</span><span class="p">.</span><span class="nc">inputcontainer</span><span class="w"> </span><span class="nt">button</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 53</span><span class="w">    </span><span class="k">cursor</span><span class="p">:</span><span class="w"> </span><span class="kc">pointer</span><span class="p">;</span>
+<span class="linenos"> 54</span><span class="w">    </span><span class="k">background-color</span><span class="p">:</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="nv">--common-color</span><span class="p">);</span>
+<span class="linenos"> 55</span><span class="w">    </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="kc">white</span><span class="p">;</span>
+<span class="linenos"> 56</span><span class="w">    </span><span class="k">border</span><span class="p">:</span><span class="w"> </span><span class="kc">none</span><span class="p">;</span>
+<span class="linenos"> 57</span><span class="w">    </span><span class="k">border-radius</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="kt">px</span><span class="p">;</span>
+<span class="linenos"> 58</span><span class="w">    </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="kt">px</span><span class="w"> </span><span class="mi">15</span><span class="kt">px</span><span class="p">;</span>
+<span class="linenos"> 59</span><span class="w">    </span><span class="k">font-size</span><span class="p">:</span><span class="w"> </span><span class="mi">16</span><span class="kt">px</span><span class="p">;</span>
+<span class="linenos"> 60</span><span class="w">    </span><span class="k">width</span><span class="p">:</span><span class="w"> </span><span class="kc">auto</span><span class="p">;</span>
+<span class="linenos"> 61</span><span class="w">    </span><span class="k">transition</span><span class="p">:</span><span class="w"> </span><span class="k">background-color</span><span class="w"> </span><span class="mf">0.3</span><span class="kt">s</span><span class="w"> </span><span class="kc">ease</span><span class="p">;</span>
+<span class="linenos"> 62</span><span class="w">    </span><span class="k">text-align</span><span class="p">:</span><span class="w"> </span><span class="kc">center</span><span class="p">;</span>
+<span class="linenos"> 63</span><span class="p">}</span>
+<span class="linenos"> 64</span>
+<span class="linenos"> 65</span><span class="p">.</span><span class="nc">inputcontainer</span><span class="w"> </span><span class="nt">button</span><span class="p">:</span><span class="nd">hover</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 66</span><span class="w">    </span><span class="k">filter</span><span class="p">:</span><span class="w"> </span><span class="nb">brightness</span><span class="p">(</span><span class="mi">85</span><span class="kt">%</span><span class="p">);</span>
+<span class="linenos"> 67</span><span class="p">}</span>
+<span class="linenos"> 68</span>
+<span class="linenos"> 69</span><span class="p">.</span><span class="nc">datacontainer</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 70</span><span class="w">    </span><span class="k">margin-bottom</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="kt">px</span><span class="p">;</span>
+<span class="linenos"> 71</span><span class="w">    </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="kt">px</span><span class="p">;</span><span class="w">        </span>
+<span class="linenos"> 72</span><span class="w">    </span><span class="k">font-size</span><span class="p">:</span><span class="w"> </span><span class="mi">16</span><span class="kt">px</span><span class="p">;</span><span class="w">     </span>
+<span class="linenos"> 73</span><span class="w">    </span><span class="k">text-align</span><span class="p">:</span><span class="w"> </span><span class="kc">center</span><span class="p">;</span>
+<span class="linenos"> 74</span><span class="w">    </span><span class="k">width</span><span class="p">:</span><span class="w"> </span><span class="mi">450</span><span class="kt">px</span><span class="p">;</span>
+<span class="linenos"> 75</span><span class="p">}</span>
+<span class="linenos"> 76</span>
+<span class="linenos"> 77</span><span class="p">#</span><span class="nn">devicecontainer</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 78</span><span class="w">    </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="kc">flex</span><span class="p">;</span>
+<span class="linenos"> 79</span><span class="w">    </span><span class="k">flex-direction</span><span class="p">:</span><span class="w"> </span><span class="kc">column</span><span class="p">;</span>
+<span class="linenos"> 80</span><span class="w">    </span><span class="k">align-items</span><span class="p">:</span><span class="w"> </span><span class="kc">center</span><span class="p">;</span>
+<span class="linenos"> 81</span><span class="w">    </span><span class="k">margin-top</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="kt">px</span><span class="p">;</span>
+<span class="linenos"> 82</span><span class="w">    </span><span class="k">max-width</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="kt">%</span><span class="p">;</span>
+<span class="linenos"> 83</span><span class="p">}</span>
+<span class="linenos"> 84</span>
+<span class="linenos"> 85</span>
+<span class="linenos"> 86</span><span class="p">#</span><span class="nn">devicewrapper</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 87</span><span class="w">    </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="kc">none</span><span class="p">;</span>
+<span class="linenos"> 88</span><span class="w">    </span><span class="k">height</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos"> 89</span><span class="w">    </span><span class="k">margin-top</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="kt">px</span><span class="p">;</span>
+<span class="linenos"> 90</span><span class="w">    </span><span class="k">overflow</span><span class="p">:</span><span class="w"> </span><span class="kc">hidden</span><span class="p">;</span>
+<span class="linenos"> 91</span><span class="w">    </span><span class="k">transition</span><span class="p">:</span><span class="w"> </span><span class="k">visibility</span><span class="w"> </span><span class="mf">0.3</span><span class="kt">s</span><span class="p">,</span><span class="w"> </span><span class="k">height</span><span class="w"> </span><span class="mf">0.3</span><span class="kt">s</span><span class="w"> </span><span class="kc">ease</span><span class="p">;</span>
+<span class="linenos"> 92</span><span class="p">}</span>
+<span class="linenos"> 93</span>
+<span class="linenos"> 94</span><span class="p">#</span><span class="nn">devicewrapper</span><span class="p">.</span><span class="nc">visible</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 95</span><span class="w">    </span><span class="k">height</span><span class="p">:</span><span class="w"> </span><span class="kc">auto</span><span class="p">;</span>
+<span class="linenos"> 96</span><span class="w">    </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="kc">flex</span><span class="p">;</span>
+<span class="linenos"> 97</span><span class="w">    </span><span class="k">flex-direction</span><span class="p">:</span><span class="w"> </span><span class="kc">row</span><span class="p">;</span>
+<span class="linenos"> 98</span><span class="w">    </span><span class="k">gap</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="kt">px</span><span class="p">;</span>
+<span class="linenos"> 99</span><span class="w">    </span><span class="k">align-items</span><span class="p">:</span><span class="w"> </span><span class="kc">center</span><span class="p">;</span>
+<span class="linenos">100</span><span class="w">    </span><span class="k">justify-content</span><span class="p">:</span><span class="w"> </span><span class="kc">center</span><span class="p">;</span>
+<span class="linenos">101</span><span class="w">    </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="kt">px</span><span class="p">;</span>
+<span class="linenos">102</span><span class="w">    </span><span class="k">margin</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos">103</span><span class="w">    </span><span class="k">width</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="kt">%</span><span class="p">;</span>
+<span class="linenos">104</span><span class="p">}</span>
+<span class="linenos">105</span>
+<span class="linenos">106</span><span class="p">#</span><span class="nn">applystrength</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">107</span><span class="w">    </span><span class="k">margin-top</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="kt">px</span><span class="p">;</span>
+<span class="linenos">108</span><span class="p">}</span>
+<span class="linenos">109</span>
+<span class="linenos">110</span><span class="p">.</span><span class="nc">inputdata</span><span class="p">:</span><span class="nd">last-child</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">margin-bottom</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="linenos">111</span><span class="c">/*.content form { margin: 1em 0; display: flex; flex-direction: column; }*/</span>
+<span class="linenos">112</span><span class="p">.</span><span class="nc">inputdata</span><span class="w"> </span><span class="nt">label</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">font-weight</span><span class="p">:</span><span class="w"> </span><span class="kc">bold</span><span class="p">;</span><span class="w"> </span><span class="k">margin-bottom</span><span class="p">:</span><span class="w"> </span><span class="mf">0.5</span><span class="kt">em</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="linenos">113</span><span class="p">.</span><span class="nc">inputdata</span><span class="w"> </span><span class="nt">input</span><span class="o">,</span><span class="w"> </span><span class="p">.</span><span class="nc">content</span><span class="w"> </span><span class="nt">textarea</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">margin-bottom</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="kt">em</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="linenos">114</span><span class="p">.</span><span class="nc">inputdata</span><span class="w"> </span><span class="nt">textarea</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">min-height</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="kt">em</span><span class="p">;</span><span class="w"> </span><span class="k">resize</span><span class="p">:</span><span class="w"> </span><span class="kc">vertical</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
 </pre></div>
 </div>
 </section>

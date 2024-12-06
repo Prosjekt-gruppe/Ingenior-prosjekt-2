@@ -15,7 +15,6 @@ class AudioStream:
 
     :ivar str filepath: Stien til lydfilen.
 
-
     """
     def __init__(self, file_path, chunklength=0.05):
         self.filepath = file_path
@@ -25,10 +24,11 @@ class AudioStream:
         self.samples = None
         self.position = 0
 
-    # currently not in use
     def init_stream(self):
         """
-        Oppretter en forbindelse med stream
+        Oppretter en forbindelse med stream.
+
+        Foreløpig ikke implementert.
 
         """
         logger.info("AudioStream: Started init_stream")
@@ -51,10 +51,12 @@ class AudioStream:
             logger.error(f"AudioStream: Failed to initialize stream. Error: {e}")
             raise
 
-    # currently not in use
+
     def get_next_chunk(self):
         """
-        Henter nye chunks
+        Henter nye lydbiter 
+
+        Foreløpig ikke implementert.
 
         """
         logger.info("AudioStream: Getting next chunk")
@@ -71,8 +73,13 @@ class AudioStream:
         self.position = end
         return chunk.raw_data
     
-    # currently not in use
+
     def stream_chunks(self):
+        """
+        Sender en lydstrøm
+
+        Ikke implementert enda.
+        """
         logger.info("AudioStream: stream_chunks called")
         self.init_stream()
         while True:
@@ -83,15 +90,13 @@ class AudioStream:
             logger.info(f"AudioStream: yielding chunk of size {len(chunk)} bytes")
             yield chunk
 
+
     def simple_send(self):
         """
-        Sender lydfil som rå-data til en WebServer.
-        
-
+        Åpner en lydfil of returnerer den som rådata.
 
         Returns:
-            bytes: Data fra lydfilen som sendes til serveren.
-
+            bytes: Rådata opus-lydfil
         Raises:
             Exception: Hvis filen ikke kan leses eller en annen feil oppstår.
         """

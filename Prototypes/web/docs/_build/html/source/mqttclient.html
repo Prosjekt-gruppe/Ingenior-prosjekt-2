@@ -45,6 +45,7 @@
               <p class="caption" role="heading"><span class="caption-text">Innhold</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="overview.html">Systemoversikt</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html#detaljert-beskrivelse">Detaljert beskrivelse</a></li>
 <li class="toctree-l2"><a class="reference internal" href="overview.html#flask-app">Flask-app</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="overview.html#mqtt">MQTT</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">MQTT-klient (serverside)</a><ul>
@@ -63,6 +64,8 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="overview.html#omvendt-proxy-nginx">Omvendt proxy (NGINX)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="overview.html#systemd">Systemd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#byggskript">Byggskript</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#avhengigheter">Avhengigheter</a></li>
 </ul>
 </li>
 </ul>
@@ -101,47 +104,63 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="mqttclient.mqttservice.connect">
 <span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mqttclient/mqttservice.html#connect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mqttclient.mqttservice.connect" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Loggfører tilkobling til socket.</p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="mqttclient.mqttservice.connect_error">
 <span class="sig-name descname"><span class="pre">connect_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mqttclient/mqttservice.html#connect_error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mqttclient.mqttservice.connect_error" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Sier i fra om koblingen feiler.</p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="mqttclient.mqttservice.disconnect">
 <span class="sig-name descname"><span class="pre">disconnect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mqttclient/mqttservice.html#disconnect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mqttclient.mqttservice.disconnect" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Loggfører avkobling til socket.</p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="mqttclient.mqttservice.handle_strength">
 <span class="sig-name descname"><span class="pre">handle_strength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mqttclient/mqttservice.html#handle_strength"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mqttclient.mqttservice.handle_strength" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Returnerer styrke-koeffisient til mikrokontrolleren.</p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="mqttclient.mqttservice.location_handler">
 <span class="sig-name descname"><span class="pre">location_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deviceID</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mqttclient/mqttservice.html#location_handler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mqttclient.mqttservice.location_handler" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Videresender lokasjonsinformasjon til flask-appen.</p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="mqttclient.mqttservice.message_handler">
 <span class="sig-name descname"><span class="pre">message_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deviceID</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mqttclient/mqttservice.html#message_handler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mqttclient.mqttservice.message_handler" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Sender beskjeder til flask-appen.</p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="mqttclient.mqttservice.on_connect">
 <span class="sig-name descname"><span class="pre">on_connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">userdata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mqttclient/mqttservice.html#on_connect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mqttclient.mqttservice.on_connect" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Subscriber til følgende topics:</p>
+<dl class="simple">
+<dt>Forklaring:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">devices/+</span></code> godtar alle int</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/#</span></code> godtar alle str-topics</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="mqttclient.mqttservice.on_message">
 <span class="sig-name descname"><span class="pre">on_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">userdata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mqttclient/mqttservice.html#on_message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mqttclient.mqttservice.on_message" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Funksjon som sender forespørsel til server om lokasjonsdata.</p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="mqttclient.mqttservice.return_location">
 <span class="sig-name descname"><span class="pre">return_location</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mqttclient/mqttservice.html#return_location"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mqttclient.mqttservice.return_location" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Returnerer lokasjonsdata til MQTT-klienten.</p>
+</dd></dl>
 
 </section>
 
